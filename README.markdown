@@ -1,0 +1,1 @@
+Custom event/messaging system for JavaScript inspired by Robert Penner's [AS3-Signals](https://github.com/robertpenner/as3-signals).
