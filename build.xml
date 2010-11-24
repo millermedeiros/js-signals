@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="js-signals" default="" basedir=".">
+	
+	<!-- properties -->
+	
+    <property file="dev/build/build.properties" />
+	
+	<!-- custom tasks -->
+	
+	
+	<!-- targets -->
+	
+	<target name="-purgeJsDeploy">
+		<delete>
+			<fileset dir="${dist.dir}" includes="${dist.name} ${dist.min.name}" />
+		</delete>
+	</target>
+	
+	<target name="build" depends="-purgeJsDeploy">
+		<echo message="Building ${dist.name}..." />
+		
+		<buildnumber file="${build.dir}/build.number"/>
+		
+		<tstamp>
+			<format property="build.date" pattern="MM/dd/yyyy hh:mm aa" unit="hour"/>
+		</tstamp>
+		
+		<concat destfile="${dist.dir}/${dist.name}" fixlastline="yes" eol="unix">
+			<filelist dir="${src.dir}">
+				<file name="intro.js" />
+				<file name="Signal.js" />				
+				<file name="SignalBinding.js" />				
+				<file name="SignalBindingList.js" />				
+				<file name="outro.js" />
+			</filelist>
+		</concat>
+		
+		<replace file="${dist.dir}/${dist.name}">
+			<replacefilter token="::VERSION_NUMBER::" value="${version.number}" />
+			<replacefilter token="::BUILD_NUMBER::" value="${build.number}" />
+			<replacefilter token="::BUILD_DATE::" value="${build.date}" />
+		</replace>
+		
+		<echo message="${dist.name} built." />
+	</target>
+	
+	<target name="minify">
+		<echo message="Building ${dist.min.name}..." />
+		
+		<apply executable="java" parallel="false" verbose="true" dest="${dist.dir}">
+		    <fileset dir="${dist.dir}">
+		        <include name="${dist.name}" />
+		    </fileset>
+		    <arg line="-jar" />
+		    <arg path="${yuicompressor.jar}" />
+		    <arg value="--charset" />
+		    <arg value="ANSI" />
+		    <arg value="-o" />
+		    <targetfile />
+		    <mapper type="glob" from="${dist.name}" to="${dist.min.name}" />
+		</apply>
+		
+		<echo message="${dist.min.name} built." />
+	</target>
+
+	
+	<target name="all" depends="build, minify">
+		<echo message="Build Complete." />
+	</target>
+	
+</project>
