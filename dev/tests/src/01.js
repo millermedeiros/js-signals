@@ -649,6 +649,40 @@ YUI().use('node', 'console', 'test', function (Y){
 			Y.Assert.areSame(35, scope.n);
 		},
 		
+		//-------------------- Stop Propagation -----------------------------//
+		
+		testStopPropagation : function(){
+			var s = this.signal;
+			
+			var n = 0;
+			var l1 = function(){n++};
+			var l2 = function(){return false};
+			var l3 = function(){n++};
+			
+			s.add(l1);
+			s.add(l2);
+			s.add(l3);
+			s.dispatch();
+			
+			Y.Assert.areSame(1, n);
+		},
+		
+		testStopPropagation2 : function(){
+			var s = this.signal;
+			
+			var n = 0;
+			var l1 = function(){n++};
+			var l2 = function(){s.stopPropagation()};
+			var l3 = function(){n++};
+			
+			s.add(l1);
+			s.add(l2);
+			s.add(l3);
+			s.dispatch();
+			
+			Y.Assert.areSame(1, n);
+		},
+		
 		//------------------------ Remove ----------------------------------//
 		
 		testRemoveSingle : function(){

@@ -20,7 +20,7 @@
 		execute : function execute(paramsArr){
 			if(! this._isPaused){
 				if(this._isOnce) this._signal.remove(this.listener);
-				this.listener.apply(this.listenerScope, paramsArr);
+				return this.listener.apply(this.listenerScope, paramsArr);
 			}
 		},
 		
