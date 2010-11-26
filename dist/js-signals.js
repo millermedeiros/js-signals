@@ -3,7 +3,7 @@
  * Released under the MIT license (http://www.opensource.org/licenses/mit-license.php)
  * @author Miller Medeiros <http://millermedeiros.com>
  * @version 0.0.1
- * @build 14 11/24/2010 01:58 AM
+ * @build 29 11/26/2010 03:47 AM
  */
 (function(){
 	
@@ -15,34 +15,49 @@
 	/**
 	 * Simple Signal "Class" inpired by Robert Penner's AS3Signals <https://github.com/robertpenner/as3-signals/>
 	 * @author Miller Medeiros
-	 * @version 0.1 (2010/11/24)
 	 * @constructor
 	 */
 	signals.Signal = function(){
 		/** 
 		 * Event Handlers
-		 * @type signals.BindingList
+		 * @type Array.<SignalBinding>
+		 * @private
 		 */
-		this._bindingList = new signals.SignalBindingList();
+		this._bindings = [];
 	};
 	
 	
 	signals.Signal.prototype = {
 		
 		_registerListener : function(listener, isOnce, scope){
-			var list = this._bindingList,
-				prevIndex = list.indexOfListener(listener),
+			var prevBinding,
+				prevIndex = this._indexOfListener(listener),
 				binding;
 			
 			if(prevIndex != -1){ //avoid creating a new Binding if already added to list
-				//TODO: throw errors based on isOnce
-				binding = list[prevIndex];
+				prevBinding = this._bindings[prevIndex];
+				
+				if(prevBinding.isOnce() && !isOnce){
+					throw new Error('You cannot addOnce() then add() the same listener without removing the relationship first.');
+				}else if(!prevBinding.isOnce() && isOnce){
+					throw new Error('You cannot add() then addOnce() the same listener without removing the relationship first.');
+				}
+				
+				binding = prevBinding;
 			} else {
 				binding = new signals.SignalBinding(listener, isOnce, scope, this);
-				list.add(binding);
+				this._bindings.push(binding);
 			}
 			
 			return binding;
+		},
+		
+		_indexOfListener : function _indexOfListener(listener){
+			var n = this._bindings.length;
+			while(n--){
+				if(this._bindings[n].listener === listener) return n;
+			}
+			return -1;
 		},
 		
 		add : function(listener, scope){
@@ -54,21 +69,30 @@
 		},
 		
 		remove : function remove(listener){
-			this._bindingList.removeByListener(listener);
+			var i = this._indexOfListener(listener);
+			if(i != -1){
+				this._bindings.splice(i, 1);
+			}
 			return listener;
 		},
 		
 		removeAll : function removeAll(){
-			this._bindingList.removeAll();
+			this._bindings.length = 0;
 		},
 		
 		getNumListeners : function getNumListeners(){
-			return this._bindingList.length;
+			return this._bindings.length;
 		},
 		
 		dispatch : function(){
-			var params = Array.prototype.slice.call(arguments);
-			this._bindingList.execute(params);
+			var paramsArr = Array.prototype.slice.call(arguments),
+				i = 0,
+				bindings = this._bindings.slice(), //clone array in case add/remove items during dispatch
+				cur;
+			while(cur = bindings[i++]){
+				cur.execute(paramsArr);
+			}
+			
 		},
 		
 		toString : function toString(){
@@ -79,9 +103,8 @@
 	
 	/**
 	 * Class that represents a Signal Binding
-	 * - inspired on Joa Ebert AS3 Signal Binding and Robert Penner's Slot
+	 * - inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.
 	 * @author Miller Medeiros
-	 * @version 0.1 (2010/11/24)
 	 * @constructor
 	 */
 	signals.SignalBinding = function SignalBinding(listener, isOnce, listenerScope, signal){
@@ -98,7 +121,7 @@
 		
 		execute : function execute(paramsArr){
 			if(! this._isPaused){
-				if(this._isOnce) this.remove();
+				if(this._isOnce) this._signal.remove(this.listener);
 				this.listener.apply(this.listenerScope, paramsArr);
 			}
 		},
@@ -119,63 +142,8 @@
 			return this._isOnce;
 		},
 		
-		remove : function remove(){
-			this._signal.remove(this.listener);
-		},
-		
 		toString : function toString(){
 			return '[SignalBinding listener: '+ this.listener +', isOnce: '+ this._isOnce +', isPaused: '+ this._isPaused +', listenerScope: '+ this.listenerScope +']';
-		}
-		
-	};
-	
-	/**
-	 * Object representing a Collection of SignalBinds (Pseudo-Array Object).
-	 * - name inspired by Joa Ebert AS3 SignalBindingList but with complete different implementation.
-	 * @author Miller Medeiros
-	 * @constructor
-	 * @private
-	 * @version 0.1 (2010/11/24)
-	 */
-	signals.SignalBindingList = function SignalBindingList(){};
-	
-	
-	signals.SignalBindingList.prototype = {
-		
-		length : 0,
-		
-		add : function add(binding){
-			Array.prototype.push.call(this, binding);
-		},
-		
-		execute : function execute(paramsArr){
-			var i,
-				n = this.length;
-			for(i = 0; i < n; i++){
-				this[i].execute(paramsArr);
-			}
-		},
-		
-		indexOfListener : function indexOfListener(listener){
-			var n = this.length;
-			while(n--){
-				if(this[n].listener === listener) return n;
-			}
-			return -1;
-		},
-		
-		removeByListener : function removeByListener(listener){
-			var i = this.indexOfListener(listener);
-			if(i != -1){
-				delete this[i];
-				this.length--;
-			}
-		},
-		
-		removeAll : function removeAll(){
-			while(this.length--){
-				delete this[this.length];
-			}
 		}
 		
 	};
