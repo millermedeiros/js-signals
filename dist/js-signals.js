@@ -2,8 +2,8 @@
  * JS Signals <https://github.com/millermedeiros/js-signals>
  * Released under the MIT license (http://www.opensource.org/licenses/mit-license.php)
  * @author Miller Medeiros <http://millermedeiros.com>
- * @version 0.0.1
- * @build 44 11/26/2010 03:15 PM
+ * @version 0.0.2
+ * @build 45 11/26/2010 05:05 PM
  */
 (function(){
 	
