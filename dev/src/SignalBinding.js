@@ -33,7 +33,7 @@
 		},
 		
 		isPaused : function isPaused(){
-			return this._paused;
+			return this._isPaused;
 		},
 		
 		isOnce : function isOnce(){

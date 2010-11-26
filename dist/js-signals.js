@@ -3,7 +3,7 @@
  * Released under the MIT license (http://www.opensource.org/licenses/mit-license.php)
  * @author Miller Medeiros <http://millermedeiros.com>
  * @version 0.0.1
- * @build 39 11/26/2010 02:27 PM
+ * @build 44 11/26/2010 03:15 PM
  */
 (function(){
 	
@@ -30,6 +30,8 @@
 	signals.Signal.prototype = {
 		
 		_shouldPropagate : true,
+		
+		_isPaused : false,
 		
 		_registerListener : function _registerListener(listener, isOnce, scope){
 			var prevIndex = this._indexOfListener(listener),
@@ -84,23 +86,39 @@
 			return this._bindings.length;
 		},
 		
-		stopPropagation : function(){
+		pause : function pause(){
+			this._isPaused = true;
+		},
+		
+		resume : function resume(){
+			this._isPaused = false;
+		},
+		
+		isPaused : function isPaused(){
+			return this._isPaused;
+		},
+		
+		stopPropagation : function stopPropagation(){
 			this._shouldPropagate = false;
 		},
 		
 		dispatch : function dispatch(params){
+			if(this._isPaused) return;
+			
 			var paramsArr = Array.prototype.slice.call(arguments),
 				bindings = this._bindings.slice(), //clone array in case add/remove items during dispatch
 				i = 0,
 				cur;
+				
 			while(cur = bindings[i++]){
 				if(cur.execute(paramsArr) === false || !this._shouldPropagate) break; //execute all callbacks until end of the list or until a callback returns `false`
 			}
+			
 			this._shouldPropagate = true;
 		},
 		
 		toString : function toString(){
-			return '[Signal numListeners: '+ this.getNumListeners() +']';
+			return '[Signal isPaused: '+ this._isPaused +' numListeners: '+ this.getNumListeners() +']';
 		}
 		
 	};
@@ -139,7 +157,7 @@
 		},
 		
 		isPaused : function isPaused(){
-			return this._paused;
+			return this._isPaused;
 		},
 		
 		isOnce : function isOnce(){
