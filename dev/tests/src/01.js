@@ -672,7 +672,7 @@ YUI().use('node', 'console', 'test', function (Y){
 			
 			var n = 0;
 			var l1 = function(){n++};
-			var l2 = function(){s.stopPropagation()};
+			var l2 = function(){s.halt()};
 			var l3 = function(){n++};
 			
 			s.add(l1);
@@ -683,10 +683,10 @@ YUI().use('node', 'console', 'test', function (Y){
 			Y.Assert.areSame(1, n);
 		},
 		
-		//--------------------------- Pause/Resume -------------------------------//
-		
-		testPauseSignal : function(){
+		testStopPropagation3 : function(){
 			var s = this.signal;
+			
+			s.halt();
 			
 			var n = 0;
 			var l1 = function(){n++};
@@ -696,18 +696,14 @@ YUI().use('node', 'console', 'test', function (Y){
 			s.add(l1);
 			s.add(l2);
 			s.add(l3);
-			
-			Y.Assert.areSame(false, s.isPaused());
-			s.dispatch();
-			
-			s.pause();
-			Y.Assert.areSame(true, s.isPaused());
 			s.dispatch();
 			
 			Y.Assert.areSame(3, n);
 		},
 		
-		testResumeSignal : function(){
+		//--------------------------- Enable/Disable -------------------------------//
+		
+		testEnableDisableSignal : function(){
 			var s = this.signal;
 			
 			var n = 0;
@@ -719,21 +715,21 @@ YUI().use('node', 'console', 'test', function (Y){
 			s.add(l2);
 			s.add(l3);
 			
-			Y.Assert.areSame(false, s.isPaused());
+			Y.Assert.areSame(true, s.isEnabled());
 			s.dispatch();
 			
-			s.pause();
-			Y.Assert.areSame(true, s.isPaused());
+			s.disable();
+			Y.Assert.areSame(false, s.isEnabled());
 			s.dispatch();
 			
-			s.resume();
-			Y.Assert.areSame(false, s.isPaused());
+			s.enable();
+			Y.Assert.areSame(true, s.isEnabled());
 			s.dispatch();
 			
 			Y.Assert.areSame(6, n);
 		},
 		
-		testPauseBinding : function(){
+		testEnableDisableBinding : function(){
 			var s = this.signal;
 			
 			var n = 0;
@@ -745,18 +741,18 @@ YUI().use('node', 'console', 'test', function (Y){
 			var b2 = s.add(l2);
 			var b3 = s.add(l3);
 			
-			Y.Assert.areSame(false, s.isPaused());
-			Y.Assert.areSame(false, b2.isPaused());
+			Y.Assert.areSame(true, s.isEnabled());
+			Y.Assert.areSame(true, b2.isEnabled());
 			s.dispatch();
 			
-			b2.pause();
-			Y.Assert.areSame(false, s.isPaused());
-			Y.Assert.areSame(true, b2.isPaused());
+			b2.disable();
+			Y.Assert.areSame(true, s.isEnabled());
+			Y.Assert.areSame(false, b2.isEnabled());
 			s.dispatch();
 			
-			b2.resume();
-			Y.Assert.areSame(false, s.isPaused());
-			Y.Assert.areSame(false, b2.isPaused());
+			b2.enable();
+			Y.Assert.areSame(true, s.isEnabled());
+			Y.Assert.areSame(true, b2.isEnabled());
 			s.dispatch();
 			
 			Y.Assert.areSame(8, n);

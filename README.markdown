@@ -6,159 +6,73 @@ Custom event/messaging system for JavaScript inspired by [AS3-Signals](https://g
 
 ## Introduction ##
 
-A Signal is similar to a EventTarget/EventDispatcher or a pub/sub system, the main difference is that each event kind has it's own controller and doesn't rely on strings to call proper callbacks.
+A Signal is similar to an *Event Emitter/Dispatcher* or a *Pub/Sub* system, the main difference is that each event type has it's own controller and doesn't rely on strings to broadcast/subscribe to events. To know more about the differences [check the Wiki page][https://github.com/millermedeiros/js-signals/wiki/Comparison-between-different-Observer-Pattern-implementations].
 
-Another advantage is that you can pass arbitrary parameters to callbacks and it also have some convenience methods that aren't present on other *observer pattern* implementations.
+This implementation is **heavily inspired** by [Robert Penner's AS3-Signals][https://github.com/robertpenner/as3-signals] but **it is not a direct port**, it has a different set of features (some extras and some missing) and some methods were renamed to avoid confusions and/or for brevity.
 
-This implementation is heavily inspired by Robert Penner's AS3-Signals but it has a different set of features/classes, the main target of this implementation is *custom events* and not replacing *native DOM events*.
-
-
-## Comparisson between *observers* ##
-
-The comparisson below is just about the basic features of subscribing to an event type, dispatching and removing an event listener. It isn't based on available features but on differences between each concept and pros and cons of using each one. 
-
-### Event Target / Event Dispatcher ###
-
- - Each Object that dispatches custom events needs to inherit from an EventTarget/EventDispatcher object or implement the proper interface.
- - Use strings to identify the event type.
- - DOM2/DOM3 Events are based on this principle.
-
-#### Code sample ####
-
-    myObject.addEventListener('myCustomEventTypeString', handler);
-    myObject.dispatch(new Event('myCustomEventTypeString'));
-    myObject.removeEventListener('myCustomEventTypeString', handler);
- 
-#### Pros ####
-
- - You have total control of the *target object* and make sure you are listening only to the events dispatched by the specific target.
- - Can dispatch arbitrary event types without modifying the target object.
-
-#### Cons ####
-   
- - Favors inheritance over composition.
- - Uses strings to identify event types, prone to typo errors and autocomplete doens't work properly.
+The main focus for now is custom events, there are no plans to add *native DOM events* support yet (AS3-signals has a NativeSignal class that emulates native flash events) specially since most of the JavaScript frameworks already have some kind of facade on top of the native events.
 
 
-### Publish / Subscribe ###
+## Advantages ##
 
- - Uses a single object to *broadcast messages* to multiple *subscribers*.
- - Use strings to identify the event type.
-
-#### Code sample ####
-
-    globalBroadcaster.subscribe('myCustomEventTypeString', handler);
-    globalBroadcaster.publish('myCustomEventTypeString', paramsArray);
-    globalBroadcaster.unsubscribe('myCustomEventTypeString', handler);
-
-#### Pros ####
-
- - Any object can publish/subscribe to any event type.
- - Light-weigth.
- - Easy to use.
- 
-#### Cons ####
-
- - Any object can publish/subscribe to any event type. *(yeap, it's pro and con at the same time)*
- - Uses strings to identify event types (error prone and no auto-complete).
+ - Doesn't rely on strings for subscribing/publishing to event types, reducing chances of error.
+ - Arbitrary number of parameters to event handlers; 
+ - Convenience methods that usually aren't present on other implementations of the *observer pattern* like:
+   - disable/enable event dispatching per event type. 
+   - remove all event listeners attached to specific event type.
+   - option to automatically remove listener after first execution.
+   - **option to bind an execution context** to the event handler, **avoiding scope issues** that are really common in JavaScript.
+ - Favor composition over inheritance.
+ - Easy do identify which *event types* the object dispatch.
 
 
-### Signals ###
+## Basic Example ##
 
- - Each event type has it's own controller.
- - Doesn't rely on strings for event types.
-
-#### Code sample ####
-
-    myObject.myCustomEventType.add(handler);
-    myObject.myCustomEventType.dispatch(param1, param2, ...);
-    myObject.myCustomEventType.remove(handler);
-
-#### Pros ####
-
- - Doesn't rely on strings.
-   - auto-complete works properly.
-   - easy do identify wich *signals* the object dispatch.
-   - less error prone.
- - Granular control over each listener and event type (easily).
- 
-#### Cons ####
-
- - Can't dispatch arbitrary events. *(which is also a pro in most cases)*
- - Each event-type is an object member. *(which is also a pro in most cases)*
-
-
-## Examples ##
-
-### Setup code (required for all examples) ###
-
-    //store local reference for brevity
-    var Signal = signals.Signal;
+```javascript
+  //store local reference for brevity
+  var Signal = signals.Signal;
   
-    //custom object that dispatch signals
-    var myObject = {
-      started : new Signal(),
-      stopped : new Signal()
-    };
+  //custom object that dispatch signals
+  var myObject = {
+    started : new Signal(),
+    stopped : new Signal()
+  };
+  
+  function onStarted(param1, param2){
+    alert(param1 + param2);
+  }
+  
+  //add listener
+  myObject.started.add(onStarted);
+  
+  //dispatch signal passing custom parameters
+  myObject.started.dispatch('foo', 'bar');
+  
+  //remove a single listener
+  myObject.started.remove(onStarted);
+```
 
 
-### Single Listener ###
+## Repository ##
 
-    function onStarted(param1, param2){
-      alert(param1 + param2);
-    }
-    
-    //add listener
-    myObject.started.add(onStarted);
-    
-    //dispatch signal passing custom parameters
-    myObject.started.dispatch('foo', 'bar');
-    
-    //remove a single listener
-    myObject.started.remove(onStarted);
+### Folder Structure ###
 
+    .\dev       ->  development files
+    ...\build       ->  files used on the build process
+    ...\src         ->  source files
+    ...\tests       ->  unit tests
+    .\dist      ->  distribution files
+    ...\docs        ->  documentation
 
-### Multiple Listeners ###
+### Branches ###
 
-    function onStopped(){
-      alert('stopped');
-    }
-    
-    function onStopped2(){
-      alert('stopped listener 2');
-    }
-    
-    //add listeners
-    myObject.stopped.add(onStopped);
-    myObject.stopped.add(onStopped2);
-    
-    //dispatch signal
-    myObject.stopped.dispatch();
-    
-    //remove all listeners of the `stopped` signal
-    myObject.stopped.removeAll();
+    master      ->  always contain code from the latest stable version
+    release-**  ->  code canditate for the next stable version (alpha/beta)
+    develop     ->  main development branch
+    **other**   ->  features/hotfixes/experimental, probably non-stable code
 
 
-### Stop Propagation (method 1) ###
-    
-    myObject.started.add(function(){
-    	myObject.started.stopPropagation();
-    });
-    myObject.started.add(function(){
-    	//won't be called since first listener stops propagation
-    	alert('second listener');
-    });
-    myObject.started.dispatch();
-    
+## Learn More ##
 
-### Stop Propagation (method 2) ###
-    
-    myObject.started.add(function(){
-    	return false; //stop propagation
-    });
-    myObject.started.add(function(){
-    	//won't be called since first listener stops propagation
-    	alert('second listener');
-    });
-    myObject.started.dispatch();
-    
+ * [JS-Signals Wiki](http://github.com/millermedeiros/js-signals/wiki/)
+ * [JS-Signals Documentation](http://millermedeiros.github.com/js-signals/docs/)

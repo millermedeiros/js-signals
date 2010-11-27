@@ -16,6 +16,11 @@
 		</delete>
 	</target>
 	
+	<target name="-purgeDocs">
+		<delete dir="${docs.dir}" />
+		<mkdir dir="${docs.dir}"/>
+	</target>
+	
 	<target name="build" depends="-purgeJsDeploy">
 		<echo message="Building ${dist.name}..." />
 		
@@ -62,8 +67,26 @@
 		<echo message="${dist.min.name} built." />
 	</target>
 
+	<target name="generateDoc">
+		<echo message="Generating documentation" />
+ 		<apply executable="java" parallel="false" verbose="true">
+			<fileset dir="${dist.dir}">
+				<include name="${dist.name}" />
+			</fileset>
+			<arg line="-jar" />
+			<arg path="${jsdoc-toolkit.dir}/jsrun.jar" />
+			<arg value="${jsdoc-toolkit.dir}/app/run.js" />
+			<arg value="-t=${jsdoc-toolkit.dir}/templates/jsdoc-simple" />
+			<arg value="-d=${docs.dir}" />
+		</apply>
+		<echo message="Documentation generated" />
+	</target>
 	
-	<target name="all" depends="build, minify">
+	<target name="compile" depends="build, minify">
+		<echo message="Build Complete." />
+	</target>
+	
+	<target name="all" depends="compile, generateDoc">
 		<echo message="Build Complete." />
 	</target>
 	
