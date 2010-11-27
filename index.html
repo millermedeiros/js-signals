@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -7,60 +7,103 @@
 		<style type="text/css">
 			html,body{margin:0; padding:0}
 			body{background-color:#f5f5f5; font-family:Helvetica,Arial,sans-serif; color:#555}
-			#wrapper{margin:0 auto; width:700px; padding:3em 0 4em}
+			#wrapper{width:700px; margin:0 auto; padding:3em 0 4em}
 			h1,h2,h3,strong{color:#111}
 			h1{font-size:3.8em; margin:0}
-			h2{font-size:1.2em; margin:0 0 1.5em; font-style:italic; color:#333; font-weight:normal; font-family:"Times New Roman",times,serif}
-			h3{font-size:1.8em; margin:1em 0 0.5em; border-bottom:2px solid #e2e2e2}
+			h2{font-size:1.2em; font-style:italic;color:#333; font-weight:normal; font-family:"Times New Roman",times,serif; margin:0 0 1.5em}
+			h3{font-size:1.8em; border-bottom:2px solid #e2e2e2; margin:1em 0 .5em}
 			a{color:#000}
 			a:hover{color:#ccc; background-color:#111; text-decoration:none}
 			p{line-height:1.5em}
-			#content{font-size:0.9em}
+			#content{font-size:.9em}
 			#intro{font-size:1.2em}
 			.download{float:right}
 			.download a{background-color:#ddd}
 			.download a:hover{background-color:#111}
-			li{margin:0.5em 0}
+			li{margin:.5em 0}
 			ul{padding-left:2em}
 			small{color:#888}
 			pre{background:#eee; color:#000; border:1px solid #ccc; padding:15px}
 		</style>
+		<script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-1247729-18']);
+			_gaq.push(['_trackPageview']);
+			(function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+		</script>
 	</head>
 	<body>
 		<div id="wrapper">
-			<a href="http://github.com/millermedeiros/js-signals"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+			<a href="http://github.com/millermedeiros/js-signals">
+			<img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
 			<div class="download">
 				<a href="http://github.com/millermedeiros/js-signals/zipball/master">
-					<img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
+				<img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
 				<a href="http://github.com/millermedeiros/js-signals/tarball/master">
-					<img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
+				<img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
 			</div>
 			<h1>js-signals</h1>
 			<h2>Custom Event/Messaging system for JavaScript</h2>
 			<div id="content">
 				<div id="intro">
-					<p>A Signal is similar to an <em>Event Emitter/Dispatcher</em> or a <em>Pub/Sub</em> system, the main difference is that each event type has it's own controller and doesn't rely on strings to broadcast/subscribe to events. To know more about the differences <a href="https://github.com/millermedeiros/js-signals/wiki/Comparison-between-different-Observer-Pattern-implementations">check the Wiki page</a>.</p>
-					<p>This implementation is <strong>heavily inspired</strong> by <a href="https://github.com/robertpenner/as3-signals">Robert Penner's AS3-Signals</a> but <strong>it is not a direct port</strong>, it has a different set of features <small>(some extras and some missing)</small> and some methods were renamed to avoid confusions and/or for brevity.</p>
-					<p>The main focus for now is custom events, there are no plans to add <em>native DOM events</em> support yet <small>(AS3-signals has a NativeSignal class that emulates native flash events)</small> specially since most of the JavaScript frameworks already have some kind of facade on top of the native events.</p>
+					<p>
+						A Signal is similar to an <em>Event Emitter/Dispatcher</em> or a <em>Pub/Sub</em> system, the main difference is that each event type has it's own controller and doesn't rely on strings to broadcast/subscribe to events. To know more about the differences <a href="https://github.com/millermedeiros/js-signals/wiki/Comparison-between-different-Observer-Pattern-implementations">check the Wiki page</a>.
+					</p>
+					<p>
+						This implementation is <strong>heavily inspired</strong> by <a href="https://github.com/robertpenner/as3-signals">Robert Penner's AS3-Signals</a> but <strong>it is not a direct port</strong>, it has a different set of features
+						<small>
+							(some extras and some missing)
+						</small> and some methods were renamed to avoid confusions and/or for brevity.
+					</p>
+					<p>
+						The main focus for now is custom events, there are no plans to add <em>native DOM events</em> support yet
+						<small>
+							(AS3-signals has a NativeSignal class that emulates native flash events)
+						</small> specially since most of the JavaScript frameworks already have some kind of facade on top of the native events.
+					</p>
 				</div>
-				
+				<h3>Advantages</h3>
+				<ul>
+					<li>Doesn't rely on strings for subscribing/publishing to event types, reducing chances of error.</li>
+					<li>Arbitrary number of parameters to event handlers;</li>
+					<li>
+						Convenience methods that usually aren't present on other implementations of the <em>observer pattern</em> like:
+						<ul>
+							<li>disable/enable event dispatching per event type.</li>
+							<li>remove all event listeners attached to specific event type.</li>
+							<li>option to automatically remove listener after first execution.</li>
+							<li>option to bind an execution context to the event handler, avoiding scope issues.</li>
+						</ul>
+					</li>
+					<li>Favor composition over inheritance.</li>
+					<li>Easy to identify which <em>event types</em> the object dispatch.</li>
+				</ul>
 				<h3>References</h3>
 				<ul>
-					<li><a href="docs/index.html">Documentation</a></li>
-					<li><a href="http://github.com/millermedeiros/js-signals/wiki/">Wiki</a></li>
+					<li>
+						<a href="docs/index.html">Documentation</a>
+					</li>
+					<li>
+						<a href="http://github.com/millermedeiros/js-signals/wiki/">Wiki</a>
+					</li>
 				</ul>
-				
 				<h3>License</h3>
-				<p><a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a></p>
-				
+				<p>
+					<a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>
+				</p>
 				<h3>Author</h3>
-				<p><a href="http://blog.millermedeiros.com/">Miller Medeiros</a></p>
-				
+				<p>
+					<a href="http://blog.millermedeiros.com/">Miller Medeiros</a>
+				</p>
 				<h3>Download</h3>
 				<p>
 					You can download this project in either
 					<a href="http://github.com/millermedeiros/js-signals/zipball/master">zip</a> or
-					<a href="http://github.com/millermedeiros/js-signals/tarball/master">tar</a> formats. 
+					<a href="http://github.com/millermedeiros/js-signals/tarball/master">tar</a> formats.
 					You can also clone the project with <a href="http://git-scm.com">Git</a> by running:
 					<pre>$ git clone git://github.com/millermedeiros/js-signals</pre>
 				</p>
