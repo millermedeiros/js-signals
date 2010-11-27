@@ -7,7 +7,7 @@
 		<style type="text/css">
 			html,body{margin:0; padding:0}
 			body{background-color:#f5f5f5; font-family:Helvetica,Arial,sans-serif; color:#555}
-			#wrapper{width:700px; margin:0 auto; padding:3em 0 4em}
+			#wrapper{width:700px; margin:0 auto; padding:3em 1em 4em}
 			h1,h2,h3,strong{color:#111}
 			h1{font-size:3.8em; margin:0}
 			h2{font-size:1.2em; font-style:italic;color:#333; font-weight:normal; font-family:"Times New Roman",times,serif; margin:0 0 1.5em}
@@ -51,37 +51,51 @@
 			<div id="content">
 				<div id="intro">
 					<p>
-						A Signal is similar to an <em>Event Emitter/Dispatcher</em> or a <em>Pub/Sub</em> system, the main difference is that each event type has it's own controller and doesn't rely on strings to broadcast/subscribe to events. To know more about the differences <a href="https://github.com/millermedeiros/js-signals/wiki/Comparison-between-different-Observer-Pattern-implementations">check the Wiki page</a>.
+						A Signal is similar to an <em>Event Emitter/Dispatcher</em> or a <em>Pub/Sub</em> system, the main difference is that each event type has it's own controller and doesn't rely on strings to broadcast/subscribe to events. 
+						To know more about the differences and advatages/disadvantages of each approach  
+						<a href="https://github.com/millermedeiros/js-signals/wiki/Comparison-between-different-Observer-Pattern-implementations">check the Wiki page</a>.
 					</p>
 					<p>
-						This implementation is <strong>heavily inspired</strong> by <a href="https://github.com/robertpenner/as3-signals">Robert Penner's AS3-Signals</a> but <strong>it is not a direct port</strong>, it has a different set of features
+						This implementation is <strong>heavily inspired</strong> by <a href="https://github.com/robertpenner/as3-signals">Robert Penner's AS3-Signals</a> but <strong>it is NOT a direct port</strong>, it has a different set of features
 						<small>
 							(some extras and some missing)
 						</small> and some methods were renamed to avoid confusions and/or for brevity.
 					</p>
 					<p>
-						The main focus for now is custom events, there are no plans to add <em>native DOM events</em> support yet
-						<small>
-							(AS3-signals has a NativeSignal class that emulates native flash events)
-						</small> specially since most of the JavaScript frameworks already have some kind of facade on top of the native events.
+						The intention of this library is to be a <em>"small brick"</em> that you can plug into other libraries/frameworks, helping you to <strong>develop evented applications on a easy way</strong>!
 					</p>
 				</div>
 				<h3>Advantages</h3>
 				<ul>
-					<li>Doesn't rely on strings for subscribing/publishing to event types, reducing chances of error.</li>
-					<li>Arbitrary number of parameters to event handlers;</li>
+					<li>Doesn't rely on strings for subscribing/publishing to a event type, reducing chances of error.</li>
+					<li>Arbitrary number of parameters to event handlers.</li>
+					<li>Easy control of the event broadcaster and subscriber, avoiding that the wrong objects reacts to the event.</li>
 					<li>
 						Convenience methods that usually aren't present on other implementations of the <em>observer pattern</em> like:
 						<ul>
-							<li>disable/enable event dispatching per event type.</li>
-							<li>remove all event listeners attached to specific event type.</li>
-							<li>option to automatically remove listener after first execution.</li>
-							<li>option to bind an execution context to the event handler, avoiding scope issues.</li>
+							<li>Disable/enable event dispatching per event type.</li>
+							<li>Remove all event listeners attached to specific event type.</li>
+							<li>Option to automatically remove listener after first execution.</li>
+							<li>Option to bind an execution context to the event handler, avoiding scope issues.</li>
 						</ul>
 					</li>
 					<li>Favor composition over inheritance.</li>
 					<li>Easy to identify which <em>event types</em> the object dispatch.</li>
 				</ul>
+				<h3>Basic Example</h3>
+<pre>
+//custom object that dispatch a `started` signal
+var myObject = {
+  started : new signals.Signal()
+};
+function onStarted(param1, param2){
+  alert(param1 + param2);
+}
+myObject.started.add(onStarted); //add listener
+myObject.started.dispatch('foo', 'bar'); //dispatch signal passing custom parameters
+myObject.started.remove(onStarted); //remove a single listener
+</pre>
+				<p>For more examples <a href="https://github.com/millermedeiros/js-signals/wiki/Examples">check the examples page</a> on the wiki.</p>
 				<h3>References</h3>
 				<ul>
 					<li>
@@ -90,7 +104,17 @@
 					<li>
 						<a href="http://github.com/millermedeiros/js-signals/wiki/">Wiki</a>
 					</li>
+					<li>
+						<a href="http://github.com/millermedeiros/js-signals/wiki/Examples">Usage Examples</a>
+					</li>
 				</ul>
+				<h3>More Info</h3>
+				<p>
+					The main focus for now is custom events, there are no plans to add <em>native DOM events</em> support <strong>yet</strong>
+					<small>
+						(AS3-signals has a NativeSignal class that emulates native flash events)
+					</small> specially since most of the JavaScript frameworks already have some kind of facade on top of the native events and all the differences across browsers, maybe this feature will be added in the future but probably on a way that is easy to add/remove <em>(similar to a plugin)</em> or be a separate project.
+				</p>
 				<h3>License</h3>
 				<p>
 					<a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>
