@@ -28,29 +28,21 @@ The main focus for now is custom events, there are no plans to add *native DOM e
 
 ## Basic Example ##
 
-```javascript
-  //store local reference for brevity
-  var Signal = signals.Signal;
-  
-  //custom object that dispatch signals
-  var myObject = {
-    started : new Signal(),
-    stopped : new Signal()
-  };
-  
-  function onStarted(param1, param2){
-    alert(param1 + param2);
-  }
-  
-  //add listener
-  myObject.started.add(onStarted);
-  
-  //dispatch signal passing custom parameters
-  myObject.started.dispatch('foo', 'bar');
-  
-  //remove a single listener
-  myObject.started.remove(onStarted);
-```
+    var Signal = signals.Signal; //store local reference for brevity
+    
+    //custom object that dispatch signals
+    var myObject = {
+      started : new Signal(),
+      stopped : new Signal()
+    };
+    
+    function onStarted(param1, param2){
+      alert(param1 + param2);
+    }
+    
+    myObject.started.add(onStarted); //add listener
+    myObject.started.dispatch('foo', 'bar'); //dispatch signal passing custom parameters
+    myObject.started.remove(onStarted); //remove a single listener
 
 
 ## Repository ##
