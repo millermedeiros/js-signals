@@ -23,6 +23,7 @@
 			li{margin:.5em 0}
 			ul{padding-left:2em}
 			small{color:#888}
+			small a{color:#888}
 			pre{background:#eee; color:#000; border:1px solid #ccc; padding:15px}
 		</style>
 		<script type="text/javascript">
@@ -62,7 +63,7 @@
 						</small> and some methods were renamed to avoid confusions and/or for brevity.
 					</p>
 					<p>
-						The intention of this library is to be a <em>"small brick"</em> that you can plug into other libraries/frameworks, helping you to <strong>develop evented applications on a easy way</strong>!
+						The intention of this library is to be a <em>"small brick"</em> that you can plug into other libraries and frameworks, helping you to <strong>develop evented applications on a easy way</strong>!
 					</p>
 				</div>
 				<h3>Advantages</h3>
@@ -82,6 +83,7 @@
 					<li>Favor composition over inheritance.</li>
 					<li>Easy to identify which <em>event types</em> the object dispatch.</li>
 				</ul>
+				<p><small>Check <a href="https://github.com/millermedeiros/js-signals/wiki/Comparison-between-different-Observer-Pattern-implementations">Comparison between different Obeserver Pattern implementations</a> for more details.</small></p>
 				<h3>Basic Example</h3>
 <pre>
 //custom object that dispatch a `started` signal
