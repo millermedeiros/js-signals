@@ -1,7 +1,7 @@
 	
 	/**
-	 * Class that represents a Signal Binding.
-	 * <br />- Constructor probably won't need to be called by end-user.
+	 * Object that represents a binding between a Signal and a listener function.
+	 * <br />- Constructor shouldn't be called by regular user, no point on creating a new binding without a Signal.
 	 * <br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.
 	 * @author Miller Medeiros
 	 * @constructor
@@ -50,14 +50,35 @@
 		
 		/**
 		 * Call listener passing arbitrary parameters.
+		 * <p>If binding was added using `Signal.addOnce()` it will be automatically removed from signal dispatch queue, this method is used internally for the signal dispatch.</p> 
 		 * @param {Array} paramsArr	Array of parameters that should be passed to the listener
 		 * @return {*} Value returned by the listener.
 		 */
 		execute : function execute(paramsArr){
 			if(this._isEnabled){
-				if(this._isOnce) this._signal.remove(this.listener);
+				if(this._isOnce) this.detach();
 				return this.listener.apply(this.listenerScope, paramsArr);
 			}
+		},
+		
+		/**
+		 * Detach binding from signal.
+		 * - alias to: mySignal.remove(myBinding.listener);
+		 * @return {Function} Handler function binded to the signal.
+		 */
+		detach : function detach(){
+			return this._signal.remove(this.listener);
+		},
+		
+		/**
+		 * Remove binding from signal and destroy any reference to external Objects (destroy SignalBinding object).
+		 */
+		dispose : function dispose(){
+			this.detach();
+			//remove reference to all objects
+			delete this._signal;
+			delete this.listener;
+			delete this.listenerScope;
 		},
 		
 		/**
@@ -70,7 +91,7 @@
 		
 		/**
 		 * Enable SignalBinding. Enable listener execution.
-		 * @see signals.SignalBinding.pause()
+		 * @see signals.SignalBinding.disable()
 		 */
 		enable : function enable(){
 			this._isEnabled = true;

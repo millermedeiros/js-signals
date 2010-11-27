@@ -45,10 +45,18 @@
 				}
 			} else {
 				binding = new signals.SignalBinding(listener, isOnce, scope, this);
-				this._bindings.push(binding);
+				this._addBinding(binding);
 			}
 			
 			return binding;
+		},
+		
+		/**
+		 * @param {signals.SignalBinding} binding
+		 * @private
+		 */
+		_addBinding : function _addBinding(binding){
+			this._bindings.push(binding);
 		},
 		
 		/**
@@ -143,7 +151,7 @@
 		},
 		
 		/**
-		 * Dispatch Signal to all listeners added to the queue. 
+		 * Dispatch/Broadcast Signal to all listeners added to the queue. 
 		 * @param {...*} params	Parameters that should be passed to each handler.
 		 */
 		dispatch : function dispatch(params){
