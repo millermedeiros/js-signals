@@ -1,6 +1,26 @@
 # JS-Signals Changelog #
 
 
+
+## v0.4 (2010/11/27) ##
+
+### API changes ###
+
+ - Added:
+   - `SignalBinding.prototype.detach()`
+   - `SignalBinding.prototype.dispose()`
+ 
+### Test Changes ###
+
+ - Added test cases for `detach` and `dispose`.
+ 
+### Other ###
+
+ - Improved docs for a few methods.
+ - Added internal method `Signal.prototype._addBinding()`.
+ 
+
+
 ## v0.3 (2010/11/27) ##
 
 ### API changes ###
@@ -27,7 +47,8 @@
 
 Added inline documentation to source codeand included an HTML version of the documentation together with distribution files.
 
- 
+
+
 ## v0.2 (2010/11/26) ##
 
 ### API changes ###
@@ -54,6 +75,7 @@ Added inline documentation to source codeand included an HTML version of the doc
 ### Other ###
 
 Small refactoring and code cleaning.
+
 
 
 ## v0.1 (2010/11/26) ##
