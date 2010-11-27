@@ -9,8 +9,8 @@
 <span class='line'>  2</span>  * JS Signals &lt;https://github.com/millermedeiros/js-signals>
 <span class='line'>  3</span>  * Released under the MIT license (http://www.opensource.org/licenses/mit-license.php)
 <span class='line'>  4</span>  * @author Miller Medeiros &lt;http://millermedeiros.com>
-<span class='line'>  5</span>  * @version 0.0.1
-<span class='line'>  6</span>  * @build 46 11/26/2010 06:34 PM
+<span class='line'>  5</span>  * @version 0.2
+<span class='line'>  6</span>  * @build 54 11/27/2010 12:54 AM
 <span class='line'>  7</span>  */</span><span class="WHIT">
 <span class='line'>  8</span> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>  9</span> </span><span class="WHIT">	</span><span class="WHIT">
@@ -46,7 +46,7 @@
 <span class='line'> 39</span> 		 * @type boolean
 <span class='line'> 40</span> 		 * @private
 <span class='line'> 41</span> 		 */</span><span class="WHIT">
-<span class='line'> 42</span> </span><span class="WHIT">		</span><span class="NAME">_isPaused</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">		</span><span class="NAME">_isEnabled</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 43</span> </span><span class="WHIT">		</span><span class="WHIT">
 <span class='line'> 44</span> </span><span class="WHIT">		</span><span class="COMM">/**
 <span class='line'> 45</span> 		 * @param {Function} listener
@@ -133,163 +133,162 @@
 <span class='line'>126</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>127</span> </span><span class="WHIT">		</span><span class="WHIT">
 <span class='line'>128</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>129</span> 		 * Pause Signal, will block dispatch to listeners until `resume()` is called.
-<span class='line'>130</span> 		 * @see signals.Signal.prototype.resume
+<span class='line'>129</span> 		 * Disable Signal, will block dispatch to listeners until `enable()` is called.
+<span class='line'>130</span> 		 * @see signals.Signal.prototype.enable
 <span class='line'>131</span> 		 */</span><span class="WHIT">
-<span class='line'>132</span> </span><span class="WHIT">		</span><span class="NAME">pause</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">pause</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>133</span> </span><span class="WHIT">			</span><span class="NAME">this._isPaused</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">		</span><span class="NAME">disable</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">disable</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">			</span><span class="NAME">this._isEnabled</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>134</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>135</span> </span><span class="WHIT">		</span><span class="WHIT">
 <span class='line'>136</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>137</span> 		 * Resume Signal, enable dispatch to listeners.
-<span class='line'>138</span> 		 * @see signals.Signal.prototype.pause
+<span class='line'>137</span> 		 * Enable broadcast to listeners.
+<span class='line'>138</span> 		 * @see signals.Signal.prototype.disable
 <span class='line'>139</span> 		 */</span><span class="WHIT">
-<span class='line'>140</span> </span><span class="WHIT">		</span><span class="NAME">resume</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">resume</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>141</span> </span><span class="WHIT">			</span><span class="NAME">this._isPaused</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>142</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">		</span><span class="NAME">enable</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">enable</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">			</span><span class="NAME">this._isEnabled</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="WHIT">
 <span class='line'>143</span> </span><span class="WHIT">		</span><span class="WHIT">
 <span class='line'>144</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>145</span> 		 * @return {boolean} If Signal is currently paused and won't broadcast event.
+<span class='line'>145</span> 		 * @return {boolean} If Signal is currently enabled and will broadcast message to listeners.
 <span class='line'>146</span> 		 */</span><span class="WHIT">
-<span class='line'>147</span> </span><span class="WHIT">		</span><span class="NAME">isPaused</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">isPaused</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>148</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._isPaused</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">		</span><span class="NAME">isEnabled</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">isEnabled</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._isEnabled</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>149</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>150</span> </span><span class="WHIT">		</span><span class="WHIT">
 <span class='line'>151</span> </span><span class="WHIT">		</span><span class="COMM">/**
 <span class='line'>152</span> 		 * Stop propagation of the event, blocking the dispatch to next listeners on the queue.
-<span class='line'>153</span> 		 * - should be called only during signal dispatch. 
+<span class='line'>153</span> 		 * - should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast. 
 <span class='line'>154</span> 		 */</span><span class="WHIT">
-<span class='line'>155</span> </span><span class="WHIT">		</span><span class="NAME">stopPropagation</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">stopPropagation</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">		</span><span class="NAME">halt</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">halt</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>156</span> </span><span class="WHIT">			</span><span class="NAME">this._shouldPropagate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>157</span> </span><span class="WHIT">			</span><span class="COMM">//TODO: add test to stopPropagation before dispatch</span><span class="WHIT">
-<span class='line'>158</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>159</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>160</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>161</span> 		 * Dispatch Signal to all listeners added to the queue. 
-<span class='line'>162</span> 		 * @param {...*} params	Parameters that should be passed to each handler.
-<span class='line'>163</span> 		 */</span><span class="WHIT">
-<span class='line'>164</span> </span><span class="WHIT">		</span><span class="NAME">dispatch</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">dispatch</span><span class="PUNC">(</span><span class="NAME">params</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>165</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this._isPaused</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>166</span> </span><span class="WHIT">			</span><span class="WHIT">
-<span class='line'>167</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">paramsArr</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Array.prototype.slice.call</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>168</span> </span><span class="WHIT">				</span><span class="NAME">bindings</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._bindings.slice</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//clone array in case add/remove items during dispatch</span><span class="WHIT">
-<span class='line'>169</span> </span><span class="WHIT">				</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>170</span> </span><span class="WHIT">				</span><span class="NAME">cur</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>171</span> </span><span class="WHIT">				</span><span class="WHIT">
-<span class='line'>172</span> </span><span class="WHIT">			</span><span class="KEYW">while</span><span class="PUNC">(</span><span class="NAME">cur</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">bindings</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>173</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">cur.execute</span><span class="PUNC">(</span><span class="NAME">paramsArr</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">this._shouldPropagate</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//execute all callbacks until end of the list or until a callback returns `false`</span><span class="WHIT">
-<span class='line'>174</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>175</span> </span><span class="WHIT">			</span><span class="WHIT">
-<span class='line'>176</span> </span><span class="WHIT">			</span><span class="NAME">this._shouldPropagate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>177</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>178</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>179</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>180</span> 		 * @return {string} String representation of the object.
-<span class='line'>181</span> 		 */</span><span class="WHIT">
-<span class='line'>182</span> </span><span class="WHIT">		</span><span class="NAME">toString</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">toString</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>183</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">'[Signal isPaused: '</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this._isPaused</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="STRN">' numListeners: '</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.getNumListeners</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="STRN">']'</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>184</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>185</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>186</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>187</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>188</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>189</span> 	 * Class that represents a Signal Binding.
-<span class='line'>190</span> 	 * &lt;br />- Constructor probably won't need to be called by end-user.
-<span class='line'>191</span> 	 * &lt;br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.
-<span class='line'>192</span> 	 * @author Miller Medeiros
-<span class='line'>193</span> 	 * @constructor
-<span class='line'>194</span> 	 * @param {Function} listener	Handler function binded to the signal.
-<span class='line'>195</span> 	 * @param {boolean} isOnce	If binding should be executed just once.
-<span class='line'>196</span> 	 * @param {Object} listenerScope	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-<span class='line'>197</span> 	 * @param {signals.Signal} signal	Reference to Signal object that listener is currently binded to.
-<span class='line'>198</span> 	 */</span><span class="WHIT">
-<span class='line'>199</span> </span><span class="WHIT">	</span><span class="NAME">signals.SignalBinding</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">SignalBinding</span><span class="PUNC">(</span><span class="NAME">listener</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">isOnce</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">listenerScope</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">signal</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>200</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>201</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>202</span> 		 * Handler function binded to the signal.
-<span class='line'>203</span> 		 * @type Function
-<span class='line'>204</span> 		 */</span><span class="WHIT">
-<span class='line'>205</span> </span><span class="WHIT">		</span><span class="NAME">this.listener</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">listener</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>206</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>207</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>208</span> 		 * If binding should be executed just once.
-<span class='line'>209</span> 		 * @type boolean
-<span class='line'>210</span> 		 * @private
-<span class='line'>211</span> 		 */</span><span class="WHIT">
-<span class='line'>212</span> </span><span class="WHIT">		</span><span class="NAME">this._isOnce</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">isOnce</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>213</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>214</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>215</span> 		 * Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-<span class='line'>216</span> 		 * @type Object
-<span class='line'>217</span> 		 */</span><span class="WHIT">
-<span class='line'>218</span> </span><span class="WHIT">		</span><span class="NAME">this.listenerScope</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">listenerScope</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>219</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>220</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>221</span> 		 * Reference to Signal object that listener is currently binded to.
-<span class='line'>222</span> 		 * @type signals.Signal
-<span class='line'>223</span> 		 * @private
-<span class='line'>224</span> 		 */</span><span class="WHIT">
-<span class='line'>225</span> </span><span class="WHIT">		</span><span class="NAME">this._signal</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">signal</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>226</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>157</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>160</span> 		 * Dispatch Signal to all listeners added to the queue. 
+<span class='line'>161</span> 		 * @param {...*} params	Parameters that should be passed to each handler.
+<span class='line'>162</span> 		 */</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="WHIT">		</span><span class="NAME">dispatch</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">dispatch</span><span class="PUNC">(</span><span class="NAME">params</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="NAME">this._isEnabled</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>165</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">paramsArr</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Array.prototype.slice.call</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">				</span><span class="NAME">bindings</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._bindings.slice</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">//clone array in case add/remove items during dispatch</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">				</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">				</span><span class="NAME">cur</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">			</span><span class="NAME">this._shouldPropagate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//in case `halt` was called before dispatch or during the previous dispatch.</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">						</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">			</span><span class="KEYW">while</span><span class="PUNC">(</span><span class="NAME">cur</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">bindings</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">cur.execute</span><span class="PUNC">(</span><span class="NAME">paramsArr</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">this._shouldPropagate</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//execute all callbacks until end of the list or until a callback returns `false` or stops propagation</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>179</span> 		 * @return {string} String representation of the object.
+<span class='line'>180</span> 		 */</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">		</span><span class="NAME">toString</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">toString</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">'[Signal isEnabled: '</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this._isEnabled</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="STRN">' numListeners: '</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.getNumListeners</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="STRN">']'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>188</span> 	 * Class that represents a Signal Binding.
+<span class='line'>189</span> 	 * &lt;br />- Constructor probably won't need to be called by end-user.
+<span class='line'>190</span> 	 * &lt;br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.
+<span class='line'>191</span> 	 * @author Miller Medeiros
+<span class='line'>192</span> 	 * @constructor
+<span class='line'>193</span> 	 * @param {Function} listener	Handler function binded to the signal.
+<span class='line'>194</span> 	 * @param {boolean} isOnce	If binding should be executed just once.
+<span class='line'>195</span> 	 * @param {Object} listenerScope	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+<span class='line'>196</span> 	 * @param {signals.Signal} signal	Reference to Signal object that listener is currently binded to.
+<span class='line'>197</span> 	 */</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="WHIT">	</span><span class="NAME">signals.SignalBinding</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">SignalBinding</span><span class="PUNC">(</span><span class="NAME">listener</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">isOnce</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">listenerScope</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">signal</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>200</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>201</span> 		 * Handler function binded to the signal.
+<span class='line'>202</span> 		 * @type Function
+<span class='line'>203</span> 		 */</span><span class="WHIT">
+<span class='line'>204</span> </span><span class="WHIT">		</span><span class="NAME">this.listener</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">listener</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>207</span> 		 * If binding should be executed just once.
+<span class='line'>208</span> 		 * @type boolean
+<span class='line'>209</span> 		 * @private
+<span class='line'>210</span> 		 */</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">		</span><span class="NAME">this._isOnce</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">isOnce</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>214</span> 		 * Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+<span class='line'>215</span> 		 * @type Object
+<span class='line'>216</span> 		 */</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">		</span><span class="NAME">this.listenerScope</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">listenerScope</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>220</span> 		 * Reference to Signal object that listener is currently binded to.
+<span class='line'>221</span> 		 * @type signals.Signal
+<span class='line'>222</span> 		 * @private
+<span class='line'>223</span> 		 */</span><span class="WHIT">
+<span class='line'>224</span> </span><span class="WHIT">		</span><span class="NAME">this._signal</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">signal</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>225</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>226</span> </span><span class="WHIT">	</span><span class="WHIT">
 <span class='line'>227</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>228</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'>229</span> </span><span class="WHIT">	</span><span class="NAME">signals.SignalBinding.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>230</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>231</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>232</span> 		 * @type boolean
-<span class='line'>233</span> 		 * @private
-<span class='line'>234</span> 		 */</span><span class="WHIT">
-<span class='line'>235</span> </span><span class="WHIT">		</span><span class="NAME">_isPaused</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>236</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>237</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>238</span> 		 * Call listener passing arbitrary parameters.
-<span class='line'>239</span> 		 * @param {Array} paramsArr	Array of parameters that should be passed to the listener
-<span class='line'>240</span> 		 * @return {*} Value returned by the listener.
-<span class='line'>241</span> 		 */</span><span class="WHIT">
-<span class='line'>242</span> </span><span class="WHIT">		</span><span class="NAME">execute</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">execute</span><span class="PUNC">(</span><span class="NAME">paramsArr</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>243</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="NAME">this._isPaused</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>244</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this._isOnce</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this._signal.remove</span><span class="PUNC">(</span><span class="NAME">this.listener</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>245</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.listener.apply</span><span class="PUNC">(</span><span class="NAME">this.listenerScope</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">paramsArr</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>246</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>247</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>248</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>249</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>250</span> 		 * Pause SignalBinding, block listener execution. Listener will only be executed after calling `resume()`.  
-<span class='line'>251</span> 		 * @see signals.SignalBinding.resume()
-<span class='line'>252</span> 		 */</span><span class="WHIT">
-<span class='line'>253</span> </span><span class="WHIT">		</span><span class="NAME">pause</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">pause</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>254</span> </span><span class="WHIT">			</span><span class="NAME">this._isPaused</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>255</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>256</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>257</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>258</span> 		 * Resume SignalBinding, enable listener execution.
-<span class='line'>259</span> 		 * @see signals.SignalBinding.pause()
-<span class='line'>260</span> 		 */</span><span class="WHIT">
-<span class='line'>261</span> </span><span class="WHIT">		</span><span class="NAME">resume</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">resume</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>262</span> </span><span class="WHIT">			</span><span class="NAME">this._isPaused</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>263</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>264</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>265</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>266</span> 		 * @return {boolean} If SignalBinding is currently paused and won't execute listener during dispatch.
-<span class='line'>267</span> 		 */</span><span class="WHIT">
-<span class='line'>268</span> </span><span class="WHIT">		</span><span class="NAME">isPaused</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">isPaused</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>269</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._isPaused</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>270</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>271</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>272</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>273</span> 		 * @return {boolean} If SignalBinding will only be executed once.
-<span class='line'>274</span> 		 */</span><span class="WHIT">
-<span class='line'>275</span> </span><span class="WHIT">		</span><span class="NAME">isOnce</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">isOnce</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>276</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._isOnce</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>277</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>278</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>279</span> </span><span class="WHIT">		</span><span class="COMM">/**
-<span class='line'>280</span> 		 * @return {string} String representation of the object.
-<span class='line'>281</span> 		 */</span><span class="WHIT">
-<span class='line'>282</span> </span><span class="WHIT">		</span><span class="NAME">toString</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">toString</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>283</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">'[SignalBinding listener: '</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.listener</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="STRN">', isOnce: '</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this._isOnce</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="STRN">', isPaused: '</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this._isPaused</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="STRN">', listenerScope: '</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.listenerScope</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="STRN">']'</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>284</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>285</span> </span><span class="WHIT">		</span><span class="WHIT">
-<span class='line'>286</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>287</span> </span><span class="PUNC">}</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>288</span> </span></pre></body></html>
+<span class='line'>228</span> </span><span class="WHIT">	</span><span class="NAME">signals.SignalBinding.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>229</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>230</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>231</span> 		 * @type boolean
+<span class='line'>232</span> 		 * @private
+<span class='line'>233</span> 		 */</span><span class="WHIT">
+<span class='line'>234</span> </span><span class="WHIT">		</span><span class="NAME">_isEnabled</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>235</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>237</span> 		 * Call listener passing arbitrary parameters.
+<span class='line'>238</span> 		 * @param {Array} paramsArr	Array of parameters that should be passed to the listener
+<span class='line'>239</span> 		 * @return {*} Value returned by the listener.
+<span class='line'>240</span> 		 */</span><span class="WHIT">
+<span class='line'>241</span> </span><span class="WHIT">		</span><span class="NAME">execute</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">execute</span><span class="PUNC">(</span><span class="NAME">paramsArr</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>242</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this._isEnabled</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this._isOnce</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this._signal.remove</span><span class="PUNC">(</span><span class="NAME">this.listener</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.listener.apply</span><span class="PUNC">(</span><span class="NAME">this.listenerScope</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">paramsArr</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>249</span> 		 * Disable SignalBinding, block listener execution. Listener will only be executed after calling `enable()`.  
+<span class='line'>250</span> 		 * @see signals.SignalBinding.enable()
+<span class='line'>251</span> 		 */</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="WHIT">		</span><span class="NAME">disable</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">disable</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">			</span><span class="NAME">this._isEnabled</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>255</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>256</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>257</span> 		 * Enable SignalBinding. Enable listener execution.
+<span class='line'>258</span> 		 * @see signals.SignalBinding.pause()
+<span class='line'>259</span> 		 */</span><span class="WHIT">
+<span class='line'>260</span> </span><span class="WHIT">		</span><span class="NAME">enable</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">enable</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>261</span> </span><span class="WHIT">			</span><span class="NAME">this._isEnabled</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>265</span> 		 * @return {boolean} If SignalBinding is currently paused and won't execute listener during dispatch.
+<span class='line'>266</span> 		 */</span><span class="WHIT">
+<span class='line'>267</span> </span><span class="WHIT">		</span><span class="NAME">isEnabled</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">isEnabled</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>268</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._isEnabled</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>269</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>270</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>271</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>272</span> 		 * @return {boolean} If SignalBinding will only be executed once.
+<span class='line'>273</span> 		 */</span><span class="WHIT">
+<span class='line'>274</span> </span><span class="WHIT">		</span><span class="NAME">isOnce</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">isOnce</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>275</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._isOnce</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>276</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>277</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>278</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>279</span> 		 * @return {string} String representation of the object.
+<span class='line'>280</span> 		 */</span><span class="WHIT">
+<span class='line'>281</span> </span><span class="WHIT">		</span><span class="NAME">toString</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">toString</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>282</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">'[SignalBinding listener: '</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.listener</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="STRN">', isOnce: '</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this._isOnce</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="STRN">', isEnabled: '</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this._isEnabled</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="STRN">', listenerScope: '</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.listenerScope</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="STRN">']'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>283</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>284</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>285</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>286</span> </span><span class="PUNC">}</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>287</span> </span></pre></body></html>

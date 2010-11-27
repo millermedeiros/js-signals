@@ -46,7 +46,7 @@
 		 * @type boolean
 		 * @private
 		 */
-		_isPaused : false,
+		_isEnabled : true,
 		
 		/**
 		 * Call listener passing arbitrary parameters.
@@ -54,33 +54,33 @@
 		 * @return {*} Value returned by the listener.
 		 */
 		execute : function execute(paramsArr){
-			if(! this._isPaused){
+			if(this._isEnabled){
 				if(this._isOnce) this._signal.remove(this.listener);
 				return this.listener.apply(this.listenerScope, paramsArr);
 			}
 		},
 		
 		/**
-		 * Pause SignalBinding, block listener execution. Listener will only be executed after calling `resume()`.  
-		 * @see signals.SignalBinding.resume()
+		 * Disable SignalBinding, block listener execution. Listener will only be executed after calling `enable()`.  
+		 * @see signals.SignalBinding.enable()
 		 */
-		pause : function pause(){
-			this._isPaused = true;
+		disable : function disable(){
+			this._isEnabled = false;
 		},
 		
 		/**
-		 * Resume SignalBinding, enable listener execution.
+		 * Enable SignalBinding. Enable listener execution.
 		 * @see signals.SignalBinding.pause()
 		 */
-		resume : function resume(){
-			this._isPaused = false;
+		enable : function enable(){
+			this._isEnabled = true;
 		},
 		
 		/**
 		 * @return {boolean} If SignalBinding is currently paused and won't execute listener during dispatch.
 		 */
-		isPaused : function isPaused(){
-			return this._isPaused;
+		isEnabled : function isEnabled(){
+			return this._isEnabled;
 		},
 		
 		/**
@@ -94,7 +94,7 @@
 		 * @return {string} String representation of the object.
 		 */
 		toString : function toString(){
-			return '[SignalBinding listener: '+ this.listener +', isOnce: '+ this._isOnce +', isPaused: '+ this._isPaused +', listenerScope: '+ this.listenerScope +']';
+			return '[SignalBinding listener: '+ this.listener +', isOnce: '+ this._isOnce +', isEnabled: '+ this._isEnabled +', listenerScope: '+ this.listenerScope +']';
 		}
 		
 	};

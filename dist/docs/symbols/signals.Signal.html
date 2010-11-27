@@ -80,7 +80,15 @@
                     </li>
                
                    <li class="fixedFont">
+                        <a href="../symbols/signals.Signal.html#disable">disable</a>
+                    </li>
+               
+                   <li class="fixedFont">
                         <a href="../symbols/signals.Signal.html#dispatch">dispatch</a>
+                    </li>
+               
+                   <li class="fixedFont">
+                        <a href="../symbols/signals.Signal.html#enable">enable</a>
                     </li>
                
                    <li class="fixedFont">
@@ -88,11 +96,11 @@
                     </li>
                
                    <li class="fixedFont">
-                        <a href="../symbols/signals.Signal.html#isPaused">isPaused</a>
+                        <a href="../symbols/signals.Signal.html#halt">halt</a>
                     </li>
                
                    <li class="fixedFont">
-                        <a href="../symbols/signals.Signal.html#pause">pause</a>
+                        <a href="../symbols/signals.Signal.html#isEnabled">isEnabled</a>
                     </li>
                
                    <li class="fixedFont">
@@ -101,14 +109,6 @@
                
                    <li class="fixedFont">
                         <a href="../symbols/signals.Signal.html#removeAll">removeAll</a>
-                    </li>
-               
-                   <li class="fixedFont">
-                        <a href="../symbols/signals.Signal.html#resume">resume</a>
-                    </li>
-               
-                   <li class="fixedFont">
-                        <a href="../symbols/signals.Signal.html#stopPropagation">stopPropagation</a>
                     </li>
                
                    <li class="fixedFont">
@@ -286,6 +286,40 @@
                   </div>
 				
                   <div class="member">
+					<a name="disable"> </a>
+					<div class="fixedFont">
+                      <div class="modifiers">
+                      </div>
+					
+					<b>disable</b>()
+					
+					</div>
+					<div class="description">
+						<p>Disable Signal, will block dispatch to listeners until <code>enable()</code> is called.</p>
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd>signals.Signal.prototype.enable</dd>
+							
+							</dl>
+						
+
+                  </div>
+				
+                  <div class="member">
 					<a name="dispatch"> </a>
 					<div class="fixedFont">
                       <div class="modifiers">
@@ -319,6 +353,40 @@
 						
 						
 						
+						
+
+                  </div>
+				
+                  <div class="member">
+					<a name="enable"> </a>
+					<div class="fixedFont">
+                      <div class="modifiers">
+                      </div>
+					
+					<b>enable</b>()
+					
+					</div>
+					<div class="description">
+						<p>Enable broadcast to listeners.</p>
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd>signals.Signal.prototype.disable</dd>
+							
+							</dl>
 						
 
                   </div>
@@ -358,12 +426,40 @@
                   </div>
 				
                   <div class="member">
-					<a name="isPaused"> </a>
+					<a name="halt"> </a>
+					<div class="fixedFont">
+                      <div class="modifiers">
+                      </div>
+					
+					<b>halt</b>()
+					
+					</div>
+					<div class="description">
+						<p>Stop propagation of the event, blocking the dispatch to next listeners on the queue.
+- should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.</p>
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+                  </div>
+				
+                  <div class="member">
+					<a name="isEnabled"> </a>
 					<div class="fixedFont">
                       <div class="modifiers">
                       </div>
 					<span class="light">{boolean}</span>
-					<b>isPaused</b>()
+					<b>isEnabled</b>()
 					
 					</div>
 					<div class="description">
@@ -382,45 +478,11 @@
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{boolean}</span> If Signal is currently paused and won't broadcast event.</dd>
+								<dd><span class="light fixedFont">{boolean}</span> If Signal is currently enabled and will broadcast message to listeners.</dd>
 							
 							</dl>
 						
 						
-						
-
-                  </div>
-				
-                  <div class="member">
-					<a name="pause"> </a>
-					<div class="fixedFont">
-                      <div class="modifiers">
-                      </div>
-					
-					<b>pause</b>()
-					
-					</div>
-					<div class="description">
-						<p>Pause Signal, will block dispatch to listeners until <code>resume()</code> is called.</p>
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">See:</dt>
-							
-								<dd>signals.Signal.prototype.resume</dd>
-							
-							</dl>
 						
 
                   </div>
@@ -498,68 +560,6 @@
                   </div>
 				
                   <div class="member">
-					<a name="resume"> </a>
-					<div class="fixedFont">
-                      <div class="modifiers">
-                      </div>
-					
-					<b>resume</b>()
-					
-					</div>
-					<div class="description">
-						<p>Resume Signal, enable dispatch to listeners.</p>
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">See:</dt>
-							
-								<dd>signals.Signal.prototype.pause</dd>
-							
-							</dl>
-						
-
-                  </div>
-				
-                  <div class="member">
-					<a name="stopPropagation"> </a>
-					<div class="fixedFont">
-                      <div class="modifiers">
-                      </div>
-					
-					<b>stopPropagation</b>()
-					
-					</div>
-					<div class="description">
-						<p>Stop propagation of the event, blocking the dispatch to next listeners on the queue.
-- should be called only during signal dispatch.</p>
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-						
-						
-
-                  </div>
-				
-                  <div class="member">
 					<a name="toString"> </a>
 					<div class="fixedFont">
                       <div class="modifiers">
@@ -605,7 +605,7 @@
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both;text-align:center">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Fri Nov 26 2010 18:47:08 GMT-0500 (EST)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Sat Nov 27 2010 00:54:57 GMT-0500 (EST)
 			 | template based on Steffen Siering <a href="http://github.com/urso/jsdoc-simple">jsdoc-simple</a>.
 		</div>
 	</body>

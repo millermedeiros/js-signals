@@ -6,11 +6,19 @@ Custom event/messaging system for JavaScript inspired by [AS3-Signals](https://g
 
 ## Introduction ##
 
-A Signal is similar to a EventTarget/EventDispatcher or a pub/sub system, the main difference is that each event kind has it's own controller and doesn't rely on strings to call proper callbacks.
+A Signal is similar to a EventTarget/EventDispatcher or a pub/sub system, the main difference is that each event kind has it's own controller and doesn't rely on strings to call proper callbacks. To know more about differences check the [Wiki page](https://github.com/millermedeiros/js-signals/wiki/Comparison-between-different-Observer-Pattern-implementations).
 
-Another advantage is that you can pass arbitrary parameters to callbacks and it also have some convenience methods that aren't present on other implementations of the *observer pattern*.
+This implementation is heavily inspired by [Robert Penner's AS3-Signals](https://github.com/robertpenner/as3-signals) but it has a different set of features (some extra features and some missing), the main focus is *custom events* and not replacing *native DOM events*.
 
-This implementation is heavily inspired by *Robert Penner's AS3-Signals* but it has a different set of features, the main focus is on *custom events* and not replacing *native DOM events*.
+## Advantages ##
+
+ - Arbitrary number of parameters to event handlers; 
+ - Convenience methods that usually aren't present on other implementations of the *observer pattern*:
+   - `disable();` - disable event dispatching. 
+   - `enable();` - enable event dispatching.
+   - `removeAll();` - remove all event listeners attached to specific event type.
+   - `addOnce();` - automatically remove listener after first execution. 
+ - **Option to bind an execution context** to the event handler **avoiding scope issues** that are really common in JavaScript.
 
 
 ## Basic Example ##
@@ -38,6 +46,26 @@ This implementation is heavily inspired by *Robert Penner's AS3-Signals* but it 
   //remove a single listener
   myObject.started.remove(onStarted);
 ```
+
+
+## Repository ##
+
+### Folder Structure ###
+
+    .\dev       ->  development files
+    ...\build       ->  files used on the build process
+    ...\src         ->  source files
+    ...\tests       ->  unit tests
+    .\dist      ->  distribution files
+    ...\docs        ->  documentation
+
+### Branches ###
+
+    master      ->  always contain code from the latest stable version
+    release-**  ->  code canditate for the next stable version (alpha/beta)
+    develop     ->  main development branch
+    **other**   ->  features/hotfixes/experimental, probably non-stable code
+
 
 ## Learn More ##
 

@@ -3,7 +3,7 @@
  * Released under the MIT license (http://www.opensource.org/licenses/mit-license.php)
  * @author Miller Medeiros <http://millermedeiros.com>
  * @version 0.2
- * @build 47 11/26/2010 07:20 PM
+ * @build 54 11/27/2010 12:54 AM
  */
 (function(){
 	
@@ -39,7 +39,7 @@
 		 * @type boolean
 		 * @private
 		 */
-		_isPaused : false,
+		_isEnabled : true,
 		
 		/**
 		 * @param {Function} listener
@@ -126,35 +126,34 @@
 		},
 		
 		/**
-		 * Pause Signal, will block dispatch to listeners until `resume()` is called.
-		 * @see signals.Signal.prototype.resume
+		 * Disable Signal, will block dispatch to listeners until `enable()` is called.
+		 * @see signals.Signal.prototype.enable
 		 */
-		pause : function pause(){
-			this._isPaused = true;
+		disable : function disable(){
+			this._isEnabled = false;
 		},
 		
 		/**
-		 * Resume Signal, enable dispatch to listeners.
-		 * @see signals.Signal.prototype.pause
+		 * Enable broadcast to listeners.
+		 * @see signals.Signal.prototype.disable
 		 */
-		resume : function resume(){
-			this._isPaused = false;
-		},
+		enable : function enable(){
+			this._isEnabled = true;
+		}, 
 		
 		/**
-		 * @return {boolean} If Signal is currently paused and won't broadcast event.
+		 * @return {boolean} If Signal is currently enabled and will broadcast message to listeners.
 		 */
-		isPaused : function isPaused(){
-			return this._isPaused;
+		isEnabled : function isEnabled(){
+			return this._isEnabled;
 		},
 		
 		/**
 		 * Stop propagation of the event, blocking the dispatch to next listeners on the queue.
-		 * - should be called only during signal dispatch. 
+		 * - should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast. 
 		 */
-		stopPropagation : function stopPropagation(){
+		halt : function halt(){
 			this._shouldPropagate = false;
-			//TODO: add test to stopPropagation before dispatch
 		},
 		
 		/**
@@ -162,25 +161,25 @@
 		 * @param {...*} params	Parameters that should be passed to each handler.
 		 */
 		dispatch : function dispatch(params){
-			if(this._isPaused) return;
+			if(! this._isEnabled) return;
 			
 			var paramsArr = Array.prototype.slice.call(arguments),
 				bindings = this._bindings.slice(), //clone array in case add/remove items during dispatch
 				i = 0,
 				cur;
-				
-			while(cur = bindings[i++]){
-				if(cur.execute(paramsArr) === false || !this._shouldPropagate) break; //execute all callbacks until end of the list or until a callback returns `false`
-			}
 			
-			this._shouldPropagate = true;
+			this._shouldPropagate = true; //in case `halt` was called before dispatch or during the previous dispatch.
+						
+			while(cur = bindings[i++]){
+				if(cur.execute(paramsArr) === false || !this._shouldPropagate) break; //execute all callbacks until end of the list or until a callback returns `false` or stops propagation
+			}
 		},
 		
 		/**
 		 * @return {string} String representation of the object.
 		 */
 		toString : function toString(){
-			return '[Signal isPaused: '+ this._isPaused +' numListeners: '+ this.getNumListeners() +']';
+			return '[Signal isEnabled: '+ this._isEnabled +' numListeners: '+ this.getNumListeners() +']';
 		}
 		
 	};
@@ -232,7 +231,7 @@
 		 * @type boolean
 		 * @private
 		 */
-		_isPaused : false,
+		_isEnabled : true,
 		
 		/**
 		 * Call listener passing arbitrary parameters.
@@ -240,33 +239,33 @@
 		 * @return {*} Value returned by the listener.
 		 */
 		execute : function execute(paramsArr){
-			if(! this._isPaused){
+			if(this._isEnabled){
 				if(this._isOnce) this._signal.remove(this.listener);
 				return this.listener.apply(this.listenerScope, paramsArr);
 			}
 		},
 		
 		/**
-		 * Pause SignalBinding, block listener execution. Listener will only be executed after calling `resume()`.  
-		 * @see signals.SignalBinding.resume()
+		 * Disable SignalBinding, block listener execution. Listener will only be executed after calling `enable()`.  
+		 * @see signals.SignalBinding.enable()
 		 */
-		pause : function pause(){
-			this._isPaused = true;
+		disable : function disable(){
+			this._isEnabled = false;
 		},
 		
 		/**
-		 * Resume SignalBinding, enable listener execution.
+		 * Enable SignalBinding. Enable listener execution.
 		 * @see signals.SignalBinding.pause()
 		 */
-		resume : function resume(){
-			this._isPaused = false;
+		enable : function enable(){
+			this._isEnabled = true;
 		},
 		
 		/**
 		 * @return {boolean} If SignalBinding is currently paused and won't execute listener during dispatch.
 		 */
-		isPaused : function isPaused(){
-			return this._isPaused;
+		isEnabled : function isEnabled(){
+			return this._isEnabled;
 		},
 		
 		/**
@@ -280,7 +279,7 @@
 		 * @return {string} String representation of the object.
 		 */
 		toString : function toString(){
-			return '[SignalBinding listener: '+ this.listener +', isOnce: '+ this._isOnce +', isPaused: '+ this._isPaused +', listenerScope: '+ this.listenerScope +']';
+			return '[SignalBinding listener: '+ this.listener +', isOnce: '+ this._isOnce +', isEnabled: '+ this._isEnabled +', listenerScope: '+ this.listenerScope +']';
 		}
 		
 	};

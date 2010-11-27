@@ -85,23 +85,23 @@
              <ul>
                
                    <li class="fixedFont">
+                        <a href="../symbols/signals.SignalBinding.html#disable">disable</a>
+                    </li>
+               
+                   <li class="fixedFont">
+                        <a href="../symbols/signals.SignalBinding.html#enable">enable</a>
+                    </li>
+               
+                   <li class="fixedFont">
                         <a href="../symbols/signals.SignalBinding.html#execute">execute</a>
                     </li>
                
                    <li class="fixedFont">
+                        <a href="../symbols/signals.SignalBinding.html#isEnabled">isEnabled</a>
+                    </li>
+               
+                   <li class="fixedFont">
                         <a href="../symbols/signals.SignalBinding.html#isOnce">isOnce</a>
-                    </li>
-               
-                   <li class="fixedFont">
-                        <a href="../symbols/signals.SignalBinding.html#isPaused">isPaused</a>
-                    </li>
-               
-                   <li class="fixedFont">
-                        <a href="../symbols/signals.SignalBinding.html#pause">pause</a>
-                    </li>
-               
-                   <li class="fixedFont">
-                        <a href="../symbols/signals.SignalBinding.html#resume">resume</a>
                     </li>
                
                    <li class="fixedFont">
@@ -263,6 +263,74 @@
 				</div>
 				
                   <div class="member">
+					<a name="disable"> </a>
+					<div class="fixedFont">
+                      <div class="modifiers">
+                      </div>
+					
+					<b>disable</b>()
+					
+					</div>
+					<div class="description">
+						<p>Disable SignalBinding, block listener execution. Listener will only be executed after calling <code>enable()</code>.</p>
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd>signals.SignalBinding.enable()</dd>
+							
+							</dl>
+						
+
+                  </div>
+				
+                  <div class="member">
+					<a name="enable"> </a>
+					<div class="fixedFont">
+                      <div class="modifiers">
+                      </div>
+					
+					<b>enable</b>()
+					
+					</div>
+					<div class="description">
+						<p>Enable SignalBinding. Enable listener execution.</p>
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd>signals.SignalBinding.pause()</dd>
+							
+							</dl>
+						
+
+                  </div>
+				
+                  <div class="member">
 					<a name="execute"> </a>
 					<div class="fixedFont">
                       <div class="modifiers">
@@ -308,6 +376,40 @@
                   </div>
 				
                   <div class="member">
+					<a name="isEnabled"> </a>
+					<div class="fixedFont">
+                      <div class="modifiers">
+                      </div>
+					<span class="light">{boolean}</span>
+					<b>isEnabled</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{boolean}</span> If SignalBinding is currently paused and won't execute listener during dispatch.</dd>
+							
+							</dl>
+						
+						
+						
+
+                  </div>
+				
+                  <div class="member">
 					<a name="isOnce"> </a>
 					<div class="fixedFont">
                       <div class="modifiers">
@@ -337,108 +439,6 @@
 							</dl>
 						
 						
-						
-
-                  </div>
-				
-                  <div class="member">
-					<a name="isPaused"> </a>
-					<div class="fixedFont">
-                      <div class="modifiers">
-                      </div>
-					<span class="light">{boolean}</span>
-					<b>isPaused</b>()
-					
-					</div>
-					<div class="description">
-						
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{boolean}</span> If SignalBinding is currently paused and won't execute listener during dispatch.</dd>
-							
-							</dl>
-						
-						
-						
-
-                  </div>
-				
-                  <div class="member">
-					<a name="pause"> </a>
-					<div class="fixedFont">
-                      <div class="modifiers">
-                      </div>
-					
-					<b>pause</b>()
-					
-					</div>
-					<div class="description">
-						<p>Pause SignalBinding, block listener execution. Listener will only be executed after calling <code>resume()</code>.</p>
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">See:</dt>
-							
-								<dd>signals.SignalBinding.resume()</dd>
-							
-							</dl>
-						
-
-                  </div>
-				
-                  <div class="member">
-					<a name="resume"> </a>
-					<div class="fixedFont">
-                      <div class="modifiers">
-                      </div>
-					
-					<b>resume</b>()
-					
-					</div>
-					<div class="description">
-						<p>Resume SignalBinding, enable listener execution.</p>
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">See:</dt>
-							
-								<dd>signals.SignalBinding.pause()</dd>
-							
-							</dl>
 						
 
                   </div>
@@ -489,7 +489,7 @@
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both;text-align:center">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Fri Nov 26 2010 18:47:08 GMT-0500 (EST)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Sat Nov 27 2010 00:54:57 GMT-0500 (EST)
 			 | template based on Steffen Siering <a href="http://github.com/urso/jsdoc-simple">jsdoc-simple</a>.
 		</div>
 	</body>

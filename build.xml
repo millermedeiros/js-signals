@@ -82,7 +82,11 @@
 		<echo message="Documentation generated" />
 	</target>
 	
-	<target name="all" depends="build, minify, generateDoc">
+	<target name="compile" depends="build, minify">
+		<echo message="Build Complete." />
+	</target>
+	
+	<target name="all" depends="compile, generateDoc">
 		<echo message="Build Complete." />
 	</target>
 	
