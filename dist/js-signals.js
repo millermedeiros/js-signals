@@ -2,8 +2,8 @@
  * JS Signals <https://github.com/millermedeiros/js-signals>
  * Released under the MIT license (http://www.opensource.org/licenses/mit-license.php)
  * @author Miller Medeiros <http://millermedeiros.com>
- * @version 0.0.1
- * @build 29 11/26/2010 03:47 AM
+ * @version 0.2
+ * @build 46 11/26/2010 07:15 PM
  */
 (function(){
 	
@@ -29,21 +29,23 @@
 	
 	signals.Signal.prototype = {
 		
-		_registerListener : function(listener, isOnce, scope){
-			var prevBinding,
-				prevIndex = this._indexOfListener(listener),
+		_shouldPropagate : true,
+		
+		_isPaused : false,
+		
+		_registerListener : function _registerListener(listener, isOnce, scope){
+			var prevIndex = this._indexOfListener(listener),
 				binding;
 			
-			if(prevIndex != -1){ //avoid creating a new Binding if already added to list
-				prevBinding = this._bindings[prevIndex];
+			if(prevIndex !== -1){ //avoid creating a new Binding for same listener if already added to list
+				binding = this._bindings[prevIndex];
 				
-				if(prevBinding.isOnce() && !isOnce){
+				if(binding.isOnce() && !isOnce){
 					throw new Error('You cannot addOnce() then add() the same listener without removing the relationship first.');
-				}else if(!prevBinding.isOnce() && isOnce){
+				}else if(!binding.isOnce() && isOnce){
 					throw new Error('You cannot add() then addOnce() the same listener without removing the relationship first.');
 				}
 				
-				binding = prevBinding;
 			} else {
 				binding = new signals.SignalBinding(listener, isOnce, scope, this);
 				this._bindings.push(binding);
@@ -60,17 +62,17 @@
 			return -1;
 		},
 		
-		add : function(listener, scope){
+		add : function add(listener, scope){
 			return this._registerListener(listener, false, scope);
 		},
 		
-		addOnce : function(listener, scope){
+		addOnce : function addOnce(listener, scope){
 			return this._registerListener(listener, true, scope);
 		},
 		
 		remove : function remove(listener){
 			var i = this._indexOfListener(listener);
-			if(i != -1){
+			if(i !== -1){
 				this._bindings.splice(i, 1);
 			}
 			return listener;
@@ -84,19 +86,39 @@
 			return this._bindings.length;
 		},
 		
-		dispatch : function(){
+		pause : function pause(){
+			this._isPaused = true;
+		},
+		
+		resume : function resume(){
+			this._isPaused = false;
+		},
+		
+		isPaused : function isPaused(){
+			return this._isPaused;
+		},
+		
+		stopPropagation : function stopPropagation(){
+			this._shouldPropagate = false;
+		},
+		
+		dispatch : function dispatch(params){
+			if(this._isPaused) return;
+			
 			var paramsArr = Array.prototype.slice.call(arguments),
-				i = 0,
 				bindings = this._bindings.slice(), //clone array in case add/remove items during dispatch
+				i = 0,
 				cur;
+				
 			while(cur = bindings[i++]){
-				cur.execute(paramsArr);
+				if(cur.execute(paramsArr) === false || !this._shouldPropagate) break; //execute all callbacks until end of the list or until a callback returns `false`
 			}
 			
+			this._shouldPropagate = true;
 		},
 		
 		toString : function toString(){
-			return '[Signal numListeners: '+ this.getNumListeners() +']';
+			return '[Signal isPaused: '+ this._isPaused +' numListeners: '+ this.getNumListeners() +']';
 		}
 		
 	};
@@ -122,7 +144,7 @@
 		execute : function execute(paramsArr){
 			if(! this._isPaused){
 				if(this._isOnce) this._signal.remove(this.listener);
-				this.listener.apply(this.listenerScope, paramsArr);
+				return this.listener.apply(this.listenerScope, paramsArr);
 			}
 		},
 		
@@ -135,7 +157,7 @@
 		},
 		
 		isPaused : function isPaused(){
-			return this._paused;
+			return this._isPaused;
 		},
 		
 		isOnce : function isOnce(){

@@ -649,6 +649,178 @@ YUI().use('node', 'console', 'test', function (Y){
 			Y.Assert.areSame(35, scope.n);
 		},
 		
+		//-------------------- Stop Propagation -----------------------------//
+		
+		testStopPropagation : function(){
+			var s = this.signal;
+			
+			var n = 0;
+			var l1 = function(){n++};
+			var l2 = function(){return false};
+			var l3 = function(){n++};
+			
+			s.add(l1);
+			s.add(l2);
+			s.add(l3);
+			s.dispatch();
+			
+			Y.Assert.areSame(1, n);
+		},
+		
+		testStopPropagation2 : function(){
+			var s = this.signal;
+			
+			var n = 0;
+			var l1 = function(){n++};
+			var l2 = function(){s.stopPropagation()};
+			var l3 = function(){n++};
+			
+			s.add(l1);
+			s.add(l2);
+			s.add(l3);
+			s.dispatch();
+			
+			Y.Assert.areSame(1, n);
+		},
+		
+		//--------------------------- Pause/Resume -------------------------------//
+		
+		testPauseSignal : function(){
+			var s = this.signal;
+			
+			var n = 0;
+			var l1 = function(){n++};
+			var l2 = function(){n++};
+			var l3 = function(){n++};
+			
+			s.add(l1);
+			s.add(l2);
+			s.add(l3);
+			
+			Y.Assert.areSame(false, s.isPaused());
+			s.dispatch();
+			
+			s.pause();
+			Y.Assert.areSame(true, s.isPaused());
+			s.dispatch();
+			
+			Y.Assert.areSame(3, n);
+		},
+		
+		testResumeSignal : function(){
+			var s = this.signal;
+			
+			var n = 0;
+			var l1 = function(){n++};
+			var l2 = function(){n++};
+			var l3 = function(){n++};
+			
+			s.add(l1);
+			s.add(l2);
+			s.add(l3);
+			
+			Y.Assert.areSame(false, s.isPaused());
+			s.dispatch();
+			
+			s.pause();
+			Y.Assert.areSame(true, s.isPaused());
+			s.dispatch();
+			
+			s.resume();
+			Y.Assert.areSame(false, s.isPaused());
+			s.dispatch();
+			
+			Y.Assert.areSame(6, n);
+		},
+		
+		testPauseBinding : function(){
+			var s = this.signal;
+			
+			var n = 0;
+			var l1 = function(){n++};
+			var l2 = function(){n++};
+			var l3 = function(){n++};
+			
+			var b1 = s.add(l1);
+			var b2 = s.add(l2);
+			var b3 = s.add(l3);
+			
+			Y.Assert.areSame(false, s.isPaused());
+			Y.Assert.areSame(false, b2.isPaused());
+			s.dispatch();
+			
+			b2.pause();
+			Y.Assert.areSame(false, s.isPaused());
+			Y.Assert.areSame(true, b2.isPaused());
+			s.dispatch();
+			
+			b2.resume();
+			Y.Assert.areSame(false, s.isPaused());
+			Y.Assert.areSame(false, b2.isPaused());
+			s.dispatch();
+			
+			Y.Assert.areSame(8, n);
+		},
+		
+		//------------------------ Bindings ----------------------------------//
+		
+		testBindingsIsOnce : function(){
+			var s = this.signal;
+			var b1 = s.addOnce(function(){});
+			Y.Assert.areSame(1, s.getNumListeners());
+			Y.Assert.areSame(true, b1.isOnce());
+		},
+		
+		testBindingsIsOnce2 : function(){
+			var s = this.signal;
+			var b1 = s.addOnce(function(){});
+			var b2 = s.addOnce(function(){});
+			Y.Assert.areSame(2, s.getNumListeners());
+			Y.Assert.areSame(true, b1.isOnce());
+			Y.Assert.areSame(true, b2.isOnce());
+			Y.Assert.areNotSame(b1, b2);
+		},
+		
+		testBindingsIsOnce3 : function(){
+			var s = this.signal;
+			var l = function(){};
+			var b1 = s.addOnce(l);
+			var b2 = s.addOnce(l);
+			Y.Assert.areSame(1, s.getNumListeners());
+			Y.Assert.areSame(true, b1.isOnce());
+			Y.Assert.areSame(true, b2.isOnce());
+			Y.Assert.areSame(b1, b2);
+		},
+		
+		testBindingsIsNotOnce : function(){
+			var s = this.signal;
+			var b1 = s.add(function(){});
+			Y.Assert.areSame(1, s.getNumListeners());
+			Y.Assert.areSame(false, b1.isOnce());
+		},
+		
+		testBindingsIsNotOnce2 : function(){
+			var s = this.signal;
+			var b1 = s.add(function(){});
+			var b2 = s.add(function(){});
+			Y.Assert.areSame(2, s.getNumListeners());
+			Y.Assert.areSame(false, b1.isOnce());
+			Y.Assert.areSame(false, b2.isOnce());
+			Y.Assert.areNotSame(b1, b2);
+		},
+		
+		testBindingsIsNotOnce3 : function(){
+			var s = this.signal;
+			var l = function(){};
+			var b1 = s.add(l);
+			var b2 = s.add(l);
+			Y.Assert.areSame(1, s.getNumListeners());
+			Y.Assert.areSame(false, b1.isOnce());
+			Y.Assert.areSame(false, b2.isOnce());
+			Y.Assert.areSame(b1, b2);
+		},
+		
+		
 		//------------------------ Remove ----------------------------------//
 		
 		testRemoveSingle : function(){
