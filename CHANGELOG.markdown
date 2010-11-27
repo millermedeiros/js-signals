@@ -1,6 +1,33 @@
 # JS-Signals Changelog #
 
 
+## v0.3 (2010/11/27) ##
+
+### API changes ###
+ 
+ - Renamed:
+   - `Signal.prototype.stopPropagation()` -> `Signal.prototype.halt()`
+   - `Signal.prototype.pause()` -> `Signal.prototype.disable()`
+   - `Signal.prototype.resume()` -> `Signal.prototype.enable()`
+   - `Signal.prototype.isPaused()` -> `Signal.prototype.isEnabled()`
+   - `SignalBinding.prototype.pause()` -> `SignalBinding.prototype.disable()`
+   - `SignalBinding.prototype.resume()` -> `SignalBinding.prototype.enable()`
+   - `SignalBinding.prototype.isPaused()` -> `SignalBinding.prototype.isEnabled()`
+   
+### Fixes ###
+
+ - Calling `halt()` before/after `dispatch()` doesn't affect listeners execution anymore, `halt()` only works during propagation.
+
+### Test Changes ###
+
+ - updated API calls to reflect new method names.
+ - added tests that match `halt()` before/after `dispatch()`.
+
+### Other ###
+
+Added inline documentation to source codeand included an HTML version of the documentation together with distribution files.
+
+ 
 ## v0.2 (2010/11/26) ##
 
 ### API changes ###
