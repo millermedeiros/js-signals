@@ -1,86 +1,72 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-	<title>millermedeiros/js-signals @ GitHub</title>
-	
-	<style type="text/css">
-		body {
-  		margin-top: 1.0em;
-  		background-color: #0295ab;
-		  font-family: "Helvetica,Arial,FreeSans";
-  		color: #ffffff;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-		h1 { font-size: 3.8em; color: #fd6a54; margin-bottom: 3px; }
-		h1 .small { font-size: 0.4em; }
-		h1 a { text-decoration: none }
-		h2 { font-size: 1.5em; color: #fd6a54; }
-    h3 { text-align: center; color: #fd6a54; }
-    a { color: #fd6a54; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-		pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-	</style>
-	
-</head>
-
-<body>
-  <a href="http://github.com/millermedeiros/js-signals"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-
-  <div id="container">
-
-    <div class="download">
-      <a href="http://github.com/millermedeiros/js-signals/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/millermedeiros/js-signals/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
-    </div>
-
-    <h1><a href="http://github.com/millermedeiros/js-signals">js-signals</a>
-      <span class="small">by <a href="http://github.com/millermedeiros">millermedeiros</a></span></h1>
-
-    <div class="description">
-      Custom Event/Messaging system for JavaScript inspired by AS3-Signals
-    </div>
-
-    <p>A Signal is similar to a EventTarget/EventDispatcher or a pub/sub system, the main difference is that each event kind has it's own controller and doesn't rely on strings to call proper callbacks.
-
-Another advantage is that you can pass arbitrary parameters to callbacks and it also have some convenience methods that aren't present on other implementations of the *observer pattern*.
-
-This implementation is heavily inspired by Robert Penner's AS3-Signals but it has a different set of features/classes, the main target of this implementation is custom events and not replacing native DOM events.</p><h2>License</h2>
-<p>MIT License</p>
-<h2>Authors</h2>
-<p>Miller Medeiros (miller@millermedeiros.com)<br/><br/>      </p>
-<h2>Contact</h2>
-<p>Miller Medeiros (miller@millermedeiros.com)<br/>      </p>
-
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/millermedeiros/js-signals/zipball/master">zip</a> or
-      <a href="http://github.com/millermedeiros/js-signals/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/millermedeiros/js-signals</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/millermedeiros/js-signals">millermedeiros/js-signals</a>
-    </div>
-
-  </div>
-
-  
-</body>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>millermedeiros/js-signals @ GitHub</title>
+		<style type="text/css">
+			body{margin-top:1em; background-color:#f5f5f5; font-family:Helvetica,Arial,sans-serif; color:#444}
+			#container{margin:0 auto; width:700px}
+			h1{font-size:3.8em; color:#333; margin-bottom:3px}
+			h1 .small{font-size:0.4em}
+			h1 a{text-decoration:none}
+			h2{font-size:1.5em; color:#333}
+			h3{text-align:center; color:#333}
+			a{color:#333}
+			.description{font-size:1.2em; margin-bottom:30px; margin-top:30px; font-style:italic}
+			.download{float:right}
+			pre{background:#000; color:#fff; padding:15px}
+			hr{border:0; width:80%; border-bottom:1px solid #aaa}
+			.footer{text-align:center; padding-top:30px; font-style:italic}
+		</style>
+	</head>
+	<body>
+		<a href="http://github.com/millermedeiros/js-signals"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+		<div id="container">
+			<div class="download">
+				<a href="http://github.com/millermedeiros/js-signals/zipball/master">
+					<img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
+				<a href="http://github.com/millermedeiros/js-signals/tarball/master">
+					<img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
+			</div>
+			<h1>
+				<a href="http://github.com/millermedeiros/js-signals">js-signals</a>
+				<span class="small">by <a href="http://github.com/millermedeiros">millermedeiros</a></span>
+			</h1>
+			<div class="description">
+				Custom Event/Messaging system for JavaScript
+			</div>
+			
+			<p>A Signal is similar to a EventTarget/EventDispatcher or a pub/sub system, the main difference is that each event kind has it's own controller and doesn't rely on strings to call proper callbacks.</p>
+			<p>Another advantage is that you can pass arbitrary parameters to callbacks and it also have some convenience methods that aren't present on other implementations of the <em>observer pattern</em>.</p>
+			<p>This implementation is heavily inspired by Robert Penner's AS3-Signals but it has a different set of features/classes, the main target of this implementation is custom events and not replacing native DOM events.</p>
+			
+			<h2>References</h2>
+			<ul>
+				<li><a href="docs/index.html">Documentation</a></li>
+				<li><a href="http://github.com/millermedeiros/js-signals/wiki/">Wiki</a></li>
+			</ul>
+			
+			<h2>License</h2>
+			<p><a href-"http://www.opensource.org/licenses/mit-license.php">MIT License</a></p>
+			
+			<h2>Author</h2>
+			<p><a href="http://blog.millermedeiros.com/">Miller Medeiros</a></p>
+			
+			<h2>Download</h2>
+			<p>
+				You can download this project in either
+				<a href="http://github.com/millermedeiros/js-signals/zipball/master">zip</a> or
+				<a href="http://github.com/millermedeiros/js-signals/tarball/master">tar</a> formats.
+			</p>
+			<p>You can also clone the project with <a href="http://git-scm.com">Git</a>
+				by running:
+				<pre>$ git clone git://github.com/millermedeiros/js-signals</pre>
+			</p>
+			
+			<div class="footer">
+				get the source code on GitHub : <a href="http://github.com/millermedeiros/js-signals">millermedeiros/js-signals</a>
+			</div>
+		</div>
+	</body>
 </html>
