@@ -816,6 +816,27 @@ YUI().use('node', 'console', 'test', function (Y){
 			Y.Assert.areSame(b1, b2);
 		},
 		
+		testBindingDetach : function(){
+			var s = this.signal;
+			var b1 = s.add(function(){
+				Y.Assert.fail();
+			});
+			Y.Assert.areSame(1, s.getNumListeners());
+			b1.detach();
+			Y.Assert.areSame(0, s.getNumListeners());
+			s.dispatch();
+		},
+		
+		testBindingDispose : function(){
+			var s = this.signal;
+			var b1 = s.add(function(){});
+			Y.Assert.areSame(1, s.getNumListeners());
+			b1.dispose();
+			Y.Assert.areSame(0, s.getNumListeners());
+			Y.Assert.isUndefined(b1.listener);
+			Y.Assert.isUndefined(b1.listenerScope);
+		},
+		
 		
 		//------------------------ Remove ----------------------------------//
 		
