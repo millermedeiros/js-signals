@@ -53,31 +53,33 @@
 				<div id="intro">
 					<p>
 						A Signal is similar to an <em>Event Emitter/Dispatcher</em> or a <em>Pub/Sub</em> system, the main difference is that each event type has it's own controller and doesn't rely on strings to broadcast/subscribe to events. 
-						To know more about the differences and advatages/disadvantages of each approach  
+						To know more about the differences and advantages/disadvantages of each approach  
 						<a href="https://github.com/millermedeiros/js-signals/wiki/Comparison-between-different-Observer-Pattern-implementations">check the Wiki page</a>.
 					</p>
 					<p>
 						This implementation is <strong>heavily inspired</strong> by <a href="https://github.com/robertpenner/as3-signals">Robert Penner's AS3-Signals</a> but <strong>it is NOT a direct port</strong>, it has a different set of features
 						<small>
 							(some extras and some missing)
-						</small> and some methods were renamed to avoid confusions and/or for brevity.
+						</small> and some methods were renamed to avoid confusions and/or for brevity. It also borrows some ideas from <a href="https://github.com/joa/as3-signals">Joa Ebert fork</a>.
 					</p>
 					<p>
-						The intention of this library is to be a <em>"small brick"</em> that you can plug into other libraries and frameworks, helping you to <strong>develop evented applications on a easy way</strong>!
+						The intention of this library is to be a <em>"small brick"</em> that can be plugged into other libraries and frameworks, helping people to <strong>develop evented applications on a better way</strong>!
 					</p>
 				</div>
 				<h3>Advantages</h3>
 				<ul>
-					<li>Doesn't rely on strings for subscribing/publishing to a event type, reducing chances of error.</li>
+					<li>Doesn't rely on strings for subscribing/publishing to a event type, reducing chances of error and also auto-complete friendly.</li>
 					<li>Arbitrary number of parameters to event handlers.</li>
 					<li>Easy control of the event broadcaster and subscriber, avoiding that the wrong objects reacts to the event.</li>
 					<li>
 						Convenience methods that usually aren't present on other implementations of the <em>observer pattern</em> like:
 						<ul>
-							<li>Disable/enable event dispatching per event type.</li>
-							<li>Remove all event listeners attached to specific event type.</li>
+							<li>Enable/disable event dispatching per event type.</li>
+							<li>Remove all event listeners attached to a specific event type.</li>
 							<li>Option to automatically remove listener after first execution.</li>
 							<li>Option to bind an execution context to the event handler, avoiding scope issues.</li>
+							<li>Remove/detach anonymous listener.</li>
+							<li>Etc...</li>
 						</ul>
 					</li>
 					<li>Favor composition over inheritance.</li>
@@ -115,7 +117,10 @@ myObject.started.remove(onStarted); //remove a single listener
 					The main focus for now is custom events, there are no plans to add <em>native DOM events</em> support <strong>yet</strong>
 					<small>
 						(AS3-signals has a NativeSignal class that emulates native flash events)
-					</small> specially since most of the JavaScript frameworks already have some kind of facade on top of the native events and all the differences across browsers, maybe this feature will be added in the future but probably on a way that is easy to add/remove <em>(similar to a plugin)</em> or be a separate project.
+					</small> specially since most of the JavaScript frameworks already have some kind of facade on top of the native events and also because of the differences between browsers, maybe this feature will be added in the future but probably on a way that is easy to add/remove <em>(similar to a plugin)</em> or be a separate project.
+				</p>
+				<p>
+					Contributors and ideas are welcome!
 				</p>
 				<h3>License</h3>
 				<p>
@@ -124,6 +129,10 @@ myObject.started.remove(onStarted); //remove a single listener
 				<h3>Author</h3>
 				<p>
 					<a href="http://blog.millermedeiros.com/">Miller Medeiros</a>
+				</p>
+				<h3>Bugs / Feature Request</h3>
+				<p>
+					Use the <a href="https://github.com/millermedeiros/js-signals/issues">Bug Tracker</a> to submit issues and feature requests.
 				</p>
 				<h3>Download</h3>
 				<p>
