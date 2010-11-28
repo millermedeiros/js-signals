@@ -5,10 +5,10 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 		<title>millermedeiros/js-signals @ GitHub</title>
 		<style type="text/css">
-			html,body{margin:0; padding:0}
+			html,body,div{margin:0; padding:0}
 			body{background-color:#f5f5f5; font-family:Helvetica,Arial,sans-serif; color:#555}
 			#wrapper{width:700px; margin:0 auto; padding:3em 1em 4em}
-			h1,h2,h3,strong{color:#111}
+			h1,h2,h3,h4,h5,strong,dt{color:#111}
 			h1{font-size:3.8em; margin:0}
 			h2{font-size:1.2em; font-style:italic;color:#333; font-weight:normal; font-family:"Times New Roman",times,serif; margin:0 0 1.5em}
 			h3{font-size:1.8em; border-bottom:2px solid #e2e2e2; margin:1em 0 .5em}
@@ -20,8 +20,13 @@
 			.download{float:right}
 			.download a{background-color:#ddd}
 			.download a:hover{background-color:#111}
+			.colHolder{overflow:hidden}
+			.colHolder_2 .col{width:50%}
+			.col{float:left}
 			li{margin:.5em 0}
 			ul{padding-left:2em}
+			dl{margin:0.5em 0}
+			dd{margin:0.3em 1em}
 			small{color:#888}
 			small a{color:#888}
 			pre{background:#eee; color:#000; border:1px solid #ccc; padding:15px}
@@ -63,12 +68,12 @@
 						</small> and some methods were renamed to avoid confusions and/or for brevity. It also borrows some ideas from <a href="https://github.com/joa/as3-signals">Joa Ebert fork</a>.
 					</p>
 					<p>
-						The intention of this library is to be a <em>"small brick"</em> that can be plugged into other libraries and frameworks, helping people to <strong>develop evented applications on a better way</strong>!
+						The intention of this library is to be a <em>"small brick"</em> that can be plugged into other libraries and frameworks, helping people to <strong>develop evented applications on a <em>better</em> way</strong>!
 					</p>
 				</div>
 				<h3>Advantages</h3>
 				<ul>
-					<li>Doesn't rely on strings for subscribing/publishing to a event type, reducing chances of error and also auto-complete friendly.</li>
+					<li>Doesn't rely on strings for subscribing/publishing to a event type, reduce chances of error and is auto-complete friendly!</li>
 					<li>Arbitrary number of parameters to event handlers.</li>
 					<li>Easy control of the event broadcaster and subscriber, avoiding that the wrong objects reacts to the event.</li>
 					<li>
@@ -100,6 +105,28 @@ myObject.started.dispatch('foo', 'bar'); //dispatch signal passing custom parame
 myObject.started.remove(onStarted); //remove a single listener
 </pre>
 				<p>For more examples <a href="https://github.com/millermedeiros/js-signals/wiki/Examples">check the examples page</a> on the wiki.</p>
+				<h3>Naming convention</h3>
+				<p>
+					By convention a signal name should always be on past tense to avoid confusions. 
+				</p>
+				<div class="colHolder colHolder_2">
+					<div class="col first">
+						<dl>
+							<dt>Good Names:</dt>
+								<dd>canceled</dd>
+								<dd>clicked</dd>
+								<dd>ended</dd>
+						</dl>
+					</div>
+					<div class="col last">
+						<dl>
+							<dt>Bad Names:</dt>
+								<dd>cancel</dd>
+								<dd>onClick</dd>
+								<dd>ending</dd>
+						</dl>
+					</div>
+				</div>
 				<h3>References</h3>
 				<ul>
 					<li>
@@ -132,7 +159,7 @@ myObject.started.remove(onStarted); //remove a single listener
 				</p>
 				<h3>Bugs / Feature Request</h3>
 				<p>
-					Use the <a href="https://github.com/millermedeiros/js-signals/issues">Bug Tracker</a> to submit issues and feature requests.
+					Use github <a href="https://github.com/millermedeiros/js-signals/issues">issue tracker</a> to submit bugs and feature requests.
 				</p>
 				<h3>Download</h3>
 				<p>
