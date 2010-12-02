@@ -872,11 +872,13 @@ YUI().use('node', 'console', 'test', function (Y){
 		
 		testBindingDispose : function(){
 			var s = this.signal;
-			var b1 = s.add(function(){});
+			var b1 = s.add(function(){}, {});
 			Y.Assert.areSame(1, s.getNumListeners());
 			b1.dispose();
 			Y.Assert.areSame(0, s.getNumListeners());
 			Y.Assert.isUndefined(b1.listener);
+			Y.Assert.isUndefined(b1.getListener());
+			//Y.Assert.isUndefined(b1.isEnabled());
 			Y.Assert.isUndefined(b1.context);
 		},
 		

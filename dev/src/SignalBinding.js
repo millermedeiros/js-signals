@@ -83,10 +83,18 @@
 		 */
 		dispose : function(){
 			this.detach();
-			//remove reference to all objects
+			this._destroy();
+		},
+		
+		/**
+		 * Delete all instance properties
+		 * @private
+		 */
+		_destroy : function(){
 			delete this._signal;
-			delete this.listener;
-			delete this.listenerScope;
+			delete this._isOnce;
+			delete this._listener;
+			delete this.context;
 		},
 		
 		/**

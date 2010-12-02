@@ -3,7 +3,7 @@
  * Released under the MIT license (http://www.opensource.org/licenses/mit-license.php)
  * @author Miller Medeiros <http://millermedeiros.com>
  * @version 0.4
- * @build 69 12/01/2010 10:41 PM
+ * @build 73 12/01/2010 11:53 PM
  */
 (function(){
 	
@@ -276,10 +276,18 @@
 		 */
 		dispose : function(){
 			this.detach();
-			//remove reference to all objects
+			this._destroy();
+		},
+		
+		/**
+		 * Delete all instance properties
+		 * @private
+		 */
+		_destroy : function(){
 			delete this._signal;
-			delete this.listener;
-			delete this.listenerScope;
+			delete this._isOnce;
+			delete this._listener;
+			delete this.context;
 		},
 		
 		/**
