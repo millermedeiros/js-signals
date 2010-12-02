@@ -30,7 +30,7 @@
 		 * Context on which listener will be executed (object that should represent the `this` variable inside listener function).
 		 * @type Object
 		 */
-		this.listenerScope = listenerScope;
+		this.context = listenerScope;
 		
 		/**
 		 * Reference to Signal object that listener is currently bound to.
@@ -58,7 +58,7 @@
 		execute : function(paramsArr){
 			if(this._isEnabled){
 				if(this._isOnce) this.detach();
-				return this._listener.apply(this.listenerScope, paramsArr);
+				return this._listener.apply(this.context, paramsArr);
 			}
 		},
 		

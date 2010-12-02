@@ -3,7 +3,7 @@
  * Released under the MIT license (http://www.opensource.org/licenses/mit-license.php)
  * @author Miller Medeiros <http://millermedeiros.com>
  * @version 0.4
- * @build 68 12/01/2010 10:31 PM
+ * @build 69 12/01/2010 10:41 PM
  */
 (function(){
 	
@@ -223,7 +223,7 @@
 		 * Context on which listener will be executed (object that should represent the `this` variable inside listener function).
 		 * @type Object
 		 */
-		this.listenerScope = listenerScope;
+		this.context = listenerScope;
 		
 		/**
 		 * Reference to Signal object that listener is currently bound to.
@@ -251,7 +251,7 @@
 		execute : function(paramsArr){
 			if(this._isEnabled){
 				if(this._isOnce) this.detach();
-				return this._listener.apply(this.listenerScope, paramsArr);
+				return this._listener.apply(this.context, paramsArr);
 			}
 		},
 		
