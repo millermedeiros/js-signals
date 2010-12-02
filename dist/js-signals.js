@@ -3,7 +3,7 @@
  * Released under the MIT license (http://www.opensource.org/licenses/mit-license.php)
  * @author Miller Medeiros <http://millermedeiros.com>
  * @version 0.4
- * @build 65 12/01/2010 10:22 PM
+ * @build 68 12/01/2010 10:31 PM
  */
 (function(){
 	
@@ -81,7 +81,7 @@
 		_indexOfListener : function(listener){
 			var n = this._bindings.length;
 			while(n--){
-				if(this._bindings[n].listener === listener) return n;
+				if(this._bindings[n]._listener === listener) return n;
 			}
 			return -1;
 		},
@@ -198,18 +198,19 @@
 	 * <br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.
 	 * @author Miller Medeiros
 	 * @constructor
-	 * @param {Function} listener	Handler function binded to the signal.
+	 * @param {Function} listener	Handler function bound to the signal.
 	 * @param {boolean} isOnce	If binding should be executed just once.
 	 * @param {Object} listenerScope	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-	 * @param {signals.Signal} signal	Reference to Signal object that listener is currently binded to.
+	 * @param {signals.Signal} signal	Reference to Signal object that listener is currently bound to.
 	 */
 	signals.SignalBinding = function SignalBinding(listener, isOnce, listenerScope, signal){
 		
 		/**
-		 * Handler function binded to the signal.
+		 * Handler function bound to the signal.
 		 * @type Function
+		 * @private
 		 */
-		this.listener = listener;
+		this._listener = listener;
 		
 		/**
 		 * If binding should be executed just once.
@@ -225,7 +226,7 @@
 		this.listenerScope = listenerScope;
 		
 		/**
-		 * Reference to Signal object that listener is currently binded to.
+		 * Reference to Signal object that listener is currently bound to.
 		 * @type signals.Signal
 		 * @private
 		 */
@@ -250,17 +251,24 @@
 		execute : function(paramsArr){
 			if(this._isEnabled){
 				if(this._isOnce) this.detach();
-				return this.listener.apply(this.listenerScope, paramsArr);
+				return this._listener.apply(this.listenerScope, paramsArr);
 			}
 		},
 		
 		/**
 		 * Detach binding from signal.
-		 * - alias to: mySignal.remove(myBinding.listener);
-		 * @return {Function} Handler function binded to the signal.
+		 * - alias to: mySignal.remove(myBinding.getListener());
+		 * @return {Function} Handler function bound to the signal.
 		 */
 		detach : function(){
-			return this._signal.remove(this.listener);
+			return this._signal.remove(this._listener);
+		},
+		
+		/**
+		 * @return {Function} Handler function bound to the signal.
+		 */
+		getListener : function(){
+			return this._listener;
 		},
 		
 		/**
