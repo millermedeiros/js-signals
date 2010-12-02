@@ -827,6 +827,49 @@ YUI().use('node', 'console', 'test', function (Y){
 			s.dispatch();
 		},
 		
+		testBindingGetListener : function(){
+			var s = this.signal;
+			var l1 = function(){};
+			var b1 = s.add(l1);
+			Y.Assert.isUndefined(b1.listener); //make sure it's private
+			Y.Assert.areSame(1, s.getNumListeners());
+			Y.Assert.areSame(l1, b1.getListener());
+		},
+		
+		testBindingContext : function(){
+			var s = this.signal;
+			
+			var scope1 = {
+				n : 0,
+				sum : function(){
+					this.n++;
+				}
+			};
+			
+			var scope2 = {
+				n : 0,
+				sum : function(){
+					this.n++;
+				}
+			};
+			
+			var l1 = function(){this.sum()};
+			var l2 = function(){this.sum()};
+			
+			var b1 = s.add(l1, scope1);
+			var b2 = s.add(l2, scope2);
+			s.dispatch();
+			
+			Y.Assert.areSame(1, scope1.n);
+			Y.Assert.areSame(1, scope2.n);
+			
+			b1.context = scope2;
+			s.dispatch();
+			
+			Y.Assert.areSame(1, scope1.n);
+			Y.Assert.areSame(3, scope2.n);
+		},
+		
 		testBindingDispose : function(){
 			var s = this.signal;
 			var b1 = s.add(function(){});
@@ -834,7 +877,7 @@ YUI().use('node', 'console', 'test', function (Y){
 			b1.dispose();
 			Y.Assert.areSame(0, s.getNumListeners());
 			Y.Assert.isUndefined(b1.listener);
-			Y.Assert.isUndefined(b1.listenerScope);
+			Y.Assert.isUndefined(b1.context);
 		},
 		
 		
