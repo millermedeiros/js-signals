@@ -67,7 +67,7 @@
 		_indexOfListener : function(listener){
 			var n = this._bindings.length;
 			while(n--){
-				if(this._bindings[n].listener === listener) return n;
+				if(this._bindings[n]._listener === listener) return n;
 			}
 			return -1;
 		},
