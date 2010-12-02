@@ -93,15 +93,21 @@
 		},
 		
 		/**
+		 * @private
+		 */
+		_removeByIndex : function(i){
+			this._bindings[i]._destroy(); //no reason to a SignalBinding exist if it isn't attached to a signal
+			this._bindings.splice(i, 1);
+		},
+		
+		/**
 		 * Remove a single listener from the dispatch queue.
 		 * @param {Function} listener	Handler function that should be removed.
 		 * @return {Function} Listener handler function.
 		 */
 		remove : function(listener){
 			var i = this._indexOfListener(listener);
-			if(i !== -1){
-				this._bindings.splice(i, 1);
-			}
+			if(i !== -1) this._removeByIndex(i);
 			return listener;
 		},
 		
@@ -109,7 +115,10 @@
 		 * Remove all listeners from the Signal.
 		 */
 		removeAll : function(){
-			this._bindings.length = 0;
+			var n = this._bindings.length;
+			while(n--){
+				this._removeByIndex(n);
+			}
 		},
 		
 		/**

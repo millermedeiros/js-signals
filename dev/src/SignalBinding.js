@@ -57,8 +57,9 @@
 		 */
 		execute : function(paramsArr){
 			if(this._isEnabled){
+				var r = this._listener.apply(this.context, paramsArr);
 				if(this._isOnce) this.detach();
-				return this._listener.apply(this.context, paramsArr);
+				return r;
 			}
 		},
 		
