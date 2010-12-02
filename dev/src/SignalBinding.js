@@ -54,7 +54,7 @@
 		 * @param {Array} paramsArr	Array of parameters that should be passed to the listener
 		 * @return {*} Value returned by the listener.
 		 */
-		execute : function execute(paramsArr){
+		execute : function(paramsArr){
 			if(this._isEnabled){
 				if(this._isOnce) this.detach();
 				return this.listener.apply(this.listenerScope, paramsArr);
@@ -66,14 +66,14 @@
 		 * - alias to: mySignal.remove(myBinding.listener);
 		 * @return {Function} Handler function binded to the signal.
 		 */
-		detach : function detach(){
+		detach : function(){
 			return this._signal.remove(this.listener);
 		},
 		
 		/**
 		 * Remove binding from signal and destroy any reference to external Objects (destroy SignalBinding object).
 		 */
-		dispose : function dispose(){
+		dispose : function(){
 			this.detach();
 			//remove reference to all objects
 			delete this._signal;
@@ -85,7 +85,7 @@
 		 * Disable SignalBinding, block listener execution. Listener will only be executed after calling `enable()`.  
 		 * @see signals.SignalBinding.enable()
 		 */
-		disable : function disable(){
+		disable : function(){
 			this._isEnabled = false;
 		},
 		
@@ -93,28 +93,28 @@
 		 * Enable SignalBinding. Enable listener execution.
 		 * @see signals.SignalBinding.disable()
 		 */
-		enable : function enable(){
+		enable : function(){
 			this._isEnabled = true;
 		},
 		
 		/**
 		 * @return {boolean} If SignalBinding is currently paused and won't execute listener during dispatch.
 		 */
-		isEnabled : function isEnabled(){
+		isEnabled : function(){
 			return this._isEnabled;
 		},
 		
 		/**
 		 * @return {boolean} If SignalBinding will only be executed once.
 		 */
-		isOnce : function isOnce(){
+		isOnce : function(){
 			return this._isOnce;
 		},
 		
 		/**
 		 * @return {string} String representation of the object.
 		 */
-		toString : function toString(){
+		toString : function(){
 			return '[SignalBinding listener: '+ this.listener +', isOnce: '+ this._isOnce +', isEnabled: '+ this._isEnabled +', listenerScope: '+ this.listenerScope +']';
 		}
 		
