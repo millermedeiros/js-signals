@@ -878,7 +878,6 @@ YUI().use('node', 'console', 'test', function (Y){
 			Y.Assert.areSame(0, s.getNumListeners());
 			Y.Assert.isUndefined(b1.listener);
 			Y.Assert.isUndefined(b1.getListener());
-			//Y.Assert.isUndefined(b1.isEnabled());
 			Y.Assert.isUndefined(b1.context);
 		},
 		
@@ -888,11 +887,25 @@ YUI().use('node', 'console', 'test', function (Y){
 		testRemoveSingle : function(){
 			var s = this.signal;
 			
-			var l = function(){Y.Assert.fail();};
+			var l1 = function(){Y.Assert.fail();};
 			
-			s.add(l);
-			s.remove(l);
+			var b1 = s.add(l1);
+			s.remove(l1);
 			Y.Assert.areSame(0, s.getNumListeners());
+			s.dispatch();
+		},
+		
+		testRemoveSingle2 : function(){
+			var s = this.signal;
+			
+			var l1 = function(){Y.Assert.fail();};
+			
+			var b1 = s.add(l1);
+			s.remove(l1);
+			Y.Assert.areSame(0, s.getNumListeners());
+			Y.Assert.isUndefined(b1.listener);
+			Y.Assert.isUndefined(b1.getListener());
+			Y.Assert.isUndefined(b1.context);
 			s.dispatch();
 		},
 		
@@ -988,6 +1001,42 @@ YUI().use('node', 'console', 'test', function (Y){
 			
 			s.removeAll();
 			Y.Assert.areSame(0, s.getNumListeners());
+			s.dispatch();
+		},
+		
+		testRemoveAll2 : function(){
+			var s = this.signal;
+			
+			var b1 = s.add(function(){Y.Assert.fail();});
+			var b2 = s.add(function(){Y.Assert.fail();});
+			var b3 = s.addOnce(function(){Y.Assert.fail();});
+			var b4 = s.add(function(){Y.Assert.fail();});
+			var b5 = s.addOnce(function(){Y.Assert.fail();});
+			
+			Y.Assert.areSame(5, s.getNumListeners());
+			s.removeAll();
+			Y.Assert.areSame(0, s.getNumListeners());
+			
+			Y.Assert.isUndefined(b1.listener);
+			Y.Assert.isUndefined(b1.getListener());
+			Y.Assert.isUndefined(b1.context);
+			
+			Y.Assert.isUndefined(b2.listener);
+			Y.Assert.isUndefined(b2.getListener());
+			Y.Assert.isUndefined(b2.context);
+			
+			Y.Assert.isUndefined(b3.listener);
+			Y.Assert.isUndefined(b3.getListener());
+			Y.Assert.isUndefined(b3.context);
+			
+			Y.Assert.isUndefined(b4.listener);
+			Y.Assert.isUndefined(b4.getListener());
+			Y.Assert.isUndefined(b4.context);
+			
+			Y.Assert.isUndefined(b5.listener);
+			Y.Assert.isUndefined(b5.getListener());
+			Y.Assert.isUndefined(b5.context);
+			
 			s.dispatch();
 		},
 		
