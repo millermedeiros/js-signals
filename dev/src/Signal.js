@@ -179,6 +179,15 @@
 		},
 		
 		/**
+		 * Remove binding from signal and destroy any reference to external Objects (destroy Signal object).
+		 * <br /> - calling methods on the signal instance after calling dispose will throw errors.
+		 */
+		dispose : function(){
+			this.removeAll();
+			delete this._bindings;
+		},
+		
+		/**
 		 * @return {string} String representation of the object.
 		 */
 		toString : function(){

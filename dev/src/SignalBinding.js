@@ -81,6 +81,7 @@
 		
 		/**
 		 * Remove binding from signal and destroy any reference to external Objects (destroy SignalBinding object).
+		 * <br /> - calling methods on the binding instance after calling dispose will throw errors.
 		 */
 		dispose : function(){
 			this.detach();
