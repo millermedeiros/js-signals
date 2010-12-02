@@ -3,7 +3,7 @@
  * Released under the MIT license (http://www.opensource.org/licenses/mit-license.php)
  * @author Miller Medeiros <http://millermedeiros.com>
  * @version 0.4
- * @build 64 11/27/2010 04:19 PM
+ * @build 65 12/01/2010 10:22 PM
  */
 (function(){
 	
@@ -48,7 +48,7 @@
 		 * @return {signals.SignalBinding}
 		 * @private
 		 */
-		_registerListener : function _registerListener(listener, isOnce, scope){
+		_registerListener : function(listener, isOnce, scope){
 			var prevIndex = this._indexOfListener(listener),
 				binding;
 			
@@ -69,7 +69,7 @@
 		 * @param {signals.SignalBinding} binding
 		 * @private
 		 */
-		_addBinding : function _addBinding(binding){
+		_addBinding : function(binding){
 			this._bindings.push(binding);
 		},
 		
@@ -78,7 +78,7 @@
 		 * @return {int}
 		 * @private
 		 */
-		_indexOfListener : function _indexOfListener(listener){
+		_indexOfListener : function(listener){
 			var n = this._bindings.length;
 			while(n--){
 				if(this._bindings[n].listener === listener) return n;
@@ -92,7 +92,7 @@
 		 * @param {Object} scope	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
 		 * @return {signals.SignalBinding} An Object representing the binding between the Signal and listener.
 		 */
-		add : function add(listener, scope){
+		add : function(listener, scope){
 			return this._registerListener(listener, false, scope);
 		},
 		
@@ -102,7 +102,7 @@
 		 * @param {Object} scope	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
 		 * @return {signals.SignalBinding} An Object representing the binding between the Signal and listener.
 		 */
-		addOnce : function addOnce(listener, scope){
+		addOnce : function(listener, scope){
 			return this._registerListener(listener, true, scope);
 		},
 		
@@ -111,7 +111,7 @@
 		 * @param {Function} listener	Handler function that should be removed.
 		 * @return {Function} Listener handler function.
 		 */
-		remove : function remove(listener){
+		remove : function(listener){
 			var i = this._indexOfListener(listener);
 			if(i !== -1){
 				this._bindings.splice(i, 1);
@@ -122,14 +122,14 @@
 		/**
 		 * Remove all listeners from the Signal.
 		 */
-		removeAll : function removeAll(){
+		removeAll : function(){
 			this._bindings.length = 0;
 		},
 		
 		/**
 		 * @return {uint} Number of listeners attached to the Signal.
 		 */
-		getNumListeners : function getNumListeners(){
+		getNumListeners : function(){
 			return this._bindings.length;
 		},
 		
@@ -137,7 +137,7 @@
 		 * Disable Signal, will block dispatch to listeners until `enable()` is called.
 		 * @see signals.Signal.prototype.enable
 		 */
-		disable : function disable(){
+		disable : function(){
 			this._isEnabled = false;
 		},
 		
@@ -145,14 +145,14 @@
 		 * Enable broadcast to listeners.
 		 * @see signals.Signal.prototype.disable
 		 */
-		enable : function enable(){
+		enable : function(){
 			this._isEnabled = true;
 		}, 
 		
 		/**
 		 * @return {boolean} If Signal is currently enabled and will broadcast message to listeners.
 		 */
-		isEnabled : function isEnabled(){
+		isEnabled : function(){
 			return this._isEnabled;
 		},
 		
@@ -160,7 +160,7 @@
 		 * Stop propagation of the event, blocking the dispatch to next listeners on the queue.
 		 * - should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast. 
 		 */
-		halt : function halt(){
+		halt : function(){
 			this._shouldPropagate = false;
 		},
 		
@@ -168,7 +168,7 @@
 		 * Dispatch/Broadcast Signal to all listeners added to the queue. 
 		 * @param {...*} params	Parameters that should be passed to each handler.
 		 */
-		dispatch : function dispatch(params){
+		dispatch : function(params){
 			if(! this._isEnabled) return;
 			
 			var paramsArr = Array.prototype.slice.call(arguments),
@@ -186,7 +186,7 @@
 		/**
 		 * @return {string} String representation of the object.
 		 */
-		toString : function toString(){
+		toString : function(){
 			return '[Signal isEnabled: '+ this._isEnabled +' numListeners: '+ this.getNumListeners() +']';
 		}
 		
@@ -247,7 +247,7 @@
 		 * @param {Array} paramsArr	Array of parameters that should be passed to the listener
 		 * @return {*} Value returned by the listener.
 		 */
-		execute : function execute(paramsArr){
+		execute : function(paramsArr){
 			if(this._isEnabled){
 				if(this._isOnce) this.detach();
 				return this.listener.apply(this.listenerScope, paramsArr);
@@ -259,14 +259,14 @@
 		 * - alias to: mySignal.remove(myBinding.listener);
 		 * @return {Function} Handler function binded to the signal.
 		 */
-		detach : function detach(){
+		detach : function(){
 			return this._signal.remove(this.listener);
 		},
 		
 		/**
 		 * Remove binding from signal and destroy any reference to external Objects (destroy SignalBinding object).
 		 */
-		dispose : function dispose(){
+		dispose : function(){
 			this.detach();
 			//remove reference to all objects
 			delete this._signal;
@@ -278,7 +278,7 @@
 		 * Disable SignalBinding, block listener execution. Listener will only be executed after calling `enable()`.  
 		 * @see signals.SignalBinding.enable()
 		 */
-		disable : function disable(){
+		disable : function(){
 			this._isEnabled = false;
 		},
 		
@@ -286,28 +286,28 @@
 		 * Enable SignalBinding. Enable listener execution.
 		 * @see signals.SignalBinding.disable()
 		 */
-		enable : function enable(){
+		enable : function(){
 			this._isEnabled = true;
 		},
 		
 		/**
 		 * @return {boolean} If SignalBinding is currently paused and won't execute listener during dispatch.
 		 */
-		isEnabled : function isEnabled(){
+		isEnabled : function(){
 			return this._isEnabled;
 		},
 		
 		/**
 		 * @return {boolean} If SignalBinding will only be executed once.
 		 */
-		isOnce : function isOnce(){
+		isOnce : function(){
 			return this._isOnce;
 		},
 		
 		/**
 		 * @return {string} String representation of the object.
 		 */
-		toString : function toString(){
+		toString : function(){
 			return '[SignalBinding listener: '+ this.listener +', isOnce: '+ this._isOnce +', isEnabled: '+ this._isEnabled +', listenerScope: '+ this.listenerScope +']';
 		}
 		
