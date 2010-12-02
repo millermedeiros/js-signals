@@ -16,7 +16,11 @@ YUI().use('node', 'console', 'test', function (Y){
 			ignore: {},
 			error : {
 				testAddSameListenerMixed1 : true,
-				testAddSameListenerMixed2 : true
+				testAddSameListenerMixed2 : true,
+				testDispose1 : true,
+				testDispose2 : true,
+				testDispose3 : true,
+				testDispose4 : true
 			}
 		},
 		
@@ -1054,6 +1058,50 @@ YUI().use('node', 'console', 'test', function (Y){
 			s.removeAll();
 			Y.Assert.areSame(0, s.getNumListeners());
 			s.dispatch();
+		},
+		
+		testDispose1 : function(){
+			var s = this.signal;
+			
+			s.addOnce(function(){});
+			s.add(function(){});
+			Y.Assert.areSame(2, s.getNumListeners());
+			
+			s.dispose();
+			s.dispatch(); //will throw error
+		},
+		
+		testDispose2 : function(){
+			var s = this.signal;
+			
+			s.addOnce(function(){});
+			s.add(function(){});
+			Y.Assert.areSame(2, s.getNumListeners());
+			
+			s.dispose();
+			s.add(function(){}); //will throw error
+		},
+		
+		testDispose3 : function(){
+			var s = this.signal;
+			
+			s.addOnce(function(){});
+			s.add(function(){});
+			Y.Assert.areSame(2, s.getNumListeners());
+			
+			s.dispose();
+			s.remove(function(){}); //will throw error
+		},
+		
+		testDispose4 : function(){
+			var s = this.signal;
+			
+			s.addOnce(function(){});
+			s.add(function(){});
+			Y.Assert.areSame(2, s.getNumListeners());
+			
+			s.dispose();
+			s.getNumListeners(); //will throw error
 		}
 		
 	});

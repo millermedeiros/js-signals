@@ -3,7 +3,7 @@
  * Released under the MIT license (http://www.opensource.org/licenses/mit-license.php)
  * @author Miller Medeiros <http://millermedeiros.com>
  * @version 0.4
- * @build 77 12/02/2010 12:39 AM
+ * @build 79 12/02/2010 01:05 AM
  */
 (function(){
 	
@@ -193,6 +193,15 @@
 		},
 		
 		/**
+		 * Remove binding from signal and destroy any reference to external Objects (destroy Signal object).
+		 * <br /> - calling methods on the signal instance after calling dispose will throw errors.
+		 */
+		dispose : function(){
+			this.removeAll();
+			delete this._bindings;
+		},
+		
+		/**
 		 * @return {string} String representation of the object.
 		 */
 		toString : function(){
@@ -283,6 +292,7 @@
 		
 		/**
 		 * Remove binding from signal and destroy any reference to external Objects (destroy SignalBinding object).
+		 * <br /> - calling methods on the binding instance after calling dispose will throw errors.
 		 */
 		dispose : function(){
 			this.detach();
