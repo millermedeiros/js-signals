@@ -6,7 +6,7 @@
 	 */
 	signals.Signal = function(){
 		/**
-		 * @type Array.<SignalBinding>
+		 * @type Array.<signals.SignalBinding>
 		 * @private
 		 */
 		this._bindings = [];
@@ -30,18 +30,21 @@
 		/**
 		 * @param {Function} listener
 		 * @param {boolean} isOnce
-		 * @param {Object} scope
+		 * @param {Object} [scope]
 		 * @return {signals.SignalBinding}
 		 * @private
 		 */
 		_registerListener : function(listener, isOnce, scope){
+			
+			if(!signals.isDef(listener)) throw new Error('listener is a required param of add() and addOnce().');
+			
 			var prevIndex = this._indexOfListener(listener),
 				binding;
 			
 			if(prevIndex !== -1){ //avoid creating a new Binding for same listener if already added to list
 				binding = this._bindings[prevIndex];
 				if(binding.isOnce() !== isOnce){
-					throw new Error('You cannot '+ (isOnce? 'add()' : 'addOnce()') +' then '+ (!isOnce? 'add()' : 'addOnce()') +' the same listener without removing the relationship first.');
+					throw new Error('You cannot add'+ (isOnce? '' : 'Once') +'() then add'+ (!isOnce? '' : 'Once') +'() the same listener without removing the relationship first.');
 				}
 			} else {
 				binding = new signals.SignalBinding(listener, isOnce, scope, this);
@@ -75,7 +78,7 @@
 		/**
 		 * Add a listener to the signal.
 		 * @param {Function} listener	Signal handler function.
-		 * @param {Object} scope	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+		 * @param {Object} [scope]	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
 		 * @return {signals.SignalBinding} An Object representing the binding between the Signal and listener.
 		 */
 		add : function(listener, scope){
@@ -85,7 +88,7 @@
 		/**
 		 * Add listener to the signal that should be removed after first execution (will be executed only once).
 		 * @param {Function} listener	Signal handler function.
-		 * @param {Object} scope	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+		 * @param {Object} [scope]	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
 		 * @return {signals.SignalBinding} An Object representing the binding between the Signal and listener.
 		 */
 		addOnce : function(listener, scope){
@@ -106,6 +109,8 @@
 		 * @return {Function} Listener handler function.
 		 */
 		remove : function(listener){
+			if(!signals.isDef(listener)) throw new Error('listener is a required param of remove().');
+			
 			var i = this._indexOfListener(listener);
 			if(i !== -1) this._removeByIndex(i);
 			return listener;
@@ -161,7 +166,7 @@
 		
 		/**
 		 * Dispatch/Broadcast Signal to all listeners added to the queue. 
-		 * @param {...*} params	Parameters that should be passed to each handler.
+		 * @param {...*} [params]	Parameters that should be passed to each handler.
 		 */
 		dispatch : function(params){
 			if(! this._isEnabled) return;

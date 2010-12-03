@@ -15,8 +15,11 @@ YUI().use('node', 'console', 'test', function (Y){
 		_should: {
 			ignore: {},
 			error : {
-				testAddSameListenerMixed1 : true,
-				testAddSameListenerMixed2 : true,
+				testAddNull : 'listener is a required param of add() and addOnce().',
+				testAddOnceNull : 'listener is a required param of add() and addOnce().',
+				testAddSameListenerMixed1 : 'You cannot add() then addOnce() the same listener without removing the relationship first.',
+				testAddSameListenerMixed2 : 'You cannot addOnce() then add() the same listener without removing the relationship first.',
+				testRemoveNull : 'listener is a required param of remove().',
 				testDispose1 : true,
 				testDispose2 : true,
 				testDispose3 : true,
@@ -65,7 +68,7 @@ YUI().use('node', 'console', 'test', function (Y){
 			var s = this.signal;
 			
 			s.add(function(){});
-			
+
 			Y.Assert.areSame(1, s.getNumListeners());
 		},
 		
@@ -87,6 +90,13 @@ YUI().use('node', 'console', 'test', function (Y){
 			s.add(l); //shouldn't add same listener twice
 			
 			Y.Assert.areSame(1, s.getNumListeners());
+		},
+		
+		testAddNull : function(){
+			var s = this.signal;
+			
+			s.add(); //should throw error
+			Y.Assert.areSame(0, s.getNumListeners());
 		},
 		
 		//--------------------------- Add Once ---------------------------------//
@@ -113,6 +123,13 @@ YUI().use('node', 'console', 'test', function (Y){
 			s.addOnce(l);
 			s.addOnce(l);
 			Y.Assert.areSame(1, s.getNumListeners());
+		},
+		
+		testAddOnceNull : function(){
+			var s = this.signal;
+			
+			s.addOnce(); //should throw error
+			Y.Assert.areSame(0, s.getNumListeners());
 		},
 		
 		//--------------------------- Add Mixed ---------------------------------//
@@ -1060,6 +1077,19 @@ YUI().use('node', 'console', 'test', function (Y){
 			s.dispatch();
 		},
 		
+		testRemoveNull : function(){
+			var s = this.signal;
+			
+			var l1 = function(){Y.Assert.fail();};
+			
+			var b1 = s.add(l1);
+			s.remove(); //should throw error
+			Y.Assert.areSame(0, s.getNumListeners());
+			s.dispatch();
+		},
+		
+	//--------------------- Dispose --------------------------//
+	
 		testDispose1 : function(){
 			var s = this.signal;
 			

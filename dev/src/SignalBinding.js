@@ -7,7 +7,7 @@
 	 * @constructor
 	 * @param {Function} listener	Handler function bound to the signal.
 	 * @param {boolean} isOnce	If binding should be executed just once.
-	 * @param {Object} listenerContext	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+	 * @param {?Object} listenerContext	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
 	 * @param {signals.Signal} signal	Reference to Signal object that listener is currently bound to.
 	 */
 	signals.SignalBinding = function SignalBinding(listener, isOnce, listenerContext, signal){
@@ -52,7 +52,7 @@
 		/**
 		 * Call listener passing arbitrary parameters.
 		 * <p>If binding was added using `Signal.addOnce()` it will be automatically removed from signal dispatch queue, this method is used internally for the signal dispatch.</p> 
-		 * @param {Array} paramsArr	Array of parameters that should be passed to the listener
+		 * @param {Array} [paramsArr]	Array of parameters that should be passed to the listener
 		 * @return {*} Value returned by the listener.
 		 */
 		execute : function(paramsArr){
@@ -134,7 +134,7 @@
 		 * @return {string} String representation of the object.
 		 */
 		toString : function(){
-			return '[SignalBinding listener: '+ this._listener +', isOnce: '+ this._isOnce +', isEnabled: '+ this._isEnabled +', context: '+ this.context +']';
+			return '[SignalBinding isOnce: '+ this._isOnce +', isEnabled: '+ this._isEnabled +']';
 		}
 		
 	};

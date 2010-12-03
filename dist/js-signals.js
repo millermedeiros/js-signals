@@ -3,7 +3,7 @@
  * Released under the MIT license (http://www.opensource.org/licenses/mit-license.php)
  * @author Miller Medeiros <http://millermedeiros.com>
  * @version 0.4
- * @build 81 12/03/2010 02:26 PM
+ * @build 89 12/03/2010 03:42 PM
  */
 (function(){
 
@@ -11,7 +11,17 @@
 	 * @namespace Signals Namespace - Custom event/messaging system based on AS3 Signals
 	 * @name signals
 	 */
-	var signals = window.signals = {};
+	var signals = window.signals = {
+		
+		/**
+		 * @param {*} param	Parameter to check.
+		 * @return {boolean} `true` if parameter is different than `undefined`.
+		 */
+		isDef : function(param){
+			return typeof param !== 'undefined';
+		}
+		
+	};
 
 	/**
 	 * Signal - custom event broadcaster inpired by Robert Penner's AS3Signals <https://github.com/robertpenner/as3-signals/>
@@ -20,7 +30,7 @@
 	 */
 	signals.Signal = function(){
 		/**
-		 * @type Array.<SignalBinding>
+		 * @type Array.<signals.SignalBinding>
 		 * @private
 		 */
 		this._bindings = [];
@@ -44,18 +54,21 @@
 		/**
 		 * @param {Function} listener
 		 * @param {boolean} isOnce
-		 * @param {Object} scope
+		 * @param {Object} [scope]
 		 * @return {signals.SignalBinding}
 		 * @private
 		 */
 		_registerListener : function(listener, isOnce, scope){
+			
+			if(!signals.isDef(listener)) throw new Error('listener is a required param of add() and addOnce().');
+			
 			var prevIndex = this._indexOfListener(listener),
 				binding;
 			
 			if(prevIndex !== -1){ //avoid creating a new Binding for same listener if already added to list
 				binding = this._bindings[prevIndex];
 				if(binding.isOnce() !== isOnce){
-					throw new Error('You cannot '+ (isOnce? 'add()' : 'addOnce()') +' then '+ (!isOnce? 'add()' : 'addOnce()') +' the same listener without removing the relationship first.');
+					throw new Error('You cannot add'+ (isOnce? '' : 'Once') +'() then add'+ (!isOnce? '' : 'Once') +'() the same listener without removing the relationship first.');
 				}
 			} else {
 				binding = new signals.SignalBinding(listener, isOnce, scope, this);
@@ -89,7 +102,7 @@
 		/**
 		 * Add a listener to the signal.
 		 * @param {Function} listener	Signal handler function.
-		 * @param {Object} scope	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+		 * @param {Object} [scope]	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
 		 * @return {signals.SignalBinding} An Object representing the binding between the Signal and listener.
 		 */
 		add : function(listener, scope){
@@ -99,7 +112,7 @@
 		/**
 		 * Add listener to the signal that should be removed after first execution (will be executed only once).
 		 * @param {Function} listener	Signal handler function.
-		 * @param {Object} scope	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+		 * @param {Object} [scope]	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
 		 * @return {signals.SignalBinding} An Object representing the binding between the Signal and listener.
 		 */
 		addOnce : function(listener, scope){
@@ -120,6 +133,8 @@
 		 * @return {Function} Listener handler function.
 		 */
 		remove : function(listener){
+			if(!signals.isDef(listener)) throw new Error('listener is a required param of remove().');
+			
 			var i = this._indexOfListener(listener);
 			if(i !== -1) this._removeByIndex(i);
 			return listener;
@@ -175,7 +190,7 @@
 		
 		/**
 		 * Dispatch/Broadcast Signal to all listeners added to the queue. 
-		 * @param {...*} params	Parameters that should be passed to each handler.
+		 * @param {...*} [params]	Parameters that should be passed to each handler.
 		 */
 		dispatch : function(params){
 			if(! this._isEnabled) return;
@@ -218,7 +233,7 @@
 	 * @constructor
 	 * @param {Function} listener	Handler function bound to the signal.
 	 * @param {boolean} isOnce	If binding should be executed just once.
-	 * @param {Object} listenerContext	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+	 * @param {?Object} listenerContext	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
 	 * @param {signals.Signal} signal	Reference to Signal object that listener is currently bound to.
 	 */
 	signals.SignalBinding = function SignalBinding(listener, isOnce, listenerContext, signal){
@@ -263,7 +278,7 @@
 		/**
 		 * Call listener passing arbitrary parameters.
 		 * <p>If binding was added using `Signal.addOnce()` it will be automatically removed from signal dispatch queue, this method is used internally for the signal dispatch.</p> 
-		 * @param {Array} paramsArr	Array of parameters that should be passed to the listener
+		 * @param {Array} [paramsArr]	Array of parameters that should be passed to the listener
 		 * @return {*} Value returned by the listener.
 		 */
 		execute : function(paramsArr){
@@ -272,7 +287,7 @@
 				r = this._listener.apply(this.context, paramsArr);
 				if(this._isOnce) this.detach();
 			}
-			return r;
+			return r; //avoid warnings on some editors
 		},
 		
 		/**
@@ -345,7 +360,7 @@
 		 * @return {string} String representation of the object.
 		 */
 		toString : function(){
-			return '[SignalBinding listener: '+ this._listener +', isOnce: '+ this._isOnce +', isEnabled: '+ this._isEnabled +', context: '+ this.context +']';
+			return '[SignalBinding isOnce: '+ this._isOnce +', isEnabled: '+ this._isEnabled +']';
 		}
 		
 	};
