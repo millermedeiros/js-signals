@@ -15,8 +15,15 @@ YUI().use('node', 'console', 'test', function (Y){
 		_should: {
 			ignore: {},
 			error : {
-				testAddSameListenerMixed1 : true,
-				testAddSameListenerMixed2 : true
+				testAddNull : 'listener is a required param of add() and addOnce().',
+				testAddOnceNull : 'listener is a required param of add() and addOnce().',
+				testAddSameListenerMixed1 : 'You cannot add() then addOnce() the same listener without removing the relationship first.',
+				testAddSameListenerMixed2 : 'You cannot addOnce() then add() the same listener without removing the relationship first.',
+				testRemoveNull : 'listener is a required param of remove().',
+				testDispose1 : true,
+				testDispose2 : true,
+				testDispose3 : true,
+				testDispose4 : true
 			}
 		},
 		
@@ -61,7 +68,7 @@ YUI().use('node', 'console', 'test', function (Y){
 			var s = this.signal;
 			
 			s.add(function(){});
-			
+
 			Y.Assert.areSame(1, s.getNumListeners());
 		},
 		
@@ -83,6 +90,13 @@ YUI().use('node', 'console', 'test', function (Y){
 			s.add(l); //shouldn't add same listener twice
 			
 			Y.Assert.areSame(1, s.getNumListeners());
+		},
+		
+		testAddNull : function(){
+			var s = this.signal;
+			
+			s.add(); //should throw error
+			Y.Assert.areSame(0, s.getNumListeners());
 		},
 		
 		//--------------------------- Add Once ---------------------------------//
@@ -109,6 +123,13 @@ YUI().use('node', 'console', 'test', function (Y){
 			s.addOnce(l);
 			s.addOnce(l);
 			Y.Assert.areSame(1, s.getNumListeners());
+		},
+		
+		testAddOnceNull : function(){
+			var s = this.signal;
+			
+			s.addOnce(); //should throw error
+			Y.Assert.areSame(0, s.getNumListeners());
 		},
 		
 		//--------------------------- Add Mixed ---------------------------------//
@@ -827,14 +848,58 @@ YUI().use('node', 'console', 'test', function (Y){
 			s.dispatch();
 		},
 		
+		testBindingGetListener : function(){
+			var s = this.signal;
+			var l1 = function(){};
+			var b1 = s.add(l1);
+			Y.Assert.isUndefined(b1.listener); //make sure it's private
+			Y.Assert.areSame(1, s.getNumListeners());
+			Y.Assert.areSame(l1, b1.getListener());
+		},
+		
+		testBindingContext : function(){
+			var s = this.signal;
+			
+			var scope1 = {
+				n : 0,
+				sum : function(){
+					this.n++;
+				}
+			};
+			
+			var scope2 = {
+				n : 0,
+				sum : function(){
+					this.n++;
+				}
+			};
+			
+			var l1 = function(){this.sum()};
+			var l2 = function(){this.sum()};
+			
+			var b1 = s.add(l1, scope1);
+			var b2 = s.add(l2, scope2);
+			s.dispatch();
+			
+			Y.Assert.areSame(1, scope1.n);
+			Y.Assert.areSame(1, scope2.n);
+			
+			b1.context = scope2;
+			s.dispatch();
+			
+			Y.Assert.areSame(1, scope1.n);
+			Y.Assert.areSame(3, scope2.n);
+		},
+		
 		testBindingDispose : function(){
 			var s = this.signal;
-			var b1 = s.add(function(){});
+			var b1 = s.add(function(){}, {});
 			Y.Assert.areSame(1, s.getNumListeners());
 			b1.dispose();
 			Y.Assert.areSame(0, s.getNumListeners());
 			Y.Assert.isUndefined(b1.listener);
-			Y.Assert.isUndefined(b1.listenerScope);
+			Y.Assert.isUndefined(b1.getListener());
+			Y.Assert.isUndefined(b1.context);
 		},
 		
 		
@@ -843,11 +908,25 @@ YUI().use('node', 'console', 'test', function (Y){
 		testRemoveSingle : function(){
 			var s = this.signal;
 			
-			var l = function(){Y.Assert.fail();};
+			var l1 = function(){Y.Assert.fail();};
 			
-			s.add(l);
-			s.remove(l);
+			var b1 = s.add(l1);
+			s.remove(l1);
 			Y.Assert.areSame(0, s.getNumListeners());
+			s.dispatch();
+		},
+		
+		testRemoveSingle2 : function(){
+			var s = this.signal;
+			
+			var l1 = function(){Y.Assert.fail();};
+			
+			var b1 = s.add(l1);
+			s.remove(l1);
+			Y.Assert.areSame(0, s.getNumListeners());
+			Y.Assert.isUndefined(b1.listener);
+			Y.Assert.isUndefined(b1.getListener());
+			Y.Assert.isUndefined(b1.context);
 			s.dispatch();
 		},
 		
@@ -946,6 +1025,42 @@ YUI().use('node', 'console', 'test', function (Y){
 			s.dispatch();
 		},
 		
+		testRemoveAll2 : function(){
+			var s = this.signal;
+			
+			var b1 = s.add(function(){Y.Assert.fail();});
+			var b2 = s.add(function(){Y.Assert.fail();});
+			var b3 = s.addOnce(function(){Y.Assert.fail();});
+			var b4 = s.add(function(){Y.Assert.fail();});
+			var b5 = s.addOnce(function(){Y.Assert.fail();});
+			
+			Y.Assert.areSame(5, s.getNumListeners());
+			s.removeAll();
+			Y.Assert.areSame(0, s.getNumListeners());
+			
+			Y.Assert.isUndefined(b1.listener);
+			Y.Assert.isUndefined(b1.getListener());
+			Y.Assert.isUndefined(b1.context);
+			
+			Y.Assert.isUndefined(b2.listener);
+			Y.Assert.isUndefined(b2.getListener());
+			Y.Assert.isUndefined(b2.context);
+			
+			Y.Assert.isUndefined(b3.listener);
+			Y.Assert.isUndefined(b3.getListener());
+			Y.Assert.isUndefined(b3.context);
+			
+			Y.Assert.isUndefined(b4.listener);
+			Y.Assert.isUndefined(b4.getListener());
+			Y.Assert.isUndefined(b4.context);
+			
+			Y.Assert.isUndefined(b5.listener);
+			Y.Assert.isUndefined(b5.getListener());
+			Y.Assert.isUndefined(b5.context);
+			
+			s.dispatch();
+		},
+		
 		testRemoveAllTwice : function(){
 			var s = this.signal;
 			
@@ -960,6 +1075,63 @@ YUI().use('node', 'console', 'test', function (Y){
 			s.removeAll();
 			Y.Assert.areSame(0, s.getNumListeners());
 			s.dispatch();
+		},
+		
+		testRemoveNull : function(){
+			var s = this.signal;
+			
+			var l1 = function(){Y.Assert.fail();};
+			
+			var b1 = s.add(l1);
+			s.remove(); //should throw error
+			Y.Assert.areSame(0, s.getNumListeners());
+			s.dispatch();
+		},
+		
+	//--------------------- Dispose --------------------------//
+	
+		testDispose1 : function(){
+			var s = this.signal;
+			
+			s.addOnce(function(){});
+			s.add(function(){});
+			Y.Assert.areSame(2, s.getNumListeners());
+			
+			s.dispose();
+			s.dispatch(); //will throw error
+		},
+		
+		testDispose2 : function(){
+			var s = this.signal;
+			
+			s.addOnce(function(){});
+			s.add(function(){});
+			Y.Assert.areSame(2, s.getNumListeners());
+			
+			s.dispose();
+			s.add(function(){}); //will throw error
+		},
+		
+		testDispose3 : function(){
+			var s = this.signal;
+			
+			s.addOnce(function(){});
+			s.add(function(){});
+			Y.Assert.areSame(2, s.getNumListeners());
+			
+			s.dispose();
+			s.remove(function(){}); //will throw error
+		},
+		
+		testDispose4 : function(){
+			var s = this.signal;
+			
+			s.addOnce(function(){});
+			s.add(function(){});
+			Y.Assert.areSame(2, s.getNumListeners());
+			
+			s.dispose();
+			s.getNumListeners(); //will throw error
 		}
 		
 	});

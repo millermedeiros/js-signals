@@ -1,22 +1,23 @@
 	
 	/**
 	 * Object that represents a binding between a Signal and a listener function.
-	 * <br />- Constructor shouldn't be called by regular user, no point on creating a new binding without a Signal.
+	 * <br />- <strong>Constructor shouldn't be called by regular user, used internally.</strong>
 	 * <br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.
 	 * @author Miller Medeiros
 	 * @constructor
-	 * @param {Function} listener	Handler function binded to the signal.
+	 * @param {Function} listener	Handler function bound to the signal.
 	 * @param {boolean} isOnce	If binding should be executed just once.
-	 * @param {Object} listenerScope	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-	 * @param {signals.Signal} signal	Reference to Signal object that listener is currently binded to.
+	 * @param {?Object} listenerContext	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+	 * @param {signals.Signal} signal	Reference to Signal object that listener is currently bound to.
 	 */
-	signals.SignalBinding = function SignalBinding(listener, isOnce, listenerScope, signal){
+	signals.SignalBinding = function(listener, isOnce, listenerContext, signal){
 		
 		/**
-		 * Handler function binded to the signal.
+		 * Handler function bound to the signal.
 		 * @type Function
+		 * @private
 		 */
-		this.listener = listener;
+		this._listener = listener;
 		
 		/**
 		 * If binding should be executed just once.
@@ -29,10 +30,10 @@
 		 * Context on which listener will be executed (object that should represent the `this` variable inside listener function).
 		 * @type Object
 		 */
-		this.listenerScope = listenerScope;
+		this.context = listenerContext;
 		
 		/**
-		 * Reference to Signal object that listener is currently binded to.
+		 * Reference to Signal object that listener is currently bound to.
 		 * @type signals.Signal
 		 * @private
 		 */
@@ -51,41 +52,59 @@
 		/**
 		 * Call listener passing arbitrary parameters.
 		 * <p>If binding was added using `Signal.addOnce()` it will be automatically removed from signal dispatch queue, this method is used internally for the signal dispatch.</p> 
-		 * @param {Array} paramsArr	Array of parameters that should be passed to the listener
+		 * @param {Array} [paramsArr]	Array of parameters that should be passed to the listener
 		 * @return {*} Value returned by the listener.
 		 */
-		execute : function execute(paramsArr){
+		execute : function(paramsArr){
+			var r;
 			if(this._isEnabled){
+				r = this._listener.apply(this.context, paramsArr);
 				if(this._isOnce) this.detach();
-				return this.listener.apply(this.listenerScope, paramsArr);
 			}
+			return r; //avoid warnings on some editors
 		},
 		
 		/**
 		 * Detach binding from signal.
-		 * - alias to: mySignal.remove(myBinding.listener);
-		 * @return {Function} Handler function binded to the signal.
+		 * - alias to: mySignal.remove(myBinding.getListener());
+		 * @return {Function} Handler function bound to the signal.
 		 */
-		detach : function detach(){
-			return this._signal.remove(this.listener);
+		detach : function(){
+			return this._signal.remove(this._listener);
+		},
+		
+		/**
+		 * @return {Function} Handler function bound to the signal.
+		 */
+		getListener : function(){
+			return this._listener;
 		},
 		
 		/**
 		 * Remove binding from signal and destroy any reference to external Objects (destroy SignalBinding object).
+		 * <br /> - calling methods on the binding instance after calling dispose will throw errors.
 		 */
-		dispose : function dispose(){
+		dispose : function(){
 			this.detach();
-			//remove reference to all objects
+			this._destroy();
+		},
+		
+		/**
+		 * Delete all instance properties
+		 * @private
+		 */
+		_destroy : function(){
 			delete this._signal;
-			delete this.listener;
-			delete this.listenerScope;
+			delete this._isOnce;
+			delete this._listener;
+			delete this.context;
 		},
 		
 		/**
 		 * Disable SignalBinding, block listener execution. Listener will only be executed after calling `enable()`.  
 		 * @see signals.SignalBinding.enable()
 		 */
-		disable : function disable(){
+		disable : function(){
 			this._isEnabled = false;
 		},
 		
@@ -93,29 +112,29 @@
 		 * Enable SignalBinding. Enable listener execution.
 		 * @see signals.SignalBinding.disable()
 		 */
-		enable : function enable(){
+		enable : function(){
 			this._isEnabled = true;
 		},
 		
 		/**
 		 * @return {boolean} If SignalBinding is currently paused and won't execute listener during dispatch.
 		 */
-		isEnabled : function isEnabled(){
+		isEnabled : function(){
 			return this._isEnabled;
 		},
 		
 		/**
 		 * @return {boolean} If SignalBinding will only be executed once.
 		 */
-		isOnce : function isOnce(){
+		isOnce : function(){
 			return this._isOnce;
 		},
 		
 		/**
 		 * @return {string} String representation of the object.
 		 */
-		toString : function toString(){
-			return '[SignalBinding listener: '+ this.listener +', isOnce: '+ this._isOnce +', isEnabled: '+ this._isEnabled +', listenerScope: '+ this.listenerScope +']';
+		toString : function(){
+			return '[SignalBinding isOnce: '+ this._isOnce +', isEnabled: '+ this._isEnabled +']';
 		}
 		
 	};

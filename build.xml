@@ -33,6 +33,7 @@
 		<concat destfile="${dist.dir}/${dist.name}" fixlastline="yes" eol="unix">
 			<filelist dir="${src.dir}">
 				<file name="intro.js" />
+				<file name="signals.js" />
 				<file name="Signal.js" />
 				<file name="SignalBinding.js" />
 				<file name="outro.js" />
@@ -59,6 +60,7 @@
 		    <arg path="${yuicompressor.jar}" />
 		    <arg value="--charset" />
 		    <arg value="ANSI" />
+		    <arg value="-v" />
 		    <arg value="-o" />
 		    <targetfile />
 		    <mapper type="glob" from="${dist.name}" to="${dist.min.name}" />
