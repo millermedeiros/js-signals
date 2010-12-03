@@ -11,12 +11,12 @@
    - `Signal.dispose()` (issue #6)
    - `signals.VERSION`
    - `signals.isDef()`
-    
+
  - Removed:
-  - `SignalBinding.listener` (issue #3)
-  
+   - `SignalBinding.listener` (issue #3)
+
  - Renamed:
-  - `SignalBinding.listenerScope` -> `SignalBinding.context` (issue #4)
+   - `SignalBinding.listenerScope` -> `SignalBinding.context` (issue #4)
 
 ### Fixes ###
 
