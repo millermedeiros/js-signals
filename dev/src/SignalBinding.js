@@ -1,7 +1,7 @@
 	
 	/**
 	 * Object that represents a binding between a Signal and a listener function.
-	 * <br />- Constructor shouldn't be called by regular user, no point on creating a new binding without a Signal.
+	 * <br />- <strong>Constructor shouldn't be called by regular user, used internally.</strong>
 	 * <br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.
 	 * @author Miller Medeiros
 	 * @constructor
@@ -10,7 +10,7 @@
 	 * @param {?Object} listenerContext	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
 	 * @param {signals.Signal} signal	Reference to Signal object that listener is currently bound to.
 	 */
-	signals.SignalBinding = function SignalBinding(listener, isOnce, listenerContext, signal){
+	signals.SignalBinding = function(listener, isOnce, listenerContext, signal){
 		
 		/**
 		 * Handler function bound to the signal.

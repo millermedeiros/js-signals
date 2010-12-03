@@ -1,30 +1,36 @@
-/*!
+/*!!
  * JS Signals <https://github.com/millermedeiros/js-signals>
  * Released under the MIT license (http://www.opensource.org/licenses/mit-license.php)
  * @author Miller Medeiros <http://millermedeiros.com>
- * @version 0.4
- * @build 89 12/03/2010 03:42 PM
+ * @version 0.5
+ * @build 100 12/03/2010 05:27 PM
  */
 (function(){
-
+	
 	/**
 	 * @namespace Signals Namespace - Custom event/messaging system based on AS3 Signals
 	 * @name signals
 	 */
-	var signals = window.signals = {
-		
-		/**
-		 * @param {*} param	Parameter to check.
-		 * @return {boolean} `true` if parameter is different than `undefined`.
-		 */
-		isDef : function(param){
-			return typeof param !== 'undefined';
-		}
-		
+	var signals = window.signals = {};
+	
+	/**
+	 * Signals Version Number
+	 * @type string
+	 * @const
+	 */
+	signals.VERSION = '0.5';
+	
+	/**
+	 * @param {*} param	Parameter to check.
+	 * @return {boolean} `true` if parameter is different than `undefined`.
+	 */
+	signals.isDef = function(param){
+		return typeof param !== 'undefined';
 	};
 
 	/**
-	 * Signal - custom event broadcaster inpired by Robert Penner's AS3Signals <https://github.com/robertpenner/as3-signals/>
+	 * Signal - custom event broadcaster
+	 * <br />- inspired by Robert Penner's AS3 Signals.
 	 * @author Miller Medeiros
 	 * @constructor
 	 */
@@ -227,7 +233,7 @@
 	
 	/**
 	 * Object that represents a binding between a Signal and a listener function.
-	 * <br />- Constructor shouldn't be called by regular user, no point on creating a new binding without a Signal.
+	 * <br />- <strong>Constructor shouldn't be called by regular user, used internally.</strong>
 	 * <br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.
 	 * @author Miller Medeiros
 	 * @constructor
@@ -236,7 +242,7 @@
 	 * @param {?Object} listenerContext	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
 	 * @param {signals.Signal} signal	Reference to Signal object that listener is currently bound to.
 	 */
-	signals.SignalBinding = function SignalBinding(listener, isOnce, listenerContext, signal){
+	signals.SignalBinding = function(listener, isOnce, listenerContext, signal){
 		
 		/**
 		 * Handler function bound to the signal.
