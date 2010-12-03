@@ -3,24 +3,29 @@
  * Released under the MIT license (http://www.opensource.org/licenses/mit-license.php)
  * @author Miller Medeiros <http://millermedeiros.com>
  * @version 0.5
- * @build 94 12/03/2010 05:03 PM
+ * @build 100 12/03/2010 05:27 PM
  */
 (function(){
-
+	
 	/**
 	 * @namespace Signals Namespace - Custom event/messaging system based on AS3 Signals
 	 * @name signals
 	 */
-	var signals = window.signals = {
-		
-		/**
-		 * @param {*} param	Parameter to check.
-		 * @return {boolean} `true` if parameter is different than `undefined`.
-		 */
-		isDef : function(param){
-			return typeof param !== 'undefined';
-		}
-		
+	var signals = window.signals = {};
+	
+	/**
+	 * Signals Version Number
+	 * @type string
+	 * @const
+	 */
+	signals.VERSION = '0.5';
+	
+	/**
+	 * @param {*} param	Parameter to check.
+	 * @return {boolean} `true` if parameter is different than `undefined`.
+	 */
+	signals.isDef = function(param){
+		return typeof param !== 'undefined';
 	};
 
 	/**
@@ -237,7 +242,7 @@
 	 * @param {?Object} listenerContext	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
 	 * @param {signals.Signal} signal	Reference to Signal object that listener is currently bound to.
 	 */
-	signals.SignalBinding = function SignalBinding(listener, isOnce, listenerContext, signal){
+	signals.SignalBinding = function(listener, isOnce, listenerContext, signal){
 		
 		/**
 		 * Handler function bound to the signal.

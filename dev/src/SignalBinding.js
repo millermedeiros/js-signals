@@ -10,7 +10,7 @@
 	 * @param {?Object} listenerContext	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
 	 * @param {signals.Signal} signal	Reference to Signal object that listener is currently bound to.
 	 */
-	signals.SignalBinding = function SignalBinding(listener, isOnce, listenerContext, signal){
+	signals.SignalBinding = function(listener, isOnce, listenerContext, signal){
 		
 		/**
 		 * Handler function bound to the signal.

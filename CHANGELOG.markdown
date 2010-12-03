@@ -9,6 +9,8 @@
  - Added:
    - `SignalBinding.prototype.getListener()` (issue #3)
    - `Signal.dispose()` (issue #6)
+   - `signals.VERSION`
+   - `signals.isDef()`
     
  - Removed:
   - `SignalBinding.listener` (issue #3)
