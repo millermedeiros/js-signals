@@ -33,6 +33,7 @@
 		<concat destfile="${dist.dir}/${dist.name}" fixlastline="yes" eol="unix">
 			<filelist dir="${src.dir}">
 				<file name="intro.js" />
+				<file name="signals.js" />
 				<file name="Signal.js" />
 				<file name="SignalBinding.js" />
 				<file name="outro.js" />

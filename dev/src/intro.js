@@ -6,9 +6,3 @@
  * @build ::BUILD_NUMBER:: ::BUILD_DATE::
  */
 (function(){
-	
-	/**
-	 * @namespace Signals Namespace - Custom event/messaging system based on AS3 Signals
-	 * @name signals
-	 */
-	var signals = window.signals = {};

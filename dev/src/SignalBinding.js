@@ -7,10 +7,10 @@
 	 * @constructor
 	 * @param {Function} listener	Handler function bound to the signal.
 	 * @param {boolean} isOnce	If binding should be executed just once.
-	 * @param {Object} listenerScope	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+	 * @param {Object} listenerContext	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
 	 * @param {signals.Signal} signal	Reference to Signal object that listener is currently bound to.
 	 */
-	signals.SignalBinding = function SignalBinding(listener, isOnce, listenerScope, signal){
+	signals.SignalBinding = function SignalBinding(listener, isOnce, listenerContext, signal){
 		
 		/**
 		 * Handler function bound to the signal.
@@ -30,7 +30,7 @@
 		 * Context on which listener will be executed (object that should represent the `this` variable inside listener function).
 		 * @type Object
 		 */
-		this.context = listenerScope;
+		this.context = listenerContext;
 		
 		/**
 		 * Reference to Signal object that listener is currently bound to.
@@ -56,11 +56,12 @@
 		 * @return {*} Value returned by the listener.
 		 */
 		execute : function(paramsArr){
+			var r;
 			if(this._isEnabled){
-				var r = this._listener.apply(this.context, paramsArr);
+				r = this._listener.apply(this.context, paramsArr);
 				if(this._isOnce) this.detach();
-				return r;
 			}
+			return r; //avoid warnings on some editors
 		},
 		
 		/**
@@ -133,7 +134,7 @@
 		 * @return {string} String representation of the object.
 		 */
 		toString : function(){
-			return '[SignalBinding listener: '+ this.listener +', isOnce: '+ this._isOnce +', isEnabled: '+ this._isEnabled +', listenerScope: '+ this.listenerScope +']';
+			return '[SignalBinding listener: '+ this._listener +', isOnce: '+ this._isOnce +', isEnabled: '+ this._isEnabled +', context: '+ this.context +']';
 		}
 		
 	};
