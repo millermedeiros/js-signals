@@ -60,6 +60,7 @@
 		    <arg path="${yuicompressor.jar}" />
 		    <arg value="--charset" />
 		    <arg value="ANSI" />
+		    <arg value="-v" />
 		    <arg value="-o" />
 		    <targetfile />
 		    <mapper type="glob" from="${dist.name}" to="${dist.min.name}" />

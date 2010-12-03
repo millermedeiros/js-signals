@@ -1,7 +1,7 @@
 	
 	/**
 	 * Object that represents a binding between a Signal and a listener function.
-	 * <br />- Constructor shouldn't be called by regular user, no point on creating a new binding without a Signal.
+	 * <br />- <strong>Constructor shouldn't be called by regular user, used internally.</strong>
 	 * <br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.
 	 * @author Miller Medeiros
 	 * @constructor

@@ -1,9 +1,9 @@
-/*!
+/*!!
  * JS Signals <https://github.com/millermedeiros/js-signals>
  * Released under the MIT license (http://www.opensource.org/licenses/mit-license.php)
  * @author Miller Medeiros <http://millermedeiros.com>
- * @version 0.4
- * @build 89 12/03/2010 03:42 PM
+ * @version 0.5
+ * @build 94 12/03/2010 05:03 PM
  */
 (function(){
 
@@ -24,7 +24,8 @@
 	};
 
 	/**
-	 * Signal - custom event broadcaster inpired by Robert Penner's AS3Signals <https://github.com/robertpenner/as3-signals/>
+	 * Signal - custom event broadcaster
+	 * <br />- inspired by Robert Penner's AS3 Signals.
 	 * @author Miller Medeiros
 	 * @constructor
 	 */
@@ -227,7 +228,7 @@
 	
 	/**
 	 * Object that represents a binding between a Signal and a listener function.
-	 * <br />- Constructor shouldn't be called by regular user, no point on creating a new binding without a Signal.
+	 * <br />- <strong>Constructor shouldn't be called by regular user, used internally.</strong>
 	 * <br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.
 	 * @author Miller Medeiros
 	 * @constructor

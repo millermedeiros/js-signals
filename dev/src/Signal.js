@@ -1,6 +1,7 @@
 
 	/**
-	 * Signal - custom event broadcaster inpired by Robert Penner's AS3Signals <https://github.com/robertpenner/as3-signals/>
+	 * Signal - custom event broadcaster
+	 * <br />- inspired by Robert Penner's AS3 Signals.
 	 * @author Miller Medeiros
 	 * @constructor
 	 */

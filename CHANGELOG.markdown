@@ -2,6 +2,39 @@
 
 
 
+## v0.5 (2010/12/03) ##
+
+### API changes ###
+
+ - Added:
+   - `SignalBinding.prototype.getListener()` (issue #3)
+   - `Signal.dispose()` (issue #6)
+    
+ - Removed:
+  - `SignalBinding.listener` (issue #3)
+  
+ - Renamed:
+  - `SignalBinding.listenerScope` -> `SignalBinding.context` (issue #4)
+
+### Fixes ###
+
+ - Removed unnecessary function names (issue #5)
+ - Improved `remove()`, `removeAll()` to dispose binding (issue #10)
+
+### Test Changes ###
+
+ - Added different HTML files to test dev/dist/min files. 
+ - Updated test cases to match new API.
+ 
+### Other ###
+
+ - Improved source code comments and documentation.
+ - Small refactoring for better organization and DRY. 
+ - Added error messages for required params.
+ - Removed unnecessary info from `SignalBinding.toString()`.
+
+
+
 ## v0.4 (2010/11/27) ##
 
 ### API changes ###
@@ -45,7 +78,7 @@
 
 ### Other ###
 
-Added inline documentation to source codeand included an HTML version of the documentation together with distribution files.
+Added inline documentation to source code and included an HTML version of the documentation together with distribution files.
 
 
 

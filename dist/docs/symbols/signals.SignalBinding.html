@@ -67,11 +67,7 @@
              <ul>
                
                  <li class="fixedFont">
-                   <a href="../symbols/signals.SignalBinding.html#listener">listener</a>
-                 </li>
-               
-                 <li class="fixedFont">
-                   <a href="../symbols/signals.SignalBinding.html#listenerScope">listenerScope</a>
+                   <a href="../symbols/signals.SignalBinding.html#context">context</a>
                  </li>
                
              </ul>
@@ -102,6 +98,10 @@
                
                    <li class="fixedFont">
                         <a href="../symbols/signals.SignalBinding.html#execute">execute</a>
+                    </li>
+               
+                   <li class="fixedFont">
+                        <a href="../symbols/signals.SignalBinding.html#getListener">getListener</a>
                     </li>
                
                    <li class="fixedFont">
@@ -140,7 +140,7 @@
 				
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/D__Projetos_millermedeiros_js-signals_dist_js-signals.js.html">js-signals.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/C__Miller_Personal_open_source_projects_js-signals_dist_js-signals.js.html">js-signals.js</a>.
 				
 			</p>
 
@@ -152,12 +152,12 @@
 				</div>
 				
 				<div class="fixedFont">
-						<b>signals.SignalBinding</b>(listener, isOnce, listenerScope, signal)
+						<b>signals.SignalBinding</b>(listener, isOnce, listenerContext, signal)
 				</div>
 				
 				<div class="description">
 					<p>Object that represents a binding between a Signal and a listener function.
-<br />- Constructor shouldn't be called by regular user, no point on creating a new binding without a Signal.
+<br />- <strong>Constructor shouldn't be called by regular user, used internally.</strong>
 <br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.</p>
 					<br /><i>Author: </i>Miller Medeiros.
 				</div>
@@ -173,7 +173,7 @@
 								<span class="light fixedFont">{Function}</span>  <b>listener</b>
 								
 							</dt>
-								<dd>Handler function binded to the signal.</dd>
+								<dd>Handler function bound to the signal.</dd>
 						
 							<dt>
 								<span class="light fixedFont">{boolean}</span>  <b>isOnce</b>
@@ -182,7 +182,7 @@
 								<dd>If binding should be executed just once.</dd>
 						
 							<dt>
-								<span class="light fixedFont">{Object}</span>  <b>listenerScope</b>
+								<span class="light fixedFont">{?Object}</span>  <b>listenerContext</b>
 								
 							</dt>
 								<dd>Context on which listener will be executed (object that should represent the `this` variable inside listener function).</dd>
@@ -191,7 +191,7 @@
 								<span class="light fixedFont">{<a href="../symbols/signals.Signal.html">signals.Signal</a>}</span>  <b>signal</b>
 								
 							</dt>
-								<dd>Reference to Signal object that listener is currently binded to.</dd>
+								<dd>Reference to Signal object that listener is currently bound to.</dd>
 						
 						</dl>
 					
@@ -213,37 +213,13 @@
 				</div>
 				
                   <div class="member">
-					<a name="listener"> </a>
-					<div class="fixedFont">
-                      <div class="modifiers">
-                      </div>
-					
-					<span class="light">{Function}</span>
-					<b>listener</b>
-					
-					</div>
-					<div class="description">
-						<p>Handler function binded to the signal.</p>
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-                  </div>
-				
-                  <div class="member">
-					<a name="listenerScope"> </a>
+					<a name="context"> </a>
 					<div class="fixedFont">
                       <div class="modifiers">
                       </div>
 					
 					<span class="light">{Object}</span>
-					<b>listenerScope</b>
+					<b>context</b>
 					
 					</div>
 					<div class="description">
@@ -281,7 +257,7 @@
 					</div>
 					<div class="description">
 						<p>Detach binding from signal.
-- alias to: mySignal.remove(myBinding.listener);</p>
+- alias to: mySignal.remove(myBinding.getListener());</p>
 						
 						
 					</div>
@@ -296,7 +272,7 @@
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{Function}</span> Handler function binded to the signal.</dd>
+								<dd><span class="light fixedFont">{Function}</span> Handler function bound to the signal.</dd>
 							
 							</dl>
 						
@@ -349,7 +325,8 @@
 					
 					</div>
 					<div class="description">
-						<p>Remove binding from signal and destroy any reference to external Objects (destroy SignalBinding object).</p>
+						<p>Remove binding from signal and destroy any reference to external Objects (destroy SignalBinding object).
+<br /> - calling methods on the binding instance after calling dispose will throw errors.</p>
 						
 						
 					</div>
@@ -425,7 +402,7 @@
 							
 								<dt>
 									<span class="light fixedFont">{Array}</span> <b>paramsArr</b>
-									
+									<i>Optional</i>
 								</dt>
 								<dd>Array of parameters that should be passed to the listener</dd>
 							
@@ -439,6 +416,40 @@
 							<dt class="heading">Returns:</dt>
 							
 								<dd><span class="light fixedFont">{*}</span> Value returned by the listener.</dd>
+							
+							</dl>
+						
+						
+						
+
+                  </div>
+				
+                  <div class="member">
+					<a name="getListener"> </a>
+					<div class="fixedFont">
+                      <div class="modifiers">
+                      </div>
+					<span class="light">{Function}</span>
+					<b>getListener</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Function}</span> Handler function bound to the signal.</dd>
 							
 							</dl>
 						
@@ -561,7 +572,7 @@
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both;text-align:center">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Sat Nov 27 2010 16:19:19 GMT-0500 (EST)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Fri Dec 03 2010 16:44:56 GMT-0500 (EST)
 			 | template based on Steffen Siering <a href="http://github.com/urso/jsdoc-simple">jsdoc-simple</a>.
 		</div>
 	</body>
