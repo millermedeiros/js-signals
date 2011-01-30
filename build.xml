@@ -83,7 +83,7 @@
 		<echo message="${dist.min.name} built." />
 	</target>
 
-	<target name="generateDoc">
+	<target name="generateDocs" depends="-purgeDocs">
 		<echo message="Generating documentation" />
  		<apply executable="java" parallel="false" verbose="true">
 			<fileset dir="${dist.dir}">
@@ -102,7 +102,7 @@
 		<echo message="Build Complete." />
 	</target>
 	
-	<target name="all" depends="compile, generateDoc">
+	<target name="all" depends="compile, generateDocs">
 		<echo message="Build Complete." />
 	</target>
 	

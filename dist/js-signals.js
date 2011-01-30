@@ -4,8 +4,8 @@
  * JS Signals <http://millermedeiros.github.com/js-signals/>
  * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  * @author Miller Medeiros <http://millermedeiros.com/>
- * @version 0.5
- * @build 125 (01/30/2011 01:47 AM)
+ * @version 0.5.1
+ * @build 126 (01/30/2011 01:55 AM)
  */
 (function(window){
 	
@@ -20,7 +20,7 @@
 	 * @type string
 	 * @const
 	 */
-	signals.VERSION = '0.5';
+	signals.VERSION = '0.5.1';
 	
 	
 	/**
