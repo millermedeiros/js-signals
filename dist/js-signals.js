@@ -3,7 +3,7 @@
  * Released under the MIT license (http://www.opensource.org/licenses/mit-license.php)
  * @author Miller Medeiros <http://millermedeiros.com>
  * @version 0.5
- * @build 100 12/03/2010 05:27 PM
+ * @build 101 01/29/2011 10:02 PM
  */
 (function(){
 	
@@ -20,13 +20,6 @@
 	 */
 	signals.VERSION = '0.5';
 	
-	/**
-	 * @param {*} param	Parameter to check.
-	 * @return {boolean} `true` if parameter is different than `undefined`.
-	 */
-	signals.isDef = function(param){
-		return typeof param !== 'undefined';
-	};
 
 	/**
 	 * Signal - custom event broadcaster
@@ -66,7 +59,7 @@
 		 */
 		_registerListener : function(listener, isOnce, scope){
 			
-			if(!signals.isDef(listener)) throw new Error('listener is a required param of add() and addOnce().');
+			if(listener === void(0)) throw new Error('listener is a required param of add() and addOnce().');
 			
 			var prevIndex = this._indexOfListener(listener),
 				binding;
@@ -139,7 +132,7 @@
 		 * @return {Function} Listener handler function.
 		 */
 		remove : function(listener){
-			if(!signals.isDef(listener)) throw new Error('listener is a required param of remove().');
+			if(listener === void(0)) throw new Error('listener is a required param of remove().');
 			
 			var i = this._indexOfListener(listener);
 			if(i !== -1) this._removeByIndex(i);
