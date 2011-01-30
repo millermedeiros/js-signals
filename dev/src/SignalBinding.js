@@ -61,7 +61,9 @@
 			var r;
 			if(this._isEnabled){
 				r = this._listener.apply(this.context, paramsArr);
-				if(this._isOnce) this.detach();
+				if(this._isOnce){
+					this.detach();
+				}
 			}
 			return r; //avoid warnings on some editors
 		},
