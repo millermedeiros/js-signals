@@ -1,13 +1,13 @@
 
 	/**
-	 * Signal - custom event broadcaster
+	 * Custom event broadcaster
 	 * <br />- inspired by Robert Penner's AS3 Signals.
 	 * @author Miller Medeiros
 	 * @constructor
 	 */
 	signals.Signal = function(){
 		/**
-		 * @type Array.<signals.SignalBinding>
+		 * @type Array.<SignalBinding>
 		 * @private
 		 */
 		this._bindings = [];
@@ -32,12 +32,14 @@
 		 * @param {Function} listener
 		 * @param {boolean} isOnce
 		 * @param {Object} [scope]
-		 * @return {signals.SignalBinding}
+		 * @return {SignalBinding}
 		 * @private
 		 */
 		_registerListener : function(listener, isOnce, scope){
 			
-			if(!signals.isDef(listener)) throw new Error('listener is a required param of add() and addOnce().');
+			if(typeof listener !== 'function'){
+				throw new Error('listener is a required param of add() and addOnce().');
+			}
 			
 			var prevIndex = this._indexOfListener(listener),
 				binding;
@@ -48,7 +50,7 @@
 					throw new Error('You cannot add'+ (isOnce? '' : 'Once') +'() then add'+ (!isOnce? '' : 'Once') +'() the same listener without removing the relationship first.');
 				}
 			} else {
-				binding = new signals.SignalBinding(listener, isOnce, scope, this);
+				binding = new SignalBinding(this, listener, isOnce, scope);
 				this._addBinding(binding);
 			}
 			
@@ -56,7 +58,7 @@
 		},
 		
 		/**
-		 * @param {signals.SignalBinding} binding
+		 * @param {SignalBinding} binding
 		 * @private
 		 */
 		_addBinding : function(binding){
@@ -65,13 +67,15 @@
 		
 		/**
 		 * @param {Function} listener
-		 * @return {int}
+		 * @return {number}
 		 * @private
 		 */
 		_indexOfListener : function(listener){
 			var n = this._bindings.length;
 			while(n--){
-				if(this._bindings[n]._listener === listener) return n;
+				if(this._bindings[n]._listener === listener){
+					return n;
+				}
 			}
 			return -1;
 		},
@@ -80,7 +84,7 @@
 		 * Add a listener to the signal.
 		 * @param {Function} listener	Signal handler function.
 		 * @param {Object} [scope]	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-		 * @return {signals.SignalBinding} An Object representing the binding between the Signal and listener.
+		 * @return {SignalBinding} An Object representing the binding between the Signal and listener.
 		 */
 		add : function(listener, scope){
 			return this._registerListener(listener, false, scope);
@@ -90,7 +94,7 @@
 		 * Add listener to the signal that should be removed after first execution (will be executed only once).
 		 * @param {Function} listener	Signal handler function.
 		 * @param {Object} [scope]	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-		 * @return {signals.SignalBinding} An Object representing the binding between the Signal and listener.
+		 * @return {SignalBinding} An Object representing the binding between the Signal and listener.
 		 */
 		addOnce : function(listener, scope){
 			return this._registerListener(listener, true, scope);
@@ -110,10 +114,14 @@
 		 * @return {Function} Listener handler function.
 		 */
 		remove : function(listener){
-			if(!signals.isDef(listener)) throw new Error('listener is a required param of remove().');
+			if(typeof listener !== 'function'){
+				throw new Error('listener is a required param of remove().');
+			}
 			
 			var i = this._indexOfListener(listener);
-			if(i !== -1) this._removeByIndex(i);
+			if(i !== -1){
+				this._removeByIndex(i);
+			}
 			return listener;
 		},
 		
@@ -128,15 +136,17 @@
 		},
 		
 		/**
-		 * @return {uint} Number of listeners attached to the Signal.
+		 * @return {number} Number of listeners attached to the Signal.
 		 */
 		getNumListeners : function(){
 			return this._bindings.length;
 		},
 		
 		/**
-		 * Disable Signal, will block dispatch to listeners until `enable()` is called.
+		 * Disable Signal. Block dispatch to listeners until `enable()` is called.
+		 * <p><strong>IMPORTANT:</strong> If this method is called during a dispatch it will only have effect on the next dispatch, if you want to stop the propagation of a signal use `halt()` instead.</p>
 		 * @see signals.Signal.prototype.enable
+		 * @see signals.Signal.prototype.halt
 		 */
 		disable : function(){
 			this._isEnabled = false;
@@ -159,7 +169,8 @@
 		
 		/**
 		 * Stop propagation of the event, blocking the dispatch to next listeners on the queue.
-		 * - should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast. 
+		 * <p><strong>IMPORTANT:</strong> should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.</p>
+		 * @see signals.Signal.prototype.disable 
 		 */
 		halt : function(){
 			this._shouldPropagate = false;
@@ -170,23 +181,28 @@
 		 * @param {...*} [params]	Parameters that should be passed to each handler.
 		 */
 		dispatch : function(params){
-			if(! this._isEnabled) return;
+			if(! this._isEnabled){
+				return;
+			}
 			
 			var paramsArr = Array.prototype.slice.call(arguments),
 				bindings = this._bindings.slice(), //clone array in case add/remove items during dispatch
-				i = 0,
-				cur;
+				i,
+				n = this._bindings.length;
 			
 			this._shouldPropagate = true; //in case `halt` was called before dispatch or during the previous dispatch.
 						
-			while(cur = bindings[i++]){
-				if(cur.execute(paramsArr) === false || !this._shouldPropagate) break; //execute all callbacks until end of the list or until a callback returns `false` or stops propagation
+			for(i=0; i<n; i++){
+				//execute all callbacks until end of the list or until a callback returns `false` or stops propagation
+				if(bindings[i].execute(paramsArr) === false || !this._shouldPropagate){
+					break;
+				}
 			}
 		},
 		
 		/**
-		 * Remove binding from signal and destroy any reference to external Objects (destroy Signal object).
-		 * <br /> - calling methods on the signal instance after calling dispose will throw errors.
+		 * Remove all bindings from signal and destroy any reference to external objects (destroy Signal object).
+		 * <p><strong>IMPORTANT:</strong> calling any method on the signal instance after calling dispose will throw errors.</p>
 		 */
 		dispose : function(){
 			this.removeAll();

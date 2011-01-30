@@ -12,10 +12,3 @@
 	 */
 	signals.VERSION = '::VERSION_NUMBER::';
 	
-	/**
-	 * @param {*} param	Parameter to check.
-	 * @return {boolean} `true` if parameter is different than `undefined`.
-	 */
-	signals.isDef = function(param){
-		return typeof param !== 'undefined';
-	};

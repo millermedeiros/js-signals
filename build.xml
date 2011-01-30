@@ -34,8 +34,8 @@
 			<filelist dir="${src.dir}">
 				<file name="intro.js" />
 				<file name="signals.js" />
-				<file name="Signal.js" />
 				<file name="SignalBinding.js" />
+				<file name="Signal.js" />
 				<file name="outro.js" />
 			</filelist>
 		</concat>
@@ -49,6 +49,20 @@
 		<echo message="${dist.name} built." />
 	</target>
 	
+	<target name="lint">
+		<echo message="JSLinting ${dist.name}..."/>
+		
+		<apply executable="java" parallel="false">
+			<filelist dir="${dist.dir}">
+				<file name="${dist.name}"/>
+			</filelist>
+			<arg line="-jar"/>  
+			<arg path="${jslint.jar}"/>
+		</apply>
+		
+		<echo message="JSLinted ${dist.name}."/>
+	</target>
+	
 	<target name="minify">
 		<echo message="Building ${dist.min.name}..." />
 		
@@ -59,7 +73,7 @@
 		    <arg line="-jar" />
 		    <arg path="${yuicompressor.jar}" />
 		    <arg value="--charset" />
-		    <arg value="ANSI" />
+		    <arg value="UTF8" />
 		    <arg value="-v" />
 		    <arg value="-o" />
 		    <targetfile />
@@ -69,7 +83,7 @@
 		<echo message="${dist.min.name} built." />
 	</target>
 
-	<target name="generateDoc">
+	<target name="generateDocs" depends="-purgeDocs">
 		<echo message="Generating documentation" />
  		<apply executable="java" parallel="false" verbose="true">
 			<fileset dir="${dist.dir}">
@@ -84,11 +98,11 @@
 		<echo message="Documentation generated" />
 	</target>
 	
-	<target name="compile" depends="build, minify">
+	<target name="compile" depends="build, lint, minify">
 		<echo message="Build Complete." />
 	</target>
 	
-	<target name="all" depends="compile, generateDoc">
+	<target name="all" depends="compile, generateDocs">
 		<echo message="Build Complete." />
 	</target>
 	
