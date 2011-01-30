@@ -63,17 +63,21 @@
 					</p>
 					<p>
 						This implementation is <strong>heavily inspired</strong> by <a href="https://github.com/robertpenner/as3-signals">Robert Penner's AS3-Signals</a> but <strong>it is NOT a direct port</strong>, it has a different set of features
-						<small>
-							(some extras and some missing)
-						</small> and some methods were renamed to avoid confusions and/or for brevity. It also borrows some ideas from <a href="https://github.com/joa/as3-signals">Joa Ebert fork</a>.
+						<small>(some extras and some missing)</small> and some methods were renamed to avoid confusions and/or for brevity. It also borrows some ideas from <a href="https://github.com/joa/as3-signals">Joa Ebert AS3-Signals fork</a>.
 					</p>
 					<p>
-						The intention of this library is to be a <em>"small brick"</em> that can be plugged into other libraries and frameworks, helping people to <strong>develop evented applications on a <em>better</em> way</strong>!
+						The intention of this library is to be a <em>"small brick"</em> that can be used together with other libraries and frameworks, helping people to <strong>develop evented applications <em>easily</em></strong>!
 					</p>
 				</div>
 				<h3>Advantages</h3>
 				<ul>
-					<li>Doesn't rely on strings for subscribing/publishing to a event type, reduce chances of error and is auto-complete friendly!</li>
+					<li>
+						Doesn't rely on strings for subscribing/publishing to a event type:
+						<ul>
+							<li>Trying to dispatch or listen to an event type that doesn't exist throws errors instead of failing silently which helps to identify errors early.</li>
+							<li>Code completion friendly.</li>
+						</ul>
+					</li>
 					<li>Arbitrary number of parameters to event handlers.</li>
 					<li>Easy control of the event broadcaster and subscriber, avoiding that the wrong objects reacts to the event.</li>
 					<li>
@@ -144,10 +148,9 @@ myObject.started.remove(onStarted); //remove a single listener
 				</ul>
 				<h3>More Info</h3>
 				<p>
-					The main focus for now is custom events, there are no plans to add <em>native DOM events</em> support <strong>yet</strong>
-					<small>
-						(AS3-signals has a NativeSignal class that emulates native flash events)
-					</small> specially since most of the JavaScript frameworks already have some kind of facade on top of the native events and also because of the differences between browsers, maybe this feature will be added in the future but probably on a way that is easy to add/remove <em>(similar to a plugin)</em> or be a separate project.
+					The main focus for now is custom events, there are no plans to add <em>native DOM events</em> support <small>(AS3-signals has a NativeSignal class that emulates native flash events)</small> 
+					specially since most of the JavaScript frameworks already have some kind of facade on top of the native events and also because of the differences between browsers. 
+					This feature should be implemented as a plugin or as a separate project.
 				</p>
 				<p>
 					Contributors and ideas are welcome!
