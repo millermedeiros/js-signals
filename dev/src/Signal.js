@@ -37,7 +37,9 @@
 		 */
 		_registerListener : function(listener, isOnce, scope){
 			
-			if(listener === void(0)) throw new Error('listener is a required param of add() and addOnce().');
+			if(typeof listener !== 'function'){
+				throw new Error('listener is a required param of add() and addOnce().');
+			}
 			
 			var prevIndex = this._indexOfListener(listener),
 				binding;
@@ -71,7 +73,9 @@
 		_indexOfListener : function(listener){
 			var n = this._bindings.length;
 			while(n--){
-				if(this._bindings[n]._listener === listener) return n;
+				if(this._bindings[n]._listener === listener){
+					return n;
+				}
 			}
 			return -1;
 		},
@@ -110,10 +114,14 @@
 		 * @return {Function} Listener handler function.
 		 */
 		remove : function(listener){
-			if(listener === void(0)) throw new Error('listener is a required param of remove().');
+			if(typeof listener !== 'function'){
+				throw new Error('listener is a required param of remove().');
+			}
 			
 			var i = this._indexOfListener(listener);
-			if(i !== -1) this._removeByIndex(i);
+			if(i !== -1){
+				this._removeByIndex(i);
+			}
 			return listener;
 		},
 		
@@ -170,17 +178,22 @@
 		 * @param {...*} [params]	Parameters that should be passed to each handler.
 		 */
 		dispatch : function(params){
-			if(! this._isEnabled) return;
+			if(! this._isEnabled){
+				return;
+			}
 			
 			var paramsArr = Array.prototype.slice.call(arguments),
 				bindings = this._bindings.slice(), //clone array in case add/remove items during dispatch
-				i = 0,
-				cur;
+				i,
+				n = this._bindings.length;
 			
 			this._shouldPropagate = true; //in case `halt` was called before dispatch or during the previous dispatch.
 						
-			while(cur = bindings[i++]){
-				if(cur.execute(paramsArr) === false || !this._shouldPropagate) break; //execute all callbacks until end of the list or until a callback returns `false` or stops propagation
+			for(i=0; i<n; i++){
+				//execute all callbacks until end of the list or until a callback returns `false` or stops propagation
+				if(bindings[i].execute(paramsArr) === false || !this._shouldPropagate){
+					break;
+				}
 			}
 		},
 		
