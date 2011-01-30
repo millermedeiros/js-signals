@@ -16,11 +16,6 @@
 		</delete>
 	</target>
 	
-	<target name="-purgeDocs">
-		<delete dir="${docs.dir}" />
-		<mkdir dir="${docs.dir}"/>
-	</target>
-	
 	<target name="build" depends="-purgeJsDeploy">
 		<echo message="Building ${dist.name}..." />
 		
@@ -52,7 +47,7 @@
 	<target name="lint">
 		<echo message="JSLinting ${dist.name}..."/>
 		
-		<apply executable="java" parallel="false">
+		<apply executable="java">
 			<filelist dir="${dist.dir}">
 				<file name="${dist.name}"/>
 			</filelist>
@@ -82,7 +77,12 @@
 		
 		<echo message="${dist.min.name} built." />
 	</target>
-
+	
+	<target name="-purgeDocs">
+		<delete dir="${docs.dir}" />
+		<mkdir dir="${docs.dir}"/>
+	</target>
+	
 	<target name="generateDocs" depends="-purgeDocs">
 		<echo message="Generating documentation" />
  		<apply executable="java" parallel="false" verbose="true">
@@ -96,6 +96,40 @@
 			<arg value="-d=${docs.dir}" />
 		</apply>
 		<echo message="Documentation generated" />
+	</target>
+	
+	<target name="-purgeCoverage">
+		<delete dir="${coverage.dir}" />
+		<mkdir dir="${coverage.dir}"/>
+		<mkdir dir="${coverage-report.dir}"/>
+	</target>
+	
+	<target name="instrument" depends="-purgeCoverage">
+		<echo message="Instrumenting ${dist.name}..."/>
+		
+		<exec executable="java">
+			<arg line="-jar"/>
+			<arg path="${yuitest-coverage.jar}"/>
+			<arg value="-o"/>
+		    <arg path="${coverage.dir}/${dist.inst.name}"/>
+			<arg path="${dist.dir}/${dist.name}"/>
+		</exec>
+		
+		<echo message="${dist.name} instrumented."/>
+	</target>
+	
+	<target name="coverageReport">
+		<echo message="Gerating test coverage report..."/>
+		
+		<exec executable="java">
+			<arg line="-jar"/>  
+			<arg path="${yuitest-coverage-report.jar}"/>
+			<arg value="-o" />
+		    <arg path="${coverage-report.dir}"/>
+		    <arg path="${coverage.json}"/>
+		</exec>
+		
+		<echo message="Test coverage report generated."/>
 	</target>
 	
 	<target name="compile" depends="build, lint, minify">

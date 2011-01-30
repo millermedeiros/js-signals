@@ -1149,8 +1149,13 @@ YUI().use('node', 'console', 'test', function (Y){
 	r.render('#testLogger');
 	 
 	Y.Test.Runner.add(basic);
-	 
+	
+	Y.Test.Runner.on('complete', function(){
+		var c = document.getElementById('coverageOutput');
+		if(c) c.value = Y.Test.Runner.getCoverage(Y.Coverage.Format.JSON);
+	});
+	
 	//run the tests
 	Y.Test.Runner.run();
-
+	
 });
