@@ -5,4 +5,4 @@
  * @version ::VERSION_NUMBER::
  * @build ::BUILD_NUMBER:: ::BUILD_DATE::
  */
-(function(){
+(function(window){

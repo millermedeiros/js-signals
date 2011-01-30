@@ -7,7 +7,7 @@
 	 */
 	signals.Signal = function(){
 		/**
-		 * @type Array.<signals.SignalBinding>
+		 * @type Array.<SignalBinding>
 		 * @private
 		 */
 		this._bindings = [];
@@ -32,7 +32,7 @@
 		 * @param {Function} listener
 		 * @param {boolean} isOnce
 		 * @param {Object} [scope]
-		 * @return {signals.SignalBinding}
+		 * @return {SignalBinding}
 		 * @private
 		 */
 		_registerListener : function(listener, isOnce, scope){
@@ -48,7 +48,7 @@
 					throw new Error('You cannot add'+ (isOnce? '' : 'Once') +'() then add'+ (!isOnce? '' : 'Once') +'() the same listener without removing the relationship first.');
 				}
 			} else {
-				binding = new signals.SignalBinding(listener, isOnce, scope, this);
+				binding = new SignalBinding(listener, isOnce, scope, this);
 				this._addBinding(binding);
 			}
 			
@@ -56,7 +56,7 @@
 		},
 		
 		/**
-		 * @param {signals.SignalBinding} binding
+		 * @param {SignalBinding} binding
 		 * @private
 		 */
 		_addBinding : function(binding){
@@ -80,7 +80,7 @@
 		 * Add a listener to the signal.
 		 * @param {Function} listener	Signal handler function.
 		 * @param {Object} [scope]	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-		 * @return {signals.SignalBinding} An Object representing the binding between the Signal and listener.
+		 * @return {SignalBinding} An Object representing the binding between the Signal and listener.
 		 */
 		add : function(listener, scope){
 			return this._registerListener(listener, false, scope);
@@ -90,7 +90,7 @@
 		 * Add listener to the signal that should be removed after first execution (will be executed only once).
 		 * @param {Function} listener	Signal handler function.
 		 * @param {Object} [scope]	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-		 * @return {signals.SignalBinding} An Object representing the binding between the Signal and listener.
+		 * @return {SignalBinding} An Object representing the binding between the Signal and listener.
 		 */
 		addOnce : function(listener, scope){
 			return this._registerListener(listener, true, scope);

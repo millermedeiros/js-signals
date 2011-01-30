@@ -1,16 +1,17 @@
 	
 	/**
 	 * Object that represents a binding between a Signal and a listener function.
-	 * <br />- <strong>Constructor shouldn't be called by regular user, used internally.</strong>
+	 * <br />- <strong>This is an internall constructor and shouldn't be called by regular user.</strong>
 	 * <br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.
 	 * @author Miller Medeiros
 	 * @constructor
+	 * @name signals.SignalBinding
 	 * @param {Function} listener	Handler function bound to the signal.
 	 * @param {boolean} isOnce	If binding should be executed just once.
 	 * @param {?Object} listenerContext	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
 	 * @param {signals.Signal} signal	Reference to Signal object that listener is currently bound to.
 	 */
-	signals.SignalBinding = function(listener, isOnce, listenerContext, signal){
+	 function SignalBinding(listener, isOnce, listenerContext, signal){
 		
 		/**
 		 * Handler function bound to the signal.
@@ -28,6 +29,8 @@
 		
 		/**
 		 * Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+		 * @memberOf signals.SignalBinding.prototype
+		 * @name context
 		 * @type Object
 		 */
 		this.context = listenerContext;
@@ -38,10 +41,9 @@
 		 * @private
 		 */
 		this._signal = signal;
-	};
+	}
 	
-	
-	signals.SignalBinding.prototype = {
+	SignalBinding.prototype = /** @lends signals.SignalBinding.prototype */ {
 		
 		/**
 		 * @type boolean
@@ -82,7 +84,7 @@
 		
 		/**
 		 * Remove binding from signal and destroy any reference to external Objects (destroy SignalBinding object).
-		 * <br /> - calling methods on the binding instance after calling dispose will throw errors.
+		 * <p><strong>IMPORTANT:</strong> calling methods on the binding instance after calling dispose will throw errors.</p>
 		 */
 		dispose : function(){
 			this.detach();

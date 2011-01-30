@@ -3,9 +3,9 @@
  * Released under the MIT license (http://www.opensource.org/licenses/mit-license.php)
  * @author Miller Medeiros <http://millermedeiros.com>
  * @version 0.5
- * @build 101 01/29/2011 10:02 PM
+ * @build 112 01/29/2011 11:01 PM
  */
-(function(){
+(function(window){
 	
 	/**
 	 * @namespace Signals Namespace - Custom event/messaging system based on AS3 Signals
@@ -29,7 +29,7 @@
 	 */
 	signals.Signal = function(){
 		/**
-		 * @type Array.<signals.SignalBinding>
+		 * @type Array.<SignalBinding>
 		 * @private
 		 */
 		this._bindings = [];
@@ -54,7 +54,7 @@
 		 * @param {Function} listener
 		 * @param {boolean} isOnce
 		 * @param {Object} [scope]
-		 * @return {signals.SignalBinding}
+		 * @return {SignalBinding}
 		 * @private
 		 */
 		_registerListener : function(listener, isOnce, scope){
@@ -70,7 +70,7 @@
 					throw new Error('You cannot add'+ (isOnce? '' : 'Once') +'() then add'+ (!isOnce? '' : 'Once') +'() the same listener without removing the relationship first.');
 				}
 			} else {
-				binding = new signals.SignalBinding(listener, isOnce, scope, this);
+				binding = new SignalBinding(listener, isOnce, scope, this);
 				this._addBinding(binding);
 			}
 			
@@ -78,7 +78,7 @@
 		},
 		
 		/**
-		 * @param {signals.SignalBinding} binding
+		 * @param {SignalBinding} binding
 		 * @private
 		 */
 		_addBinding : function(binding){
@@ -102,7 +102,7 @@
 		 * Add a listener to the signal.
 		 * @param {Function} listener	Signal handler function.
 		 * @param {Object} [scope]	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-		 * @return {signals.SignalBinding} An Object representing the binding between the Signal and listener.
+		 * @return {SignalBinding} An Object representing the binding between the Signal and listener.
 		 */
 		add : function(listener, scope){
 			return this._registerListener(listener, false, scope);
@@ -112,7 +112,7 @@
 		 * Add listener to the signal that should be removed after first execution (will be executed only once).
 		 * @param {Function} listener	Signal handler function.
 		 * @param {Object} [scope]	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-		 * @return {signals.SignalBinding} An Object representing the binding between the Signal and listener.
+		 * @return {SignalBinding} An Object representing the binding between the Signal and listener.
 		 */
 		addOnce : function(listener, scope){
 			return this._registerListener(listener, true, scope);
@@ -226,16 +226,17 @@
 	
 	/**
 	 * Object that represents a binding between a Signal and a listener function.
-	 * <br />- <strong>Constructor shouldn't be called by regular user, used internally.</strong>
+	 * <br />- <strong>This is an internall constructor and shouldn't be called by regular user.</strong>
 	 * <br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.
 	 * @author Miller Medeiros
 	 * @constructor
+	 * @name signals.SignalBinding
 	 * @param {Function} listener	Handler function bound to the signal.
 	 * @param {boolean} isOnce	If binding should be executed just once.
 	 * @param {?Object} listenerContext	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
 	 * @param {signals.Signal} signal	Reference to Signal object that listener is currently bound to.
 	 */
-	signals.SignalBinding = function(listener, isOnce, listenerContext, signal){
+	 function SignalBinding(listener, isOnce, listenerContext, signal){
 		
 		/**
 		 * Handler function bound to the signal.
@@ -253,6 +254,8 @@
 		
 		/**
 		 * Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+		 * @memberOf signals.SignalBinding.prototype
+		 * @name context
 		 * @type Object
 		 */
 		this.context = listenerContext;
@@ -263,10 +266,9 @@
 		 * @private
 		 */
 		this._signal = signal;
-	};
+	}
 	
-	
-	signals.SignalBinding.prototype = {
+	SignalBinding.prototype = /** @lends signals.SignalBinding.prototype */ {
 		
 		/**
 		 * @type boolean
@@ -307,7 +309,7 @@
 		
 		/**
 		 * Remove binding from signal and destroy any reference to external Objects (destroy SignalBinding object).
-		 * <br /> - calling methods on the binding instance after calling dispose will throw errors.
+		 * <p><strong>IMPORTANT:</strong> calling methods on the binding instance after calling dispose will throw errors.</p>
 		 */
 		dispose : function(){
 			this.detach();
@@ -363,4 +365,4 @@
 		}
 		
 	};
-}());
+}(this));
