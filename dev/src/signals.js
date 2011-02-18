@@ -7,13 +7,13 @@
  * @version ::VERSION_NUMBER::
  * @build ::BUILD_NUMBER:: (::BUILD_DATE::)
  */
-(function(window){
+var signals = (function(){
 
 	/**
 	 * @namespace Signals Namespace - Custom event/messaging system based on AS3 Signals
 	 * @name signals
 	 */
-	var signals = window.signals = {};
+	var signals = {};
 
 	/**
 	 * Signals Version Number
@@ -22,7 +22,9 @@
 	 */
 	signals.VERSION = '::VERSION_NUMBER::';
 
-//::SignalBinding.js:://
-//::Signal.js:://
+//::SIGNAL_BINDING_JS:://
+//::SIGNAL_JS:://
 
-}(this));
+	return signals;
+	
+}());
