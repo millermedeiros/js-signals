@@ -25,20 +25,16 @@
 			<format property="build.date" pattern="MM/dd/yyyy hh:mm aa" unit="hour"/>
 		</tstamp>
 		
-		<concat destfile="${dist.dir}/${dist.name}" fixlastline="yes" eol="unix">
-			<filelist dir="${src.dir}">
-				<file name="intro.js" />
-				<file name="signals.js" />
-				<file name="SignalBinding.js" />
-				<file name="Signal.js" />
-				<file name="outro.js" />
-			</filelist>
-		</concat>
+		<copy file="${src.dir}/signals.js" tofile="${dist.dir}/${dist.name}" />
+		<loadfile property="SignalBinding.js" srcFile="${src.dir}/SignalBinding.js"/>
+		<loadfile property="Signal.js" srcFile="${src.dir}/Signal.js"/>
 		
 		<replace file="${dist.dir}/${dist.name}">
 			<replacefilter token="::VERSION_NUMBER::" value="${version.number}" />
 			<replacefilter token="::BUILD_NUMBER::" value="${build.number}" />
 			<replacefilter token="::BUILD_DATE::" value="${build.date}" />
+			<replacefilter token="//::SignalBinding.js:://" value="${SignalBinding.js}" />
+			<replacefilter token="//::Signal.js:://" value="${Signal.js}" />
 		</replace>
 		
 		<echo message="${dist.name} built." />

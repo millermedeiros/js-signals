@@ -1,6 +1,6 @@
 .tmp*
 .project
-.settings
+.settings/
 
 .DS_Store?
 ehthumbs.db

@@ -1,4 +1,7 @@
-
+	
+	// Signal --------------------------------------------------------
+	//================================================================
+	
 	/**
 	 * Custom event broadcaster
 	 * <br />- inspired by Robert Penner's AS3 Signals.
@@ -12,7 +15,6 @@
 		 */
 		this._bindings = [];
 	};
-	
 	
 	signals.Signal.prototype = {
 		
