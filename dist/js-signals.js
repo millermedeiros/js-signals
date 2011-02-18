@@ -5,15 +5,15 @@
  * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  * @author Miller Medeiros <http://millermedeiros.com/>
  * @version 0.5.1
- * @build 133 (02/18/2011 06:33 PM)
+ * @build 135 (02/18/2011 06:46 PM)
  */
-(function(window){
+var signals = (function(){
 
 	/**
 	 * @namespace Signals Namespace - Custom event/messaging system based on AS3 Signals
 	 * @name signals
 	 */
-	var signals = window.signals = {};
+	var signals = {};
 
 	/**
 	 * Signals Version Number
@@ -391,4 +391,6 @@
 		
 	};
 
-}(this));
+	return signals;
+	
+}());

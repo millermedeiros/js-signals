@@ -16,7 +16,7 @@
 		</delete>
 	</target>
 	
-	<target name="build" depends="-purgeJsDeploy">
+	<target name="compile" depends="-purgeJsDeploy">
 		<echo message="Building ${dist.name}..." />
 		
 		<buildnumber file="${build.dir}/build.number"/>
@@ -33,8 +33,8 @@
 			<replacefilter token="::VERSION_NUMBER::" value="${version.number}" />
 			<replacefilter token="::BUILD_NUMBER::" value="${build.number}" />
 			<replacefilter token="::BUILD_DATE::" value="${build.date}" />
-			<replacefilter token="//::SignalBinding.js:://" value="${SignalBinding.js}" />
-			<replacefilter token="//::Signal.js:://" value="${Signal.js}" />
+			<replacefilter token="//::SIGNAL_BINDING_JS:://" value="${SignalBinding.js}" />
+			<replacefilter token="//::SIGNAL_JS:://" value="${Signal.js}" />
 		</replace>
 		
 		<echo message="${dist.name} built." />
@@ -128,11 +128,11 @@
 		<echo message="Test coverage report generated."/>
 	</target>
 	
-	<target name="compile" depends="build, lint, minify">
+	<target name="build" depends="compile, lint, minify">
 		<echo message="Build Complete." />
 	</target>
 	
-	<target name="all" depends="compile, generateDocs">
+	<target name="all" depends="build, generateDocs">
 		<echo message="Build Complete." />
 	</target>
 	
