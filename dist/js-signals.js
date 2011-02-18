@@ -5,23 +5,26 @@
  * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  * @author Miller Medeiros <http://millermedeiros.com/>
  * @version 0.5.1
- * @build 126 (01/30/2011 01:55 AM)
+ * @build 133 (02/18/2011 06:33 PM)
  */
 (function(window){
-	
+
 	/**
 	 * @namespace Signals Namespace - Custom event/messaging system based on AS3 Signals
 	 * @name signals
 	 */
 	var signals = window.signals = {};
-	
+
 	/**
 	 * Signals Version Number
 	 * @type string
 	 * @const
 	 */
 	signals.VERSION = '0.5.1';
+
 	
+	// SignalBinding -------------------------------------------------
+	//================================================================
 	
 	/**
 	 * Object that represents a binding between a Signal and a listener function.
@@ -166,7 +169,10 @@
 		}
 		
 	};
-
+	
+	// Signal --------------------------------------------------------
+	//================================================================
+	
 	/**
 	 * Custom event broadcaster
 	 * <br />- inspired by Robert Penner's AS3 Signals.
@@ -180,7 +186,6 @@
 		 */
 		this._bindings = [];
 	};
-	
 	
 	signals.Signal.prototype = {
 		
@@ -385,4 +390,5 @@
 		}
 		
 	};
+
 }(this));
