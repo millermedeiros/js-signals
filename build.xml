@@ -16,12 +16,7 @@
 		</delete>
 	</target>
 	
-	<target name="-purgeDocs">
-		<delete dir="${docs.dir}" />
-		<mkdir dir="${docs.dir}"/>
-	</target>
-	
-	<target name="build" depends="-purgeJsDeploy">
+	<target name="compile" depends="-purgeJsDeploy">
 		<echo message="Building ${dist.name}..." />
 		
 		<buildnumber file="${build.dir}/build.number"/>
@@ -30,23 +25,33 @@
 			<format property="build.date" pattern="MM/dd/yyyy hh:mm aa" unit="hour"/>
 		</tstamp>
 		
-		<concat destfile="${dist.dir}/${dist.name}" fixlastline="yes" eol="unix">
-			<filelist dir="${src.dir}">
-				<file name="intro.js" />
-				<file name="signals.js" />
-				<file name="Signal.js" />
-				<file name="SignalBinding.js" />
-				<file name="outro.js" />
-			</filelist>
-		</concat>
+		<copy file="${src.dir}/signals.js" tofile="${dist.dir}/${dist.name}" />
+		<loadfile property="SignalBinding.js" srcFile="${src.dir}/SignalBinding.js"/>
+		<loadfile property="Signal.js" srcFile="${src.dir}/Signal.js"/>
 		
 		<replace file="${dist.dir}/${dist.name}">
 			<replacefilter token="::VERSION_NUMBER::" value="${version.number}" />
 			<replacefilter token="::BUILD_NUMBER::" value="${build.number}" />
 			<replacefilter token="::BUILD_DATE::" value="${build.date}" />
+			<replacefilter token="//::SIGNAL_BINDING_JS:://" value="${SignalBinding.js}" />
+			<replacefilter token="//::SIGNAL_JS:://" value="${Signal.js}" />
 		</replace>
 		
 		<echo message="${dist.name} built." />
+	</target>
+	
+	<target name="lint">
+		<echo message="JSLinting ${dist.name}..."/>
+		
+		<apply executable="java">
+			<filelist dir="${dist.dir}">
+				<file name="${dist.name}"/>
+			</filelist>
+			<arg line="-jar"/>  
+			<arg path="${jslint.jar}"/>
+		</apply>
+		
+		<echo message="JSLinted ${dist.name}."/>
 	</target>
 	
 	<target name="minify">
@@ -59,7 +64,7 @@
 		    <arg line="-jar" />
 		    <arg path="${yuicompressor.jar}" />
 		    <arg value="--charset" />
-		    <arg value="ANSI" />
+		    <arg value="UTF8" />
 		    <arg value="-v" />
 		    <arg value="-o" />
 		    <targetfile />
@@ -68,8 +73,13 @@
 		
 		<echo message="${dist.min.name} built." />
 	</target>
-
-	<target name="generateDoc">
+	
+	<target name="-purgeDocs">
+		<delete dir="${docs.dir}" />
+		<mkdir dir="${docs.dir}"/>
+	</target>
+	
+	<target name="generateDocs" depends="-purgeDocs">
 		<echo message="Generating documentation" />
  		<apply executable="java" parallel="false" verbose="true">
 			<fileset dir="${dist.dir}">
@@ -84,11 +94,45 @@
 		<echo message="Documentation generated" />
 	</target>
 	
-	<target name="compile" depends="build, minify">
+	<target name="-purgeCoverage">
+		<delete dir="${coverage.dir}" />
+		<mkdir dir="${coverage.dir}"/>
+		<mkdir dir="${coverage-report.dir}"/>
+	</target>
+	
+	<target name="instrument" depends="-purgeCoverage">
+		<echo message="Instrumenting ${dist.name}..."/>
+		
+		<exec executable="java">
+			<arg line="-jar"/>
+			<arg path="${yuitest-coverage.jar}"/>
+			<arg value="-o"/>
+		    <arg path="${coverage.dir}/${dist.inst.name}"/>
+			<arg path="${dist.dir}/${dist.name}"/>
+		</exec>
+		
+		<echo message="${dist.name} instrumented."/>
+	</target>
+	
+	<target name="coverageReport">
+		<echo message="Gerating test coverage report..."/>
+		
+		<exec executable="java">
+			<arg line="-jar"/>  
+			<arg path="${yuitest-coverage-report.jar}"/>
+			<arg value="-o" />
+		    <arg path="${coverage-report.dir}"/>
+		    <arg path="${coverage.json}"/>
+		</exec>
+		
+		<echo message="Test coverage report generated."/>
+	</target>
+	
+	<target name="build" depends="compile, lint, minify">
 		<echo message="Build Complete." />
 	</target>
 	
-	<target name="all" depends="compile, generateDoc">
+	<target name="all" depends="build, generateDocs">
 		<echo message="Build Complete." />
 	</target>
 	

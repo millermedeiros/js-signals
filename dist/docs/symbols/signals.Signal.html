@@ -36,8 +36,6 @@
 	
 	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
 	
-	<li><a href="../symbols/signals.html">signals</a></li>
-	
 	<li><a href="../symbols/signals.Signal.html">signals.Signal</a></li>
 	
 	<li><a href="../symbols/signals.SignalBinding.html">signals.SignalBinding</a></li>
@@ -159,7 +157,7 @@
 				</div>
 				
 				<div class="description">
-					<p>Signal - custom event broadcaster
+					<p>Custom event broadcaster
 <br />- inspired by Robert Penner's AS3 Signals.</p>
 					<br /><i>Author: </i>Miller Medeiros.
 				</div>
@@ -193,7 +191,7 @@
 					<div class="fixedFont">
                       <div class="modifiers">
                       </div>
-					<span class="light">{<a href="../symbols/signals.SignalBinding.html">signals.SignalBinding</a>}</span>
+					<span class="light">{SignalBinding}</span>
 					<b>add</b>(listener, scope)
 					
 					</div>
@@ -230,7 +228,7 @@
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{<a href="../symbols/signals.SignalBinding.html">signals.SignalBinding</a>}</span> An Object representing the binding between the Signal and listener.</dd>
+								<dd><span class="light fixedFont">{SignalBinding}</span> An Object representing the binding between the Signal and listener.</dd>
 							
 							</dl>
 						
@@ -244,7 +242,7 @@
 					<div class="fixedFont">
                       <div class="modifiers">
                       </div>
-					<span class="light">{<a href="../symbols/signals.SignalBinding.html">signals.SignalBinding</a>}</span>
+					<span class="light">{SignalBinding}</span>
 					<b>addOnce</b>(listener, scope)
 					
 					</div>
@@ -281,7 +279,7 @@
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{<a href="../symbols/signals.SignalBinding.html">signals.SignalBinding</a>}</span> An Object representing the binding between the Signal and listener.</dd>
+								<dd><span class="light fixedFont">{SignalBinding}</span> An Object representing the binding between the Signal and listener.</dd>
 							
 							</dl>
 						
@@ -300,7 +298,9 @@
 					
 					</div>
 					<div class="description">
-						<p>Disable Signal, will block dispatch to listeners until <code>enable()</code> is called.</p>
+						<p>Disable Signal. Block dispatch to listeners until <code>enable()</code> is called.</p>
+
+<p><strong>IMPORTANT:</strong> If this method is called during a dispatch it will only have effect on the next dispatch, if you want to stop the propagation of a signal use `halt()` instead.</p>
 						
 						
 					</div>
@@ -318,6 +318,8 @@
 							<dt class="heading">See:</dt>
 							
 								<dd>signals.Signal.prototype.enable</dd>
+							
+								<dd>signals.Signal.prototype.halt</dd>
 							
 							</dl>
 						
@@ -372,8 +374,9 @@
 					
 					</div>
 					<div class="description">
-						<p>Remove binding from signal and destroy any reference to external Objects (destroy Signal object).
-<br /> - calling methods on the signal instance after calling dispose will throw errors.</p>
+						<p>Remove all bindings from signal and destroy any reference to external objects (destroy Signal object).</p>
+
+<p><strong>IMPORTANT:</strong> calling any method on the signal instance after calling dispose will throw errors.</p>
 						
 						
 					</div>
@@ -429,7 +432,7 @@
 					<div class="fixedFont">
                       <div class="modifiers">
                       </div>
-					<span class="light">{uint}</span>
+					<span class="light">{number}</span>
 					<b>getNumListeners</b>()
 					
 					</div>
@@ -449,7 +452,7 @@
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{uint}</span> Number of listeners attached to the Signal.</dd>
+								<dd><span class="light fixedFont">{number}</span> Number of listeners attached to the Signal.</dd>
 							
 							</dl>
 						
@@ -468,8 +471,9 @@
 					
 					</div>
 					<div class="description">
-						<p>Stop propagation of the event, blocking the dispatch to next listeners on the queue.
-- should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.</p>
+						<p>Stop propagation of the event, blocking the dispatch to next listeners on the queue.</p>
+
+<p><strong>IMPORTANT:</strong> should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.</p>
 						
 						
 					</div>
@@ -482,6 +486,13 @@
 						
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd>signals.Signal.prototype.disable</dd>
+							
+							</dl>
 						
 
                   </div>
@@ -638,7 +649,7 @@
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both;text-align:center">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Fri Dec 03 2010 17:27:36 GMT-0500 (EST)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Fri Feb 18 2011 19:22:55 GMT-0500 (EST)
 			 | template based on Steffen Siering <a href="http://github.com/urso/jsdoc-simple">jsdoc-simple</a>.
 		</div>
 	</body>

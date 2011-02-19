@@ -2,6 +2,34 @@
 
 
 
+## v0.5.2 (2011/02/18) ##
+
+### Other ###
+
+ - changed to a module pattern. 
+ - added YUI test coverage.
+ - improved build and src files structure.
+ - simplified `remove`, `removeAll`, `add`.
+ - improved error messages.
+
+
+
+## v0.5.1 (2011/01/30) ##
+
+### API changes ###
+
+ - made `SignalBinding` constructor private. (issue #15)
+ - changed params order on `SignalBinding` constructor.
+ - removed `signals.isDef()`. (issue #14)
+ 
+### Other ###
+
+ - added JSLint to the build process. (issue #12)
+ - validated source code using JSLint. (issue #13)
+ - improved docs.
+
+
+
 ## v0.5 (2010/12/03) ##
 
 ### API changes ###
@@ -11,12 +39,12 @@
    - `Signal.dispose()` (issue #6)
    - `signals.VERSION`
    - `signals.isDef()`
-    
+
  - Removed:
-  - `SignalBinding.listener` (issue #3)
-  
+   - `SignalBinding.listener` (issue #3)
+
  - Renamed:
-  - `SignalBinding.listenerScope` -> `SignalBinding.context` (issue #4)
+   - `SignalBinding.listenerScope` -> `SignalBinding.context` (issue #4)
 
 ### Fixes ###
 

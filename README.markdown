@@ -6,9 +6,10 @@ Custom event/messaging system for JavaScript inspired by [AS3-Signals](https://g
 
 ## Links ##
 
- * [JS-Signals Project Page](http://millermedeiros.github.com/js-signals/)
- * [JS-Signals Wiki](http://github.com/millermedeiros/js-signals/wiki/)
- * [JS-Signals Documentation](http://millermedeiros.github.com/js-signals/docs)
+ * [Project Page](http://millermedeiros.github.com/js-signals/)
+ * [Wiki](http://github.com/millermedeiros/js-signals/wiki/)
+ * [Documentation](http://millermedeiros.github.com/js-signals/docs)
+ * [Changelog](http://github.com/millermedeiros/js-signals/blob/master/CHANGELOG.markdown)
 
 
 ## License ##
