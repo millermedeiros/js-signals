@@ -2,6 +2,18 @@
 
 
 
+## v0.5.2 (2011/02/18) ##
+
+### Other ###
+
+ - changed to a module pattern. 
+ - added YUI test coverage.
+ - improved build and src files structure.
+ - simplified `remove`, `removeAll`, `add`.
+ - improved error messages.
+
+
+
 ## v0.5.1 (2011/01/30) ##
 
 ### API changes ###
