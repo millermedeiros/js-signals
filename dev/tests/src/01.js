@@ -15,11 +15,11 @@ YUI().use('node', 'console', 'test', function (Y){
 		_should: {
 			ignore: {},
 			error : {
-				testAddNull : 'listener is a required param of add() and addOnce().',
-				testAddOnceNull : 'listener is a required param of add() and addOnce().',
+				testAddNull : 'listener is a required param of add() and addOnce() and should be a Function.',
+				testAddOnceNull : 'listener is a required param of add() and addOnce() and should be a Function.',
 				testAddSameListenerMixed1 : 'You cannot add() then addOnce() the same listener without removing the relationship first.',
 				testAddSameListenerMixed2 : 'You cannot addOnce() then add() the same listener without removing the relationship first.',
-				testRemoveNull : 'listener is a required param of remove().',
+				testRemoveNull : 'listener is a required param of remove() and should be a Function.',
 				testDispose1 : true,
 				testDispose2 : true,
 				testDispose3 : true,

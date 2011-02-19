@@ -5,7 +5,7 @@
  * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  * @author Miller Medeiros <http://millermedeiros.com/>
  * @version 0.5.1
- * @build 135 (02/18/2011 06:46 PM)
+ * @build 137 (02/18/2011 07:12 PM)
  */
 var signals = (function(){
 
@@ -211,7 +211,7 @@ var signals = (function(){
 		_registerListener : function(listener, isOnce, scope){
 			
 			if(typeof listener !== 'function'){
-				throw new Error('listener is a required param of add() and addOnce().');
+				throw new Error('listener is a required param of add() and addOnce() and should be a Function.');
 			}
 			
 			var prevIndex = this._indexOfListener(listener),
@@ -224,18 +224,10 @@ var signals = (function(){
 				}
 			} else {
 				binding = new SignalBinding(this, listener, isOnce, scope);
-				this._addBinding(binding);
+				this._bindings.push(binding);
 			}
 			
 			return binding;
-		},
-		
-		/**
-		 * @param {SignalBinding} binding
-		 * @private
-		 */
-		_addBinding : function(binding){
-			this._bindings.push(binding);
 		},
 		
 		/**
@@ -274,26 +266,19 @@ var signals = (function(){
 		},
 		
 		/**
-		 * @private
-		 */
-		_removeByIndex : function(i){
-			this._bindings[i]._destroy(); //no reason to a SignalBinding exist if it isn't attached to a signal
-			this._bindings.splice(i, 1);
-		},
-		
-		/**
 		 * Remove a single listener from the dispatch queue.
 		 * @param {Function} listener	Handler function that should be removed.
 		 * @return {Function} Listener handler function.
 		 */
 		remove : function(listener){
 			if(typeof listener !== 'function'){
-				throw new Error('listener is a required param of remove().');
+				throw new Error('listener is a required param of remove() and should be a Function.');
 			}
 			
 			var i = this._indexOfListener(listener);
 			if(i !== -1){
-				this._removeByIndex(i);
+				this._bindings[i]._destroy(); //no reason to a SignalBinding exist if it isn't attached to a signal
+				this._bindings.splice(i, 1);
 			}
 			return listener;
 		},
@@ -304,8 +289,9 @@ var signals = (function(){
 		removeAll : function(){
 			var n = this._bindings.length;
 			while(n--){
-				this._removeByIndex(n);
+				this._bindings[n]._destroy();
 			}
+			this._bindings.length = 0;
 		},
 		
 		/**
