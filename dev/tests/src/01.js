@@ -176,6 +176,52 @@ YUI().use('node', 'console', 'test', function (Y){
 			Y.Assert.areSame(2, n);
 		},
 		
+		testDispatchDoubleListeners2 : function(){
+			var s = this.signal;
+			
+			var str = '';
+			var l1 = function(){str += 'a'};
+			var l2 = function(){str += 'b'};
+			
+			s.add(l1);
+			s.add(l2);
+			s.dispatch();
+			//ensure dispatch happened on proper order
+			Y.Assert.areSame('ab', str);
+		},
+		
+		testDispatchMultipleListenersPriority : function(){
+			var s = this.signal;
+			
+			var str = '';
+			var l1 = function(){str += 'a'};
+			var l2 = function(){str += 'b'};
+			var l3 = function(){str += 'c'};
+			
+			s.add(l1);
+			s.add(l2, null, 1);
+			s.add(l3);
+			s.dispatch();
+			//ensure dispatch happened on proper order
+			Y.Assert.areSame('bac', str);
+		},
+		
+		testDispatchMultipleListenersPriority2 : function(){
+			var s = this.signal;
+			
+			var str = '';
+			var l1 = function(){str += 'a'};
+			var l2 = function(){str += 'b'};
+			var l3 = function(){str += 'c'};
+			
+			s.add(l1, null, 1);
+			s.add(l2, null, 12);
+			s.add(l3, null, 2);
+			s.dispatch();
+			//ensure dispatch happened on proper order
+			Y.Assert.areSame('bca', str);
+		},
+		
 		testDispatchSingleListenerTwice : function(){
 			var s = this.signal;
 			
