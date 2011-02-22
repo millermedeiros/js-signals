@@ -2,6 +2,18 @@
 
 
 
+## v0.5.3 (2011/02/21) ##
+
+### API changes ###
+
+ - added priority parameter to `add` and `addOnce`.
+
+### Other ###
+
+ - improved code structure.
+
+
+
 ## v0.5.2 (2011/02/18) ##
 
 ### Other ###
