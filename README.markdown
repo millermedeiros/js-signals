@@ -1,7 +1,9 @@
 
 # JS-Signals #
 
-Custom event/messaging system for JavaScript inspired by [AS3-Signals](https://github.com/robertpenner/as3-signals). For a more in-depth introduction read the [JS-Signals Project Page](http://millermedeiros.github.com/js-signals/) and visit the links below.
+Custom event/messaging system for JavaScript inspired by [AS3-Signals](https://github.com/robertpenner/as3-signals).
+
+For a more in-depth introduction read the [JS-Signals Project Page](http://millermedeiros.github.com/js-signals/) and visit the links below.
 
 
 ## Links ##
@@ -21,12 +23,12 @@ Custom event/messaging system for JavaScript inspired by [AS3-Signals](https://g
 
 ### Folder Structure ###
 
-    .\dev       ->  development files
-    ...\build       ->  files used on the build process
-    ...\src         ->  source files
-    ...\tests       ->  unit tests
-    .\dist      ->  distribution files
-    ...\docs        ->  documentation
+    dev       ->  development files
+    |- build       ->  files used on the build process
+    |- src         ->  source files
+    |- tests       ->  unit tests
+    dist      ->  distribution files
+    |- docs        ->  documentation
 
 ### Branches ###
 
@@ -34,3 +36,14 @@ Custom event/messaging system for JavaScript inspired by [AS3-Signals](https://g
     release-**  ->  code canditate for the next stable version (alpha/beta)
     develop     ->  main development branch (nightly)
     **other**   ->  features/hotfixes/experimental, probably non-stable code
+
+
+## Building your own ##
+
+This project uses [Apache Ant](http://ant.apache.org/) for the build process. If for some reason you need to build a custom version of JS-Signals install Ant and run:
+
+    ant build
+
+This will delete all JS files inside the `dist` folder, merge/update/compress source files (`dev/src`), validate generated code using [JSLint](http://www.jslint.com/) and copy the output to the `dist` folder.
+
+**IMPORTANT:** `dist` folder always contain the latest version, regular users should **not** need to run build task.

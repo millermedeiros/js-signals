@@ -4,41 +4,42 @@
  * JS Signals <http://millermedeiros.github.com/js-signals/>
  * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  * @author Miller Medeiros <http://millermedeiros.com/>
- * @version 0.5.2
- * @build 138 (02/18/2011 07:22 PM)
+ * @version 0.5.3
+ * @build 143 (02/21/2011 07:18 PM)
+ */
+
+/**
+ * @namespace Signals Namespace - Custom event/messaging system based on AS3 Signals
  */
 var signals = (function(){
-
-	/**
-	 * @namespace Signals Namespace - Custom event/messaging system based on AS3 Signals
-	 * @name signals
-	 */
-	var signals = {};
-
-	/**
-	 * Signals Version Number
-	 * @type string
-	 * @const
-	 */
-	signals.VERSION = '0.5.2';
-
 	
+	var signals = /** @lends signals */{
+		/**
+		 * Signals Version Number
+		 * @type string
+		 * @const
+		 */
+		VERSION : '0.5.3'
+	};
+
 	// SignalBinding -------------------------------------------------
 	//================================================================
 	
 	/**
 	 * Object that represents a binding between a Signal and a listener function.
-	 * <br />- <strong>This is an internall constructor and shouldn't be called by regular user.</strong>
+	 * <br />- <strong>This is an internal constructor and shouldn't be called by regular users.</strong>
 	 * <br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.
 	 * @author Miller Medeiros
 	 * @constructor
+	 * @internal
 	 * @name signals.SignalBinding
 	 * @param {signals.Signal} signal	Reference to Signal object that listener is currently bound to.
 	 * @param {Function} listener	Handler function bound to the signal.
 	 * @param {boolean} isOnce	If binding should be executed just once.
 	 * @param {Object} [listenerContext]	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+	 * @param {Number} [priority]	The priority level of the event listener. (default = 0).
 	 */
-	 function SignalBinding(signal, listener, isOnce, listenerContext){
+	 function SignalBinding(signal, listener, isOnce, listenerContext, priority){
 		
 		/**
 		 * Handler function bound to the signal.
@@ -68,6 +69,13 @@ var signals = (function(){
 		 * @private
 		 */
 		this._signal = signal;
+		
+		/**
+		 * Listener priority
+		 * @type Number
+		 * @private
+		 */
+		this._priority = priority || 0;
 	}
 	
 	SignalBinding.prototype = /** @lends signals.SignalBinding.prototype */ {
@@ -92,7 +100,7 @@ var signals = (function(){
 					this.detach();
 				}
 			}
-			return r; //avoid warnings on some editors
+			return r;
 		},
 		
 		/**
@@ -169,6 +177,8 @@ var signals = (function(){
 		}
 		
 	};
+
+/*global signals:true, SignalBinding:true*/
 	
 	// Signal --------------------------------------------------------
 	//================================================================
@@ -205,10 +215,11 @@ var signals = (function(){
 		 * @param {Function} listener
 		 * @param {boolean} isOnce
 		 * @param {Object} [scope]
+		 * @param {Number} [priority]
 		 * @return {SignalBinding}
 		 * @private
 		 */
-		_registerListener : function(listener, isOnce, scope){
+		_registerListener : function(listener, isOnce, scope, priority){
 			
 			if(typeof listener !== 'function'){
 				throw new Error('listener is a required param of add() and addOnce() and should be a Function.');
@@ -223,11 +234,22 @@ var signals = (function(){
 					throw new Error('You cannot add'+ (isOnce? '' : 'Once') +'() then add'+ (!isOnce? '' : 'Once') +'() the same listener without removing the relationship first.');
 				}
 			} else {
-				binding = new SignalBinding(this, listener, isOnce, scope);
-				this._bindings.push(binding);
+				binding = new SignalBinding(this, listener, isOnce, scope, priority);
+				this._addBinding(binding);
 			}
 			
 			return binding;
+		},
+		
+		/**
+		 * @param {Function} binding
+		 * @private
+		 */
+		_addBinding : function(binding){
+			//simplified insertion sort
+			var n = this._bindings.length;
+			do { --n; } while (this._bindings[n] && binding._priority <= this._bindings[n]._priority);
+			this._bindings.splice(n+1, 0, binding);
 		},
 		
 		/**
@@ -249,20 +271,22 @@ var signals = (function(){
 		 * Add a listener to the signal.
 		 * @param {Function} listener	Signal handler function.
 		 * @param {Object} [scope]	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+		 * @param {Number} [priority]	The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
 		 * @return {SignalBinding} An Object representing the binding between the Signal and listener.
 		 */
-		add : function(listener, scope){
-			return this._registerListener(listener, false, scope);
+		add : function(listener, scope, priority){
+			return this._registerListener(listener, false, scope, priority);
 		},
 		
 		/**
 		 * Add listener to the signal that should be removed after first execution (will be executed only once).
 		 * @param {Function} listener	Signal handler function.
 		 * @param {Object} [scope]	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+		 * @param {Number} [priority]	The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
 		 * @return {SignalBinding} An Object representing the binding between the Signal and listener.
 		 */
-		addOnce : function(listener, scope){
-			return this._registerListener(listener, true, scope);
+		addOnce : function(listener, scope, priority){
+			return this._registerListener(listener, true, scope, priority);
 		},
 		
 		/**
@@ -346,17 +370,13 @@ var signals = (function(){
 			
 			var paramsArr = Array.prototype.slice.call(arguments),
 				bindings = this._bindings.slice(), //clone array in case add/remove items during dispatch
-				i,
 				n = this._bindings.length;
 			
 			this._shouldPropagate = true; //in case `halt` was called before dispatch or during the previous dispatch.
-						
-			for(i=0; i<n; i++){
-				//execute all callbacks until end of the list or until a callback returns `false` or stops propagation
-				if(bindings[i].execute(paramsArr) === false || !this._shouldPropagate){
-					break;
-				}
-			}
+			
+			//execute all callbacks until end of the list or until a callback returns `false` or stops propagation
+			//reverse loop since listeners with higher priority will be added at the end of the list
+			do { n--; } while (bindings[n] && this._shouldPropagate && bindings[n].execute(paramsArr) !== false);
 		},
 		
 		/**

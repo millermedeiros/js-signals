@@ -1,20 +1,21 @@
-	
 	// SignalBinding -------------------------------------------------
 	//================================================================
 	
 	/**
 	 * Object that represents a binding between a Signal and a listener function.
-	 * <br />- <strong>This is an internall constructor and shouldn't be called by regular user.</strong>
+	 * <br />- <strong>This is an internal constructor and shouldn't be called by regular users.</strong>
 	 * <br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.
 	 * @author Miller Medeiros
 	 * @constructor
+	 * @internal
 	 * @name signals.SignalBinding
 	 * @param {signals.Signal} signal	Reference to Signal object that listener is currently bound to.
 	 * @param {Function} listener	Handler function bound to the signal.
 	 * @param {boolean} isOnce	If binding should be executed just once.
 	 * @param {Object} [listenerContext]	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+	 * @param {Number} [priority]	The priority level of the event listener. (default = 0).
 	 */
-	 function SignalBinding(signal, listener, isOnce, listenerContext){
+	 function SignalBinding(signal, listener, isOnce, listenerContext, priority){
 		
 		/**
 		 * Handler function bound to the signal.
@@ -44,6 +45,13 @@
 		 * @private
 		 */
 		this._signal = signal;
+		
+		/**
+		 * Listener priority
+		 * @type Number
+		 * @private
+		 */
+		this._priority = priority || 0;
 	}
 	
 	SignalBinding.prototype = /** @lends signals.SignalBinding.prototype */ {
@@ -68,7 +76,7 @@
 					this.detach();
 				}
 			}
-			return r; //avoid warnings on some editors
+			return r;
 		},
 		
 		/**

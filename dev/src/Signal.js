@@ -1,3 +1,4 @@
+/*global signals:true, SignalBinding:true*/
 	
 	// Signal --------------------------------------------------------
 	//================================================================
@@ -34,10 +35,11 @@
 		 * @param {Function} listener
 		 * @param {boolean} isOnce
 		 * @param {Object} [scope]
+		 * @param {Number} [priority]
 		 * @return {SignalBinding}
 		 * @private
 		 */
-		_registerListener : function(listener, isOnce, scope){
+		_registerListener : function(listener, isOnce, scope, priority){
 			
 			if(typeof listener !== 'function'){
 				throw new Error('listener is a required param of add() and addOnce() and should be a Function.');
@@ -52,11 +54,22 @@
 					throw new Error('You cannot add'+ (isOnce? '' : 'Once') +'() then add'+ (!isOnce? '' : 'Once') +'() the same listener without removing the relationship first.');
 				}
 			} else {
-				binding = new SignalBinding(this, listener, isOnce, scope);
-				this._bindings.push(binding);
+				binding = new SignalBinding(this, listener, isOnce, scope, priority);
+				this._addBinding(binding);
 			}
 			
 			return binding;
+		},
+		
+		/**
+		 * @param {Function} binding
+		 * @private
+		 */
+		_addBinding : function(binding){
+			//simplified insertion sort
+			var n = this._bindings.length;
+			do { --n; } while (this._bindings[n] && binding._priority <= this._bindings[n]._priority);
+			this._bindings.splice(n+1, 0, binding);
 		},
 		
 		/**
@@ -78,20 +91,22 @@
 		 * Add a listener to the signal.
 		 * @param {Function} listener	Signal handler function.
 		 * @param {Object} [scope]	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+		 * @param {Number} [priority]	The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
 		 * @return {SignalBinding} An Object representing the binding between the Signal and listener.
 		 */
-		add : function(listener, scope){
-			return this._registerListener(listener, false, scope);
+		add : function(listener, scope, priority){
+			return this._registerListener(listener, false, scope, priority);
 		},
 		
 		/**
 		 * Add listener to the signal that should be removed after first execution (will be executed only once).
 		 * @param {Function} listener	Signal handler function.
 		 * @param {Object} [scope]	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+		 * @param {Number} [priority]	The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
 		 * @return {SignalBinding} An Object representing the binding between the Signal and listener.
 		 */
-		addOnce : function(listener, scope){
-			return this._registerListener(listener, true, scope);
+		addOnce : function(listener, scope, priority){
+			return this._registerListener(listener, true, scope, priority);
 		},
 		
 		/**
@@ -175,17 +190,13 @@
 			
 			var paramsArr = Array.prototype.slice.call(arguments),
 				bindings = this._bindings.slice(), //clone array in case add/remove items during dispatch
-				i,
 				n = this._bindings.length;
 			
 			this._shouldPropagate = true; //in case `halt` was called before dispatch or during the previous dispatch.
-						
-			for(i=0; i<n; i++){
-				//execute all callbacks until end of the list or until a callback returns `false` or stops propagation
-				if(bindings[i].execute(paramsArr) === false || !this._shouldPropagate){
-					break;
-				}
-			}
+			
+			//execute all callbacks until end of the list or until a callback returns `false` or stops propagation
+			//reverse loop since listeners with higher priority will be added at the end of the list
+			do { n--; } while (bindings[n] && this._shouldPropagate && bindings[n].execute(paramsArr) !== false);
 		},
 		
 		/**
