@@ -578,7 +578,7 @@ YUI().use('node', 'console', 'test', function (Y){
 			var s = this.signal;
 			
 			var n = 0;
-			var l1 = function(param){n += param};
+			var l1 = function(binding, param){n += param};
 			
 			s.add(l1);
 			s.dispatch(1);
@@ -590,8 +590,8 @@ YUI().use('node', 'console', 'test', function (Y){
 			var s = this.signal;
 			
 			var n = 0;
-			var l1 = function(param){n += param};
-			var l2 = function(param){n += param};
+			var l1 = function(binding, param){n += param};
+			var l2 = function(binding, param){n += param};
 			
 			s.add(l1);
 			s.add(l2);
@@ -604,7 +604,7 @@ YUI().use('node', 'console', 'test', function (Y){
 			var s = this.signal;
 			
 			var n = 0;
-			var l1 = function(param1, param2){n += param1 + param2};
+			var l1 = function(binding, param1, param2){n += param1 + param2};
 			
 			s.add(l1);
 			s.dispatch(1,2);
@@ -617,8 +617,8 @@ YUI().use('node', 'console', 'test', function (Y){
 			var s = this.signal;
 			
 			var n = 0;
-			var l1 = function(param1, param2){n += param1 + param2};
-			var l2 = function(param1, param2){n += param1 + param2};
+			var l1 = function(binding, param1, param2){n += param1 + param2};
+			var l2 = function(binding, param1, param2){n += param1 + param2};
 			
 			s.add(l1);
 			s.add(l2);
@@ -637,7 +637,7 @@ YUI().use('node', 'console', 'test', function (Y){
 					this.n = param1 + param2 + param3;
 				}
 			};
-			var l1 = function(param1,param2,param3){this.sum(param1,param2,param3);};
+			var l1 = function(binding, param1,param2,param3){this.sum(param1,param2,param3);};
 			
 			s.add(l1, scope);
 			s.dispatch(10,20,5);
@@ -649,7 +649,7 @@ YUI().use('node', 'console', 'test', function (Y){
 			var s = this.signal;
 			
 			var n = 0;
-			var l1 = function(param){n += param};
+			var l1 = function(binding, param){n += param};
 			
 			s.addOnce(l1);
 			s.dispatch(1);
@@ -661,8 +661,8 @@ YUI().use('node', 'console', 'test', function (Y){
 			var s = this.signal;
 			
 			var n = 0;
-			var l1 = function(param){n += param};
-			var l2 = function(param){n += param};
+			var l1 = function(binding, param){n += param};
+			var l2 = function(binding, param){n += param};
 			
 			s.addOnce(l1);
 			s.addOnce(l2);
@@ -675,7 +675,7 @@ YUI().use('node', 'console', 'test', function (Y){
 			var s = this.signal;
 			
 			var n = 0;
-			var l1 = function(param1, param2){n += param1 + param2};
+			var l1 = function(binding, param1, param2){n += param1 + param2};
 			
 			s.addOnce(l1);
 			s.dispatch(1,2);
@@ -688,8 +688,8 @@ YUI().use('node', 'console', 'test', function (Y){
 			var s = this.signal;
 			
 			var n = 0;
-			var l1 = function(param1, param2){n += param1 + param2};
-			var l2 = function(param1, param2){n += param1 + param2};
+			var l1 = function(binding, param1, param2){n += param1 + param2};
+			var l2 = function(binding, param1, param2){n += param1 + param2};
 			
 			s.addOnce(l1);
 			s.addOnce(l2);
@@ -704,11 +704,11 @@ YUI().use('node', 'console', 'test', function (Y){
 			
 			var scope = {
 				n : 0,
-				add : function(param1,param2,param3){
+				add : function(param1, param2, param3){
 					this.n = param1 + param2 + param3;
 				}
 			};
-			var l1 = function(param1,param2,param3){this.add(param1,param2,param3);};
+			var l1 = function(binding, param1, param2, param3){this.add(param1,param2,param3);};
 			
 			s.addOnce(l1, scope);
 			s.dispatch(10,20,5);
@@ -766,6 +766,38 @@ YUI().use('node', 'console', 'test', function (Y){
 			s.dispatch();
 			
 			Y.Assert.areSame(3, n);
+		},
+		
+		testStopPropagation4 : function(){
+			var s = this.signal;
+			
+			var n = 0;
+			var l1 = function(){n++};
+			var l2 = function(b){b.halt()};
+			var l3 = function(){n++};
+			
+			s.add(l1);
+			s.add(l2);
+			s.add(l3);
+			s.dispatch();
+			
+			Y.Assert.areSame(1, n);
+		},
+		
+		testStopPropagation5 : function(){
+			var s = this.signal;
+			
+			var n = 0;
+			var l1 = function(){n++};
+			var l2 = function(b){b.getSignal().halt()};
+			var l3 = function(){n++};
+			
+			s.add(l1);
+			s.add(l2);
+			s.add(l3);
+			s.dispatch();
+			
+			Y.Assert.areSame(1, n);
 		},
 		
 		//--------------------------- Enable/Disable -------------------------------//

@@ -71,12 +71,21 @@
 		execute : function(paramsArr){
 			var r;
 			if(this._isEnabled){
+				paramsArr = paramsArr? [this].concat(paramsArr) : [this];
 				r = this._listener.apply(this.context, paramsArr);
 				if(this._isOnce){
 					this.detach();
 				}
 			}
 			return r;
+		},
+		
+		/**
+		 * Stop propagation of the event, blocking the dispatch to next listeners on the queue.
+		 * <p><strong>IMPORTANT:</strong> should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.</p> 
+		 */
+		halt : function(){
+			this._signal.halt();
 		},
 		
 		/**
@@ -93,6 +102,13 @@
 		 */
 		getListener : function(){
 			return this._listener;
+		},
+		
+		/**
+		 * @return {signals.Signal}
+		 */
+		getSignal : function(){
+			return this._signal;
 		},
 		
 		/**

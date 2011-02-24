@@ -5,8 +5,8 @@
  * JS Signals <http://millermedeiros.github.com/js-signals/>
  * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  * @author Miller Medeiros <http://millermedeiros.com/>
- * @version 0.5.2
- * @build 154 (02/21/2011 08:27 PM)
+ * @version 0.6.0a
+ * @build 157 (02/23/2011 07:27 PM)
  */
 define('signals', function(){
 
@@ -16,7 +16,7 @@ define('signals', function(){
 		 * @type string
 		 * @const
 		 */
-		VERSION : '0.5.2'
+		VERSION : '0.6.0a'
 	};
 
 	// SignalBinding -------------------------------------------------
@@ -92,12 +92,21 @@ define('signals', function(){
 		execute : function(paramsArr){
 			var r;
 			if(this._isEnabled){
+				paramsArr = paramsArr? [this].concat(paramsArr) : [this];
 				r = this._listener.apply(this.context, paramsArr);
 				if(this._isOnce){
 					this.detach();
 				}
 			}
 			return r;
+		},
+		
+		/**
+		 * Stop propagation of the event, blocking the dispatch to next listeners on the queue.
+		 * <p><strong>IMPORTANT:</strong> should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.</p> 
+		 */
+		halt : function(){
+			this._signal.halt();
 		},
 		
 		/**
@@ -114,6 +123,13 @@ define('signals', function(){
 		 */
 		getListener : function(){
 			return this._listener;
+		},
+		
+		/**
+		 * @return {signals.Signal}
+		 */
+		getSignal : function(){
+			return this._signal;
 		},
 		
 		/**
