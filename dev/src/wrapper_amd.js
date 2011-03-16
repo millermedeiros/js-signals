@@ -2,7 +2,7 @@
 /*global define:true*/
 
 //::LICENSE:://
-define('signals', function(){
+define(function(){
 
 //::SIGNALS_JS:://
 

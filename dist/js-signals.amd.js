@@ -5,10 +5,10 @@
  * JS Signals <http://millermedeiros.github.com/js-signals/>
  * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  * @author Miller Medeiros <http://millermedeiros.com/>
- * @version 0.5.2
- * @build 154 (02/21/2011 08:27 PM)
+ * @version 0.5.3
+ * @build 157 (03/15/2011 10:05 PM)
  */
-define('signals', function(){
+define(function(){
 
 	var signals = /** @lends signals */{
 		/**
@@ -16,7 +16,7 @@ define('signals', function(){
 		 * @type string
 		 * @const
 		 */
-		VERSION : '0.5.2'
+		VERSION : '0.5.3'
 	};
 
 	// SignalBinding -------------------------------------------------
