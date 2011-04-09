@@ -782,15 +782,15 @@ YUI().use('node', 'console', 'test', function (Y){
 			s.add(l2);
 			s.add(l3);
 			
-			Y.Assert.areSame(true, s.isEnabled());
+			Y.Assert.areSame(true, s.active);
 			s.dispatch();
 			
-			s.disable();
-			Y.Assert.areSame(false, s.isEnabled());
+			s.active = false;
+			Y.Assert.areSame(false, s.active);
 			s.dispatch();
 			
-			s.enable();
-			Y.Assert.areSame(true, s.isEnabled());
+			s.active = true;
+			Y.Assert.areSame(true, s.active);
 			s.dispatch();
 			
 			Y.Assert.areSame(6, n);
@@ -808,18 +808,18 @@ YUI().use('node', 'console', 'test', function (Y){
 			var b2 = s.add(l2);
 			var b3 = s.add(l3);
 			
-			Y.Assert.areSame(true, s.isEnabled());
-			Y.Assert.areSame(true, b2.isEnabled());
+			Y.Assert.areSame(true, s.active);
+			Y.Assert.areSame(true, b2.active);
 			s.dispatch();
 			
-			b2.disable();
-			Y.Assert.areSame(true, s.isEnabled());
-			Y.Assert.areSame(false, b2.isEnabled());
+			b2.active = false;
+			Y.Assert.areSame(true, s.active);
+			Y.Assert.areSame(false, b2.active);
 			s.dispatch();
 			
-			b2.enable();
-			Y.Assert.areSame(true, s.isEnabled());
-			Y.Assert.areSame(true, b2.isEnabled());
+			b2.active = true;
+			Y.Assert.areSame(true, s.active);
+			Y.Assert.areSame(true, b2.active);
 			s.dispatch();
 			
 			Y.Assert.areSame(8, n);

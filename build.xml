@@ -12,7 +12,7 @@
 	
 	<target name="-purgeJsDeploy">
 		<delete>
-			<fileset dir="${dist.dir}" includes="${dist.name} ${dist.min.name}" />
+			<fileset dir="${dist.dir}" includes="${dist.name} ${dist.min.name} ${dist.amd.name}" />
 		</delete>
 	</target>
 	
@@ -25,20 +25,28 @@
 			<format property="build.date" pattern="MM/dd/yyyy hh:mm aa" unit="hour"/>
 		</tstamp>
 		
-		<copy file="${src.dir}/signals.js" tofile="${dist.dir}/${dist.name}" />
+		<loadfile property="license.txt" srcFile="${src.dir}/license.txt"/>
+		<loadfile property="signals.js" srcFile="${src.dir}/signals.js"/>
 		<loadfile property="SignalBinding.js" srcFile="${src.dir}/SignalBinding.js"/>
 		<loadfile property="Signal.js" srcFile="${src.dir}/Signal.js"/>
 		
-		<replace file="${dist.dir}/${dist.name}">
+		<copy file="${src.dir}/wrapper_closure.js" tofile="${dist.dir}/${dist.name}" />	
+		<copy file="${src.dir}/wrapper_amd.js" tofile="${dist.dir}/${dist.amd.name}" />
+		
+		<replace>
+			<fileset dir="${dist.dir}" includes="${dist.name} ${dist.amd.name}" />
+			<replacefilter token="//::LICENSE:://" value="${license.txt}" />
+			<replacefilter token="//::SIGNALS_JS:://" value="${signals.js}" />
+			<replacefilter token="//::SIGNAL_BINDING_JS:://" value="${SignalBinding.js}" />
+			<replacefilter token="//::SIGNAL_JS:://" value="${Signal.js}" />
+			<!-- version number, build number/date should come after other replaces -->
 			<replacefilter token="::VERSION_NUMBER::" value="${version.number}" />
 			<replacefilter token="::BUILD_NUMBER::" value="${build.number}" />
 			<replacefilter token="::BUILD_DATE::" value="${build.date}" />
-			<replacefilter token="//::SIGNAL_BINDING_JS:://" value="${SignalBinding.js}" />
-			<replacefilter token="//::SIGNAL_JS:://" value="${Signal.js}" />
 		</replace>
 		
 		<echo message="${dist.name} built." />
-	</target>
+	</target> 
 	
 	<target name="lint">
 		<echo message="JSLinting ${dist.name}..."/>

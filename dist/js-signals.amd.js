@@ -1,5 +1,5 @@
 /*jslint onevar:true, undef:true, newcap:true, regexp:true, bitwise:true, maxerr:50, indent:4, white:false, nomen:false, plusplus:false */
-/*global window:false, global:false*/
+/*global define:false*/
 
 /*!!
  * JS Signals <http://millermedeiros.github.com/js-signals/>
@@ -8,8 +8,8 @@
  * @version 0.6
  * @build 174 (04/09/2011 05:27 PM)
  */
-(function(global){
-	
+define(function(){
+
 	/**
 	 * @namespace Signals Namespace - Custom event/messaging system based on AS3 Signals
 	 * @name signals
@@ -351,6 +351,5 @@
 		
 	};
 
-	global.signals = signals;
-	
-}(window || global || this));
+	return signals;
+});
