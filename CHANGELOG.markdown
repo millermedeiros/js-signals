@@ -2,6 +2,29 @@
 
 
 
+## v0.6 (2011/04/09) ##
+
+### API changes ###
+
+ - Added:
+   - `Signal.active`
+   - `SignalBinding.active`
+
+ - Removed:
+   - `Signal.protytpe.enable()`
+   - `Signal.protytpe.disable()`
+   - `Signal.protytpe.isEnabled()`
+   - `SignalBinding.protytpe.enable()`
+   - `SignalBinding.protytpe.disable()`
+   - `SignalBinding.protytpe.isEnabled()`
+
+### Other ###
+
+ - created AMD wrapped version.
+ - switched from "module pattern" to a closure with a global export.
+  
+
+
 ## v0.5.3 (2011/02/21) ##
 
 ### API changes ###
@@ -48,7 +71,7 @@
 
  - Added:
    - `SignalBinding.prototype.getListener()` (issue #3)
-   - `Signal.dispose()` (issue #6)
+   - `Signal.prototype.dispose()` (issue #6)
    - `signals.VERSION`
    - `signals.isDef()`
 
