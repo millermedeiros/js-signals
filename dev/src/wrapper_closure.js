@@ -2,7 +2,6 @@
 /*global window:false, global:false*/
 
 //::LICENSE:://
-
 (function(global){
 	
 //::SIGNALS_JS:://
