@@ -1,17 +1,18 @@
 /*jslint onevar:true, undef:true, newcap:true, regexp:true, bitwise:true, maxerr:50, indent:4, white:false, nomen:false, plusplus:false */
+/*global window:false, global:false*/
 
 /*!!
  * JS Signals <http://millermedeiros.github.com/js-signals/>
  * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  * @author Miller Medeiros <http://millermedeiros.com/>
  * @version 0.5.4a
- * @build 170 (04/09/2011 04:54 PM)
+ * @build 171 (04/09/2011 05:01 PM)
  */
 
 /**
  * @namespace Signals Namespace - Custom event/messaging system based on AS3 Signals
  */
-var signals = (function(){
+(function(global){
 	
 	/**
 	 * @namespace Signals Namespace - Custom event/messaging system based on AS3 Signals
@@ -354,6 +355,6 @@ var signals = (function(){
 		
 	};
 
-	return signals;
+	global.signals = signals;
 	
-}());
+}(window || global || this));

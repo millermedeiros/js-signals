@@ -1,11 +1,12 @@
 /*jslint onevar:true, undef:true, newcap:true, regexp:true, bitwise:true, maxerr:50, indent:4, white:false, nomen:false, plusplus:false */
+/*global window:false, global:false*/
 
 //::LICENSE:://
 
 /**
  * @namespace Signals Namespace - Custom event/messaging system based on AS3 Signals
  */
-var signals = (function(){
+(function(global){
 	
 //::SIGNALS_JS:://
 
@@ -13,6 +14,6 @@ var signals = (function(){
 
 //::SIGNAL_JS:://
 
-	return signals;
+	global.signals = signals;
 	
-}());
+}(window || global || this));
