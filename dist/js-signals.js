@@ -4,8 +4,8 @@
  * JS Signals <http://millermedeiros.github.com/js-signals/>
  * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  * @author Miller Medeiros <http://millermedeiros.com/>
- * @version 0.5.3
- * @build 157 (03/15/2011 10:05 PM)
+ * @version 0.5.4a
+ * @build 170 (04/09/2011 04:54 PM)
  */
 
 /**
@@ -13,13 +13,17 @@
  */
 var signals = (function(){
 	
+	/**
+	 * @namespace Signals Namespace - Custom event/messaging system based on AS3 Signals
+	 * @name signals
+	 */
 	var signals = /** @lends signals */{
 		/**
 		 * Signals Version Number
-		 * @type string
+		 * @type String
 		 * @const
 		 */
-		VERSION : '0.5.3'
+		VERSION : '0.5.4a'
 	};
 
 	// SignalBinding -------------------------------------------------
@@ -59,7 +63,7 @@ var signals = (function(){
 		 * Context on which listener will be executed (object that should represent the `this` variable inside listener function).
 		 * @memberOf signals.SignalBinding.prototype
 		 * @name context
-		 * @type {Object|undefined}
+		 * @type Object|undefined|null
 		 */
 		this.context = listenerContext;
 		
@@ -81,10 +85,10 @@ var signals = (function(){
 	SignalBinding.prototype = /** @lends signals.SignalBinding.prototype */ {
 		
 		/**
+		 * If binding is active and should be executed.
 		 * @type boolean
-		 * @private
 		 */
-		_isEnabled : true,
+		active : true,
 		
 		/**
 		 * Call listener passing arbitrary parameters.
@@ -94,7 +98,7 @@ var signals = (function(){
 		 */
 		execute : function(paramsArr){
 			var r;
-			if(this._isEnabled){
+			if(this.active){
 				r = this._listener.apply(this.context, paramsArr);
 				if(this._isOnce){
 					this.detach();
@@ -140,29 +144,6 @@ var signals = (function(){
 		},
 		
 		/**
-		 * Disable SignalBinding, block listener execution. Listener will only be executed after calling `enable()`.  
-		 * @see signals.SignalBinding.enable()
-		 */
-		disable : function(){
-			this._isEnabled = false;
-		},
-		
-		/**
-		 * Enable SignalBinding. Enable listener execution.
-		 * @see signals.SignalBinding.disable()
-		 */
-		enable : function(){
-			this._isEnabled = true;
-		},
-		
-		/**
-		 * @return {boolean} If SignalBinding is currently paused and won't execute listener during dispatch.
-		 */
-		isEnabled : function(){
-			return this._isEnabled;
-		},
-		
-		/**
 		 * @return {boolean} If SignalBinding will only be executed once.
 		 */
 		isOnce : function(){
@@ -173,7 +154,7 @@ var signals = (function(){
 		 * @return {string} String representation of the object.
 		 */
 		toString : function(){
-			return '[SignalBinding isOnce: '+ this._isOnce +', isEnabled: '+ this._isEnabled +']';
+			return '[SignalBinding isOnce: '+ this._isOnce +', active: '+ this.active +']';
 		}
 		
 	};
@@ -206,10 +187,11 @@ var signals = (function(){
 		_shouldPropagate : true,
 		
 		/**
+		 * If Signal is active and should broadcast events.
+		 * <p><strong>IMPORTANT:</strong> Setting this property during a dispatch will only affect the next dispatch, if you want to stop the propagation of a signal use `halt()` instead.</p>
 		 * @type boolean
-		 * @private
 		 */
-		_isEnabled : true,
+		active : true,
 		
 		/**
 		 * @param {Function} listener
@@ -326,31 +308,6 @@ var signals = (function(){
 		},
 		
 		/**
-		 * Disable Signal. Block dispatch to listeners until `enable()` is called.
-		 * <p><strong>IMPORTANT:</strong> If this method is called during a dispatch it will only have effect on the next dispatch, if you want to stop the propagation of a signal use `halt()` instead.</p>
-		 * @see signals.Signal.prototype.enable
-		 * @see signals.Signal.prototype.halt
-		 */
-		disable : function(){
-			this._isEnabled = false;
-		},
-		
-		/**
-		 * Enable broadcast to listeners.
-		 * @see signals.Signal.prototype.disable
-		 */
-		enable : function(){
-			this._isEnabled = true;
-		}, 
-		
-		/**
-		 * @return {boolean} If Signal is currently enabled and will broadcast message to listeners.
-		 */
-		isEnabled : function(){
-			return this._isEnabled;
-		},
-		
-		/**
 		 * Stop propagation of the event, blocking the dispatch to next listeners on the queue.
 		 * <p><strong>IMPORTANT:</strong> should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.</p>
 		 * @see signals.Signal.prototype.disable 
@@ -364,7 +321,7 @@ var signals = (function(){
 		 * @param {...*} [params]	Parameters that should be passed to each handler.
 		 */
 		dispatch : function(params){
-			if(! this._isEnabled){
+			if(! this.active){
 				return;
 			}
 			
@@ -392,7 +349,7 @@ var signals = (function(){
 		 * @return {string} String representation of the object.
 		 */
 		toString : function(){
-			return '[Signal isEnabled: '+ this._isEnabled +' numListeners: '+ this.getNumListeners() +']';
+			return '[Signal active: '+ this.active +' numListeners: '+ this.getNumListeners() +']';
 		}
 		
 	};

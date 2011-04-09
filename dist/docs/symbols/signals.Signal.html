@@ -63,6 +63,15 @@
            <!-- properties list -->
            
            
+             <h3>Fields</h3>
+             <ul>
+               
+                 <li class="fixedFont">
+                   <a href="../symbols/signals.Signal.html#active">active</a>
+                 </li>
+               
+             </ul>
+           
            <!-- end properties list -->
 
            <!-- function summary -->
@@ -80,10 +89,6 @@
                     </li>
                
                    <li class="fixedFont">
-                        <a href="../symbols/signals.Signal.html#disable">disable</a>
-                    </li>
-               
-                   <li class="fixedFont">
                         <a href="../symbols/signals.Signal.html#dispatch">dispatch</a>
                     </li>
                
@@ -92,19 +97,11 @@
                     </li>
                
                    <li class="fixedFont">
-                        <a href="../symbols/signals.Signal.html#enable">enable</a>
-                    </li>
-               
-                   <li class="fixedFont">
                         <a href="../symbols/signals.Signal.html#getNumListeners">getNumListeners</a>
                     </li>
                
                    <li class="fixedFont">
                         <a href="../symbols/signals.Signal.html#halt">halt</a>
-                    </li>
-               
-                   <li class="fixedFont">
-                        <a href="../symbols/signals.Signal.html#isEnabled">isEnabled</a>
                     </li>
                
                    <li class="fixedFont">
@@ -143,7 +140,7 @@
 				
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/C__Miller_Personal_open_source_projects_js-signals_dist_js-signals.js.html">js-signals.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/_Users_millermedeiros_Documents_Projects__open_source_js-signals_dist_js-signals.js.html">js-signals.js</a>.
 				
 			</p>
 
@@ -179,6 +176,39 @@
 			
 
 <!-- ============================== field details ========================== -->		
+			
+              <div class="details">
+				<div class="sectionTitle">
+					Field Detail
+				</div>
+				
+                  <div class="member">
+					<a name="active"> </a>
+					<div class="fixedFont">
+                      <div class="modifiers">
+                      </div>
+					
+					<span class="light">{boolean}</span>
+					<b>active</b>
+					
+					</div>
+					<div class="description">
+						<p>If Signal is active and should broadcast events.</p>
+
+<p><strong>IMPORTANT:</strong> Setting this property during a dispatch will only affect the next dispatch, if you want to stop the propagation of a signal use `halt()` instead.</p>
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+                  </div>
+				
+              </div>
 			
 
 <!-- ============================== method details ========================= -->		
@@ -303,44 +333,6 @@
                   </div>
 				
                   <div class="member">
-					<a name="disable"> </a>
-					<div class="fixedFont">
-                      <div class="modifiers">
-                      </div>
-					
-					<b>disable</b>()
-					
-					</div>
-					<div class="description">
-						<p>Disable Signal. Block dispatch to listeners until <code>enable()</code> is called.</p>
-
-<p><strong>IMPORTANT:</strong> If this method is called during a dispatch it will only have effect on the next dispatch, if you want to stop the propagation of a signal use `halt()` instead.</p>
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">See:</dt>
-							
-								<dd>signals.Signal.prototype.enable</dd>
-							
-								<dd>signals.Signal.prototype.halt</dd>
-							
-							</dl>
-						
-
-                  </div>
-				
-                  <div class="member">
 					<a name="dispatch"> </a>
 					<div class="fixedFont">
                       <div class="modifiers">
@@ -403,40 +395,6 @@
 						
 						
 						
-						
-
-                  </div>
-				
-                  <div class="member">
-					<a name="enable"> </a>
-					<div class="fixedFont">
-                      <div class="modifiers">
-                      </div>
-					
-					<b>enable</b>()
-					
-					</div>
-					<div class="description">
-						<p>Enable broadcast to listeners.</p>
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">See:</dt>
-							
-								<dd>signals.Signal.prototype.disable</dd>
-							
-							</dl>
 						
 
                   </div>
@@ -507,40 +465,6 @@
 								<dd>signals.Signal.prototype.disable</dd>
 							
 							</dl>
-						
-
-                  </div>
-				
-                  <div class="member">
-					<a name="isEnabled"> </a>
-					<div class="fixedFont">
-                      <div class="modifiers">
-                      </div>
-					<span class="light">{boolean}</span>
-					<b>isEnabled</b>()
-					
-					</div>
-					<div class="description">
-						
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{boolean}</span> If Signal is currently enabled and will broadcast message to listeners.</dd>
-							
-							</dl>
-						
-						
 						
 
                   </div>
@@ -663,7 +587,7 @@
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both;text-align:center">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Mon Feb 21 2011 20:34:48 GMT-0500 (EST)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Sat Apr 09 2011 16:54:13 GMT-0300 (BRT)
 			 | template based on Steffen Siering <a href="http://github.com/urso/jsdoc-simple">jsdoc-simple</a>.
 		</div>
 	</body>
