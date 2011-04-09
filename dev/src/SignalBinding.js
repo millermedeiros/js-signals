@@ -35,7 +35,7 @@
 		 * Context on which listener will be executed (object that should represent the `this` variable inside listener function).
 		 * @memberOf signals.SignalBinding.prototype
 		 * @name context
-		 * @type {Object|undefined}
+		 * @type Object|undefined|null
 		 */
 		this.context = listenerContext;
 		
@@ -57,10 +57,10 @@
 	SignalBinding.prototype = /** @lends signals.SignalBinding.prototype */ {
 		
 		/**
+		 * If binding is active and should be executed.
 		 * @type boolean
-		 * @private
 		 */
-		_isEnabled : true,
+		active : true,
 		
 		/**
 		 * Call listener passing arbitrary parameters.
@@ -70,7 +70,7 @@
 		 */
 		execute : function(paramsArr){
 			var r;
-			if(this._isEnabled){
+			if(this.active){
 				r = this._listener.apply(this.context, paramsArr);
 				if(this._isOnce){
 					this.detach();
@@ -116,29 +116,6 @@
 		},
 		
 		/**
-		 * Disable SignalBinding, block listener execution. Listener will only be executed after calling `enable()`.  
-		 * @see signals.SignalBinding.enable()
-		 */
-		disable : function(){
-			this._isEnabled = false;
-		},
-		
-		/**
-		 * Enable SignalBinding. Enable listener execution.
-		 * @see signals.SignalBinding.disable()
-		 */
-		enable : function(){
-			this._isEnabled = true;
-		},
-		
-		/**
-		 * @return {boolean} If SignalBinding is currently paused and won't execute listener during dispatch.
-		 */
-		isEnabled : function(){
-			return this._isEnabled;
-		},
-		
-		/**
 		 * @return {boolean} If SignalBinding will only be executed once.
 		 */
 		isOnce : function(){
@@ -149,7 +126,7 @@
 		 * @return {string} String representation of the object.
 		 */
 		toString : function(){
-			return '[SignalBinding isOnce: '+ this._isOnce +', isEnabled: '+ this._isEnabled +']';
+			return '[SignalBinding isOnce: '+ this._isOnce +', active: '+ this.active +']';
 		}
 		
 	};

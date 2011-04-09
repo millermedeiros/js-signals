@@ -26,10 +26,11 @@
 		_shouldPropagate : true,
 		
 		/**
+		 * If Signal is active and should broadcast events.
+		 * <p><strong>IMPORTANT:</strong> Setting this property during a dispatch will only affect the next dispatch, if you want to stop the propagation of a signal use `halt()` instead.</p>
 		 * @type boolean
-		 * @private
 		 */
-		_isEnabled : true,
+		active : true,
 		
 		/**
 		 * @param {Function} listener
@@ -146,31 +147,6 @@
 		},
 		
 		/**
-		 * Disable Signal. Block dispatch to listeners until `enable()` is called.
-		 * <p><strong>IMPORTANT:</strong> If this method is called during a dispatch it will only have effect on the next dispatch, if you want to stop the propagation of a signal use `halt()` instead.</p>
-		 * @see signals.Signal.prototype.enable
-		 * @see signals.Signal.prototype.halt
-		 */
-		disable : function(){
-			this._isEnabled = false;
-		},
-		
-		/**
-		 * Enable broadcast to listeners.
-		 * @see signals.Signal.prototype.disable
-		 */
-		enable : function(){
-			this._isEnabled = true;
-		}, 
-		
-		/**
-		 * @return {boolean} If Signal is currently enabled and will broadcast message to listeners.
-		 */
-		isEnabled : function(){
-			return this._isEnabled;
-		},
-		
-		/**
 		 * Stop propagation of the event, blocking the dispatch to next listeners on the queue.
 		 * <p><strong>IMPORTANT:</strong> should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.</p>
 		 * @see signals.Signal.prototype.disable 
@@ -184,7 +160,7 @@
 		 * @param {...*} [params]	Parameters that should be passed to each handler.
 		 */
 		dispatch : function(params){
-			if(! this._isEnabled){
+			if(! this.active){
 				return;
 			}
 			
@@ -212,7 +188,7 @@
 		 * @return {string} String representation of the object.
 		 */
 		toString : function(){
-			return '[Signal isEnabled: '+ this._isEnabled +' numListeners: '+ this.getNumListeners() +']';
+			return '[Signal active: '+ this.active +' numListeners: '+ this.getNumListeners() +']';
 		}
 		
 	};
