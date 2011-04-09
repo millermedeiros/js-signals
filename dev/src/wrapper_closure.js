@@ -3,9 +3,6 @@
 
 //::LICENSE:://
 
-/**
- * @namespace Signals Namespace - Custom event/messaging system based on AS3 Signals
- */
 (function(global){
 	
 //::SIGNALS_JS:://
