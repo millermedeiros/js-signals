@@ -1,0 +1,13 @@
+{
+    "name"        : "js-signals",
+    "main"        : "dist/js-signals.cjs.js",
+    "description" : "Custom Event/Messaging system for JavaScript inspired by AS3-Signals",
+    "version"     : "0.6",
+    "author"      : "Miller Medeiros (http://blog.millermedeiros.com/)",
+    "repository"  : {
+        "type"    : "git",
+        "url"     : "https://github.com/millermedeiros/js-signals.git"
+    },
+    "homepage"    : "http://millermedeiros.github.com/js-signals/"
+}
+
