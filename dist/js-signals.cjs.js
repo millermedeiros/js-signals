@@ -1,12 +1,12 @@
 /*jslint onevar:true, undef:true, newcap:true, regexp:true, bitwise:true, maxerr:50, indent:4, white:false, nomen:false, plusplus:false */
-/*global exports:false*/
+/*global module:false*/
 
 /*!!
  * JS Signals <http://millermedeiros.github.com/js-signals/>
  * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  * @author Miller Medeiros <http://millermedeiros.com/>
- * @version 0.6
- * @build 181 (05/01/2011 01:47 PM)
+ * @version 0.6.1
+ * @build 179 (05/03/2011 01:20 AM)
  */
 
 	/**
@@ -19,7 +19,7 @@
 		 * @type String
 		 * @const
 		 */
-		VERSION : '0.6'
+		VERSION : '0.6.1'
 	};
 
 	// SignalBinding -------------------------------------------------
@@ -350,5 +350,5 @@
 		
 	};
 
-exports = signals;
+module.exports = signals;
 

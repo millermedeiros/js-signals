@@ -13,6 +13,7 @@
 	<target name="-purgeJsDeploy">
 		<delete>
 			<fileset dir="${dist.dir}" includes="${dist.name} ${dist.min.name} ${dist.amd.name} ${dist.cjs.name}" />
+			<fileset file="package.json" />
 		</delete>
 	</target>
 	
