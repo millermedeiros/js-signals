@@ -1,5 +1,8 @@
 # JS-Signals Changelog #
 
+## v0.6.1 (2011/05/03) ##
+
+ - added NPM package.json and CommmonJS wrapper for NPM distribution. (thanks @tomyan)
 
 
 ## v0.6 (2011/04/09) ##
