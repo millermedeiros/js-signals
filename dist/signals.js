@@ -6,7 +6,7 @@
  * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  * @author Miller Medeiros <http://millermedeiros.com/>
  * @version 0.6.1
- * @build 179 (05/03/2011 01:20 AM)
+ * @build 180 (06/07/2011 01:13 AM)
  */
 (function(global){
 	

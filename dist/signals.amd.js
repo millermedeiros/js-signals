@@ -1,13 +1,14 @@
 /*jslint onevar:true, undef:true, newcap:true, regexp:true, bitwise:true, maxerr:50, indent:4, white:false, nomen:false, plusplus:false */
-/*global module:false*/
+/*global define:false*/
 
 /*!!
  * JS Signals <http://millermedeiros.github.com/js-signals/>
  * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  * @author Miller Medeiros <http://millermedeiros.com/>
  * @version 0.6.1
- * @build 179 (05/03/2011 01:20 AM)
+ * @build 180 (06/07/2011 01:13 AM)
  */
+define(function(){
 
 	/**
 	 * @namespace Signals Namespace - Custom event/messaging system based on AS3 Signals
@@ -350,5 +351,5 @@
 		
 	};
 
-module.exports = signals;
-
+	return signals;
+});
