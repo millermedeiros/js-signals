@@ -24,10 +24,10 @@ For a more in-depth introduction read the [JS-Signals Project Page](http://mille
 Files inside `dist` folder.
 
  * docs/index.html : Documentation.
- * js-signals.js : Uncompressed source code with comments.
- * js-signals.amd.js : Uncompressed source code wrapped as an [asynchronous module](http://wiki.commonjs.org/wiki/Modules/AsynchronousDefinition) to be used together with [RequireJS](http://requirejs.org/).
- * js-signals.cjs.js : Uncompressed source code wrapped as an [CommonJS module](http://wiki.commonjs.org/wiki/Modules/1.1) to be used on [nodejs](http://nodejs.org/) or any other environment that supports CommonJS modules.
- * js-signals.min.js : Compressed code.
+ * signals.js : Uncompressed source code with comments.
+ * signals.amd.js : Uncompressed source code wrapped as an [asynchronous module](http://wiki.commonjs.org/wiki/Modules/AsynchronousDefinition) to be used together with [RequireJS](http://requirejs.org/).
+ * signals.cjs.js : Uncompressed source code wrapped as an [CommonJS module](http://wiki.commonjs.org/wiki/Modules/1.1) to be used on [nodejs](http://nodejs.org/) or any other environment that supports CommonJS modules.
+ * signals.min.js : Compressed code.
 
 You can install JS-Signals on Node.js using [NPM](http://npmjs.org/)
 

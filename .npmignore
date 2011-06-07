@@ -1,5 +1,2 @@
 dev/
-dist/js-signals.amd.js
-dist/js-signals.js
-dist/js-signals.min.js
 build.xml
