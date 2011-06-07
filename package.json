@@ -9,7 +9,7 @@
 		"type" : "git",
 		"url" : "https://github.com/millermedeiros/js-signals.git"
 	},
-	"main" : "dist/js-signals.cjs.js",
+	"main" : "dist/signals.cjs.js",
 	"bugs" : {
 		"web" : "https://github.com/millermedeiros/js-signals/issues"
 	},
