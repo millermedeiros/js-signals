@@ -13,7 +13,6 @@
 	<target name="-purgeJsDeploy">
 		<delete>
 			<fileset dir="${dist.dir}" includes="${dist.name} ${dist.min.name} ${dist.amd.name} ${dist.cjs.name}" />
-			<fileset file="package.json" />
 		</delete>
 	</target>
 	
@@ -34,11 +33,9 @@
 		<copy file="${src.dir}/wrapper_closure.js" tofile="${dist.dir}/${dist.name}" />	
 		<copy file="${src.dir}/wrapper_amd.js" tofile="${dist.dir}/${dist.amd.name}" />
 		<copy file="${src.dir}/wrapper_cjs.js" tofile="${dist.dir}/${dist.cjs.name}" />
-		<copy file="${src.dir}/package.json" tofile="package.json" />
 		
 		<replace>
 			<fileset dir="${dist.dir}" includes="${dist.name} ${dist.amd.name} ${dist.cjs.name}" />
-            <fileset dir="." includes="package.json" />
 			<replacefilter token="//::LICENSE:://" value="${license.txt}" />
 			<replacefilter token="//::SIGNALS_JS:://" value="${signals.js}" />
 			<replacefilter token="//::SIGNAL_BINDING_JS:://" value="${SignalBinding.js}" />
