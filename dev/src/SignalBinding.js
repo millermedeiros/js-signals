@@ -70,7 +70,7 @@
 		 */
 		execute : function(paramsArr){
 			var r;
-			if(this.active){
+			if(this.active && !!this._listener){
 				r = this._listener.apply(this.context, paramsArr);
 				if(this._isOnce){
 					this.detach();
