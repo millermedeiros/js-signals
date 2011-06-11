@@ -1,8 +1,23 @@
 # JS-Signals Changelog #
 
+
+## v0.6.2 (2011/06/11) ##
+
+### Fixes ###
+
+ - removing a listener during dispatch was causing an error since listener was
+   undefined. (issue #24)
+
+### Other ###
+
+ - minor code cleaning.
+
+
+
 ## v0.6.1 (2011/05/03) ##
 
  - added NPM package.json and CommmonJS wrapper for NPM distribution. (thanks @tomyan)
+
 
 
 ## v0.6 (2011/04/09) ##
