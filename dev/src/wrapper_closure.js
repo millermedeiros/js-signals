@@ -12,4 +12,4 @@
 
 	global.signals = signals;
 	
-}(window || global || this));
+}(window || this));

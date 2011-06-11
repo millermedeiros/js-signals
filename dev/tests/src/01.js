@@ -1,3 +1,5 @@
+/*global YUI:false, signals:false */
+/*jshint onevar:false, asi:true */
 YUI().use('node', 'console', 'test', function (Y){
 	
 	//==============================================================================
@@ -572,6 +574,20 @@ YUI().use('node', 'console', 'test', function (Y){
 			Y.Assert.areSame(1, scope2.n);
 		},
 		
+        testDispatchInvalidListener : function(){
+			var s = this.signal;
+			
+			var n = 0;
+            var l2 = function(){n += 1}
+			var l1 = function(){n += 1; s.remove(l2)}  //test for #24
+			
+			s.add(l1);
+			s.add(l2);
+			s.dispatch();
+			
+			Y.Assert.areSame(1, n);
+		},
+
 		//--------------------- Dispatch with params ------------------------//
 		
 		testDispatchSingleListenerParams : function(){

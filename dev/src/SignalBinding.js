@@ -106,12 +106,11 @@
         },
 
         /**
-         * Delete all instance properties
+         * Delete instance properties
          * @private
          */
         _destroy : function () {
             delete this._signal;
-            delete this._isOnce;
             delete this._listener;
             delete this.context;
         },
