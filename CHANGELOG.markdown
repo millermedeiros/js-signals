@@ -6,17 +6,18 @@
 ### Fixes ###
 
  - removing a listener during dispatch was causing an error since listener was
-   undefined. (issue #24)
+   undefined. (issue #24 - thanks @paullewis)
 
 ### Other ###
 
  - minor code cleaning.
+ - renamed distribution files to "signals.js" (issue #22)
 
 
 
 ## v0.6.1 (2011/05/03) ##
 
- - added NPM package.json and CommmonJS wrapper for NPM distribution. (thanks @tomyan)
+ - added NPM package.json and CommmonJS wrapper for NPM distribution. (issue #21 - thanks @tomyan)
 
 
 
