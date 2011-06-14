@@ -83,10 +83,17 @@
         /**
          * Detach binding from signal.
          * - alias to: mySignal.remove(myBinding.getListener());
-         * @return {Function} Handler function bound to the signal.
+         * @return {Function|null} Handler function bound to the signal or `null` if binding was previously detached.
          */
         detach : function () {
-            return this._signal.remove(this._listener);
+            return this.isBound()? this._signal.remove(this._listener) : null;
+        },
+
+        /**
+         * @return {Boolean} `true` if binding is still bound to the signal and have a listener.
+         */
+        isBound : function () {
+            return (!!this._signal && !!this._listener);
         },
 
         /**
@@ -98,7 +105,6 @@
 
         /**
          * Remove binding from signal and destroy any reference to external Objects (destroy SignalBinding object).
-         * <p><strong>IMPORTANT:</strong> calling methods on the binding instance after calling dispose will throw errors.</p>
          */
         dispose : function () {
             this.detach();
@@ -126,7 +132,7 @@
          * @return {string} String representation of the object.
          */
         toString : function () {
-            return '[SignalBinding isOnce: ' + this._isOnce + ', active: ' + this.active + ']';
+            return '[SignalBinding isOnce: ' + this._isOnce +', isBound: '+ this.isBound() +', active: ' + this.active + ']';
         }
 
     };
