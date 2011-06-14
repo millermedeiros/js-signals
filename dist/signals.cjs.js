@@ -5,8 +5,8 @@
  * JS Signals <http://millermedeiros.github.com/js-signals/>
  * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  * @author Miller Medeiros <http://millermedeiros.com/>
- * @version 0.6.2
- * @build 182 (06/11/2011 02:42 AM)
+ * @version 0.6.2+
+ * @build 183 (06/14/2011 05:31 PM)
  */
 
     /**
@@ -19,7 +19,7 @@
          * @type String
          * @const
          */
-        VERSION : '0.6.2'
+        VERSION : '0.6.2+'
     };
 
 
@@ -108,10 +108,17 @@
         /**
          * Detach binding from signal.
          * - alias to: mySignal.remove(myBinding.getListener());
-         * @return {Function} Handler function bound to the signal.
+         * @return {Function|null} Handler function bound to the signal or `null` if binding was previously detached.
          */
         detach : function () {
-            return this._signal.remove(this._listener);
+            return this.isBound()? this._signal.remove(this._listener) : null;
+        },
+
+        /**
+         * @return {Boolean} `true` if binding is still bound to the signal and have a listener.
+         */
+        isBound : function () {
+            return (!!this._signal && !!this._listener);
         },
 
         /**
@@ -123,7 +130,6 @@
 
         /**
          * Remove binding from signal and destroy any reference to external Objects (destroy SignalBinding object).
-         * <p><strong>IMPORTANT:</strong> calling methods on the binding instance after calling dispose will throw errors.</p>
          */
         dispose : function () {
             this.detach();
@@ -151,7 +157,7 @@
          * @return {string} String representation of the object.
          */
         toString : function () {
-            return '[SignalBinding isOnce: ' + this._isOnce + ', active: ' + this.active + ']';
+            return '[SignalBinding isOnce: ' + this._isOnce +', isBound: '+ this.isBound() +', active: ' + this.active + ']';
         }
 
     };

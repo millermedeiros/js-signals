@@ -909,6 +909,31 @@ YUI().use('node', 'console', 'test', function (Y){
 			Y.Assert.areSame(0, s.getNumListeners());
 			s.dispatch();
 		},
+
+		testBindingDetachTwice : function(){
+			var s = this.signal;
+			var b1 = s.add(function(){
+				Y.Assert.fail();
+			});
+			Y.Assert.areSame(1, s.getNumListeners());
+			b1.detach();
+			b1.detach();
+			Y.Assert.areSame(0, s.getNumListeners());
+			s.dispatch();
+		},
+
+		testBindingIsBound : function(){
+			var s = this.signal;
+			var b1 = s.add(function(){
+				Y.Assert.fail();
+			});
+			Y.Assert.areSame(1, s.getNumListeners());
+			Y.Assert.areSame(true, b1.isBound());
+			b1.detach();
+			Y.Assert.areSame(false, b1.isBound());
+			Y.Assert.areSame(0, s.getNumListeners());
+			s.dispatch();
+		},
 		
 		testBindingGetListener : function(){
 			var s = this.signal;
