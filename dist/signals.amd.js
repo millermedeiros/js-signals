@@ -6,7 +6,7 @@
  * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  * @author Miller Medeiros <http://millermedeiros.com/>
  * @version 0.6.2+
- * @build 183 (06/14/2011 05:31 PM)
+ * @build 184 (06/14/2011 05:43 PM)
  */
 define(function(){
 
@@ -127,14 +127,6 @@ define(function(){
          */
         getListener : function () {
             return this._listener;
-        },
-
-        /**
-         * Remove binding from signal and destroy any reference to external Objects (destroy SignalBinding object).
-         */
-        dispose : function () {
-            this.detach();
-            this._destroy();
         },
 
         /**

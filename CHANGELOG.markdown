@@ -10,8 +10,10 @@
 ### API changes ###
 
  - Added:
-   - `SignalBinding.prototype.isBound()`
+   - `SignalBinding.prototype.isBound()` (issue #25)
 
+ - Removed:
+   - `SignalBinding.prototype.dispose()` (issue #27)
 
 
 ## v0.6.2 (2011/06/11) ##

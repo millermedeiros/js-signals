@@ -104,14 +104,6 @@
         },
 
         /**
-         * Remove binding from signal and destroy any reference to external Objects (destroy SignalBinding object).
-         */
-        dispose : function () {
-            this.detach();
-            this._destroy();
-        },
-
-        /**
          * Delete instance properties
          * @private
          */

@@ -22,7 +22,8 @@ YUI().use('node', 'console', 'test', function (Y){
 				testAddSameListenerMixed1 : 'You cannot add() then addOnce() the same listener without removing the relationship first.',
 				testAddSameListenerMixed2 : 'You cannot addOnce() then add() the same listener without removing the relationship first.',
 				testRemoveNull : 'listener is a required param of remove() and should be a Function.',
-				testDispose1 : true,
+				testBindingDispose : 'b1.dispose is not a function', 
+                testDispose1 : true,
 				testDispose2 : true,
 				testDispose3 : true,
 				testDispose4 : true
@@ -982,7 +983,7 @@ YUI().use('node', 'console', 'test', function (Y){
 			var s = this.signal;
 			var b1 = s.add(function(){}, {});
 			Y.Assert.areSame(1, s.getNumListeners());
-			b1.dispose();
+			b1.dispose(); //will throw error since dispose doesn't exist anymore
 			Y.Assert.areSame(0, s.getNumListeners());
 			Y.Assert.isUndefined(b1.listener);
 			Y.Assert.isUndefined(b1.getListener());
