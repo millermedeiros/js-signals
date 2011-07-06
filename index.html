@@ -48,9 +48,9 @@
 			<img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
 			<div class="download">
 				<a href="http://github.com/millermedeiros/js-signals/zipball/master">
-				<img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
+				<img border="0" width="90" src="http://github.com/images/modules/download/zip.png" /></a>
 				<a href="http://github.com/millermedeiros/js-signals/tarball/master">
-				<img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
+				<img border="0" width="90" src="http://github.com/images/modules/download/tar.png" /></a>
 			</div>
 			<h1>js-signals</h1>
 			<h2>Custom Event/Messaging system for JavaScript</h2>
@@ -111,7 +111,7 @@ myObject.started.remove(onStarted); //remove a single listener
 				<p>For more examples <a href="https://github.com/millermedeiros/js-signals/wiki/Examples">check the examples page</a> on the wiki.</p>
 				<h3>Naming convention</h3>
 				<p>
-					By convention a signal name should always be on past tense to avoid confusions. 
+                It is recommended to always name a signal on the past tense. This convention was based on the <a href="https://github.com/robertpenner/as3-signals/wiki">AS3-Signals recommendation</a>, the reasoning behind it is to avoid confusions with regular properties and to keep consistency. Try combining multiple words if the event you are trying to describe doesn't have a past tense form or if you have naming collisions.
 				</p>
 				<div class="colHolder colHolder_2">
 					<div class="col first">
@@ -119,15 +119,22 @@ myObject.started.remove(onStarted); //remove a single listener
 							<dt>Good Names:</dt>
 								<dd>canceled</dd>
 								<dd>clicked</dd>
-								<dd>ended</dd>
+                                <dd>ended</dd>
+                                <dd>startedAnimation</dd>
 						</dl>
 					</div>
 					<div class="col last">
 						<dl>
-							<dt>Bad Names:</dt>
-								<dd>cancel</dd>
-								<dd>onClick</dd>
-								<dd>ending</dd>
+							<dt>"Bad" Names:</dt>
+                                <dd>cancel <small>(action names should be used for methods)</small></dd>
+                                <dd>onClick <small>(reminds a DOM1 event handler, you may think the property is a function)</small></dd>
+                                <dd>ending <small>(action is still happening,
+                                    you aren't sure if event is dispatched at begin or
+                                    end of action)</small></dd>
+                                <dd>animationStart <small>(name doesn't
+                                    represent an event, could be
+                                    used to store any kind of value like
+                                    a timestamp of when animation started, number representing the second when animation should start, a cue point, etc...)</small></dd>
 						</dl>
 					</div>
 				</div>
