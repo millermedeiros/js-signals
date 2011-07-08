@@ -6,7 +6,7 @@
  * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  * @author Miller Medeiros <http://millermedeiros.com/>
  * @version 0.6.2+
- * @build 184 (06/14/2011 05:43 PM)
+ * @build 185 (07/08/2011 08:46 PM)
  */
 
     /**
@@ -87,6 +87,12 @@
          * @type boolean
          */
         active : true,
+        
+        /**
+         * Default parameters passed to listener during `Signal.dispatch` and `SignalBinding.execute`. (curried parameters)
+         * @type Array|null
+         */
+        params : null,
 
         /**
          * Call listener passing arbitrary parameters.
@@ -95,14 +101,15 @@
          * @return {*} Value returned by the listener.
          */
         execute : function (paramsArr) {
-            var r;
+            var handlerReturn, params;
             if (this.active && !!this._listener) {
-                r = this._listener.apply(this.context, paramsArr);
+                params = this.params? this.params.concat(paramsArr) : paramsArr;
+                handlerReturn = this._listener.apply(this.context, params);
                 if (this._isOnce) {
                     this.detach();
                 }
             }
-            return r;
+            return handlerReturn;
         },
 
         /**

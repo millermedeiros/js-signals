@@ -64,7 +64,7 @@
         active : true,
         
         /**
-         * Default parameters for dispatch and execute. (curried parameters)
+         * Default parameters passed to listener during `Signal.dispatch` and `SignalBinding.execute`. (curried parameters)
          * @type Array|null
          */
         params : null,
@@ -78,7 +78,7 @@
         execute : function (paramsArr) {
             var handlerReturn, params;
             if (this.active && !!this._listener) {
-                params = paramsArr? (this.params? paramsArr.concat(this.params) : paramsArr) : this.params;
+                params = this.params? this.params.concat(paramsArr) : paramsArr;
                 handlerReturn = this._listener.apply(this.context, params);
                 if (this._isOnce) {
                     this.detach();
