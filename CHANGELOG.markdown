@@ -11,6 +11,7 @@
 
  - Added:
    - `SignalBinding.prototype.isBound()` (issue #25)
+   - `SignalBinding.params` (issue #28)
 
  - Removed:
    - `SignalBinding.prototype.dispose()` (issue #27)

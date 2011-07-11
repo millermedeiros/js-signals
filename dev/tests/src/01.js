@@ -990,6 +990,35 @@ YUI().use('node', 'console', 'test', function (Y){
 			Y.Assert.isUndefined(b1.context);
 		},
 		
+        testBindingCurry : function(){
+            var s = this.signal;
+            var _a, _b, _c;
+            var b1 = s.add(function(a, b, c){
+                _a = a;
+                _b = b;
+                _c = c;
+            });
+            b1.params = ['foo', 'bar'];
+            s.dispatch(123);
+            Y.Assert.areSame('foo', _a, 'curried param 1');
+            Y.Assert.areSame('bar', _b, 'curried param 2');
+            Y.Assert.areSame(123, _c, 'dispatched param');
+        },
+
+        testBindingCurry2 : function(){
+            var s = this.signal;
+            var _a, _b, _c;
+            var b1 = s.add(function(a, b, c){
+                _a = a;
+                _b = b;
+                _c = c;
+            });
+            b1.params = ['foo', 'bar'];
+            s.dispatch();
+            Y.Assert.areSame('foo', _a, 'curried param 1');
+            Y.Assert.areSame('bar', _b, 'curried param 2');
+            Y.Assert.isUndefined(_c, 'dispatched param');
+        },
 		
 		//------------------------ Remove ----------------------------------//
 		
