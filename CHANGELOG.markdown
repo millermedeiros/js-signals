@@ -1,7 +1,7 @@
 # JS-Signals Changelog #
 
 
-## Next ##
+## v0.6.3 (2011/07/11) ##
 
 ### Fixes ###
 
@@ -15,6 +15,7 @@
 
  - Removed:
    - `SignalBinding.prototype.dispose()` (issue #27)
+
 
 ### Other ###
 
