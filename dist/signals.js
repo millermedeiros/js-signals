@@ -5,8 +5,8 @@
  * JS Signals <http://millermedeiros.github.com/js-signals/>
  * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  * @author Miller Medeiros <http://millermedeiros.com/>
- * @version 0.6.2+
- * @build 185 (07/08/2011 08:46 PM)
+ * @version 0.6.3
+ * @build 187 (07/11/2011 10:14 AM)
  */
 (function(global){
 	
@@ -20,7 +20,7 @@
          * @type String
          * @const
          */
-        VERSION : '0.6.2+'
+        VERSION : '0.6.3'
     };
 
 
@@ -167,6 +167,12 @@
 
     // Signal --------------------------------------------------------
     //================================================================
+    
+    function validateListener(listener, fnName) {
+        if (typeof listener !== 'function') {
+            throw new Error( 'listener is a required param of {fn}() and should be a Function.'.replace('{fn}', fnName) );
+        }
+    }
 
     /**
      * Custom event broadcaster
@@ -207,10 +213,6 @@
          */
         _registerListener : function (listener, isOnce, scope, priority) {
 
-            if (typeof listener !== 'function') {
-                throw new Error('listener is a required param of add() and addOnce() and should be a Function.');
-            }
-
             var prevIndex = this._indexOfListener(listener),
                 binding;
 
@@ -228,7 +230,7 @@
         },
 
         /**
-         * @param {Function} binding
+         * @param {SignalBinding} binding
          * @private
          */
         _addBinding : function (binding) {
@@ -261,6 +263,7 @@
          * @return {SignalBinding} An Object representing the binding between the Signal and listener.
          */
         add : function (listener, scope, priority) {
+            validateListener(listener, 'add');
             return this._registerListener(listener, false, scope, priority);
         },
 
@@ -272,6 +275,7 @@
          * @return {SignalBinding} An Object representing the binding between the Signal and listener.
          */
         addOnce : function (listener, scope, priority) {
+            validateListener(listener, 'addOnce');
             return this._registerListener(listener, true, scope, priority);
         },
 
@@ -281,9 +285,7 @@
          * @return {Function} Listener handler function.
          */
         remove : function (listener) {
-            if (typeof listener !== 'function') {
-                throw new Error('listener is a required param of remove() and should be a Function.');
-            }
+            validateListener(listener, 'remove');
 
             var i = this._indexOfListener(listener);
             if (i !== -1) {
