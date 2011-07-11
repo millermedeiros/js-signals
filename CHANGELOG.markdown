@@ -16,6 +16,11 @@
  - Removed:
    - `SignalBinding.prototype.dispose()` (issue #27)
 
+### Other ###
+
+ - minor code cleaning, better error messages.
+
+
 
 ## v0.6.2 (2011/06/11) ##
 
