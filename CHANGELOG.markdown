@@ -1,6 +1,27 @@
 # JS-Signals Changelog #
 
 
+## Next ##
+
+### Fixes ###
+
+ - improved `SignalBinding.detach()` behavior. (issue #25)
+
+### API changes ###
+
+ - Added:
+   - `SignalBinding.prototype.isBound()` (issue #25)
+   - `SignalBinding.params` (issue #28)
+
+ - Removed:
+   - `SignalBinding.prototype.dispose()` (issue #27)
+
+### Other ###
+
+ - minor code cleaning, better error messages.
+
+
+
 ## v0.6.2 (2011/06/11) ##
 
 ### Fixes ###

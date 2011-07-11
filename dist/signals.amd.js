@@ -5,8 +5,8 @@
  * JS Signals <http://millermedeiros.github.com/js-signals/>
  * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  * @author Miller Medeiros <http://millermedeiros.com/>
- * @version 0.6.2
- * @build 182 (06/11/2011 02:42 AM)
+ * @version 0.6.3
+ * @build 187 (07/11/2011 10:14 AM)
  */
 define(function(){
 
@@ -20,7 +20,7 @@ define(function(){
          * @type String
          * @const
          */
-        VERSION : '0.6.2'
+        VERSION : '0.6.3'
     };
 
 
@@ -88,6 +88,12 @@ define(function(){
          * @type boolean
          */
         active : true,
+        
+        /**
+         * Default parameters passed to listener during `Signal.dispatch` and `SignalBinding.execute`. (curried parameters)
+         * @type Array|null
+         */
+        params : null,
 
         /**
          * Call listener passing arbitrary parameters.
@@ -96,23 +102,31 @@ define(function(){
          * @return {*} Value returned by the listener.
          */
         execute : function (paramsArr) {
-            var r;
+            var handlerReturn, params;
             if (this.active && !!this._listener) {
-                r = this._listener.apply(this.context, paramsArr);
+                params = this.params? this.params.concat(paramsArr) : paramsArr;
+                handlerReturn = this._listener.apply(this.context, params);
                 if (this._isOnce) {
                     this.detach();
                 }
             }
-            return r;
+            return handlerReturn;
         },
 
         /**
          * Detach binding from signal.
          * - alias to: mySignal.remove(myBinding.getListener());
-         * @return {Function} Handler function bound to the signal.
+         * @return {Function|null} Handler function bound to the signal or `null` if binding was previously detached.
          */
         detach : function () {
-            return this._signal.remove(this._listener);
+            return this.isBound()? this._signal.remove(this._listener) : null;
+        },
+
+        /**
+         * @return {Boolean} `true` if binding is still bound to the signal and have a listener.
+         */
+        isBound : function () {
+            return (!!this._signal && !!this._listener);
         },
 
         /**
@@ -120,15 +134,6 @@ define(function(){
          */
         getListener : function () {
             return this._listener;
-        },
-
-        /**
-         * Remove binding from signal and destroy any reference to external Objects (destroy SignalBinding object).
-         * <p><strong>IMPORTANT:</strong> calling methods on the binding instance after calling dispose will throw errors.</p>
-         */
-        dispose : function () {
-            this.detach();
-            this._destroy();
         },
 
         /**
@@ -152,7 +157,7 @@ define(function(){
          * @return {string} String representation of the object.
          */
         toString : function () {
-            return '[SignalBinding isOnce: ' + this._isOnce + ', active: ' + this.active + ']';
+            return '[SignalBinding isOnce: ' + this._isOnce +', isBound: '+ this.isBound() +', active: ' + this.active + ']';
         }
 
     };
@@ -162,6 +167,12 @@ define(function(){
 
     // Signal --------------------------------------------------------
     //================================================================
+    
+    function validateListener(listener, fnName) {
+        if (typeof listener !== 'function') {
+            throw new Error( 'listener is a required param of {fn}() and should be a Function.'.replace('{fn}', fnName) );
+        }
+    }
 
     /**
      * Custom event broadcaster
@@ -202,10 +213,6 @@ define(function(){
          */
         _registerListener : function (listener, isOnce, scope, priority) {
 
-            if (typeof listener !== 'function') {
-                throw new Error('listener is a required param of add() and addOnce() and should be a Function.');
-            }
-
             var prevIndex = this._indexOfListener(listener),
                 binding;
 
@@ -223,7 +230,7 @@ define(function(){
         },
 
         /**
-         * @param {Function} binding
+         * @param {SignalBinding} binding
          * @private
          */
         _addBinding : function (binding) {
@@ -256,6 +263,7 @@ define(function(){
          * @return {SignalBinding} An Object representing the binding between the Signal and listener.
          */
         add : function (listener, scope, priority) {
+            validateListener(listener, 'add');
             return this._registerListener(listener, false, scope, priority);
         },
 
@@ -267,6 +275,7 @@ define(function(){
          * @return {SignalBinding} An Object representing the binding between the Signal and listener.
          */
         addOnce : function (listener, scope, priority) {
+            validateListener(listener, 'addOnce');
             return this._registerListener(listener, true, scope, priority);
         },
 
@@ -276,9 +285,7 @@ define(function(){
          * @return {Function} Listener handler function.
          */
         remove : function (listener) {
-            if (typeof listener !== 'function') {
-                throw new Error('listener is a required param of remove() and should be a Function.');
-            }
+            validateListener(listener, 'remove');
 
             var i = this._indexOfListener(listener);
             if (i !== -1) {

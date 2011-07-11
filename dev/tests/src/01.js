@@ -17,12 +17,13 @@ YUI().use('node', 'console', 'test', function (Y){
 		_should: {
 			ignore: {},
 			error : {
-				testAddNull : 'listener is a required param of add() and addOnce() and should be a Function.',
-				testAddOnceNull : 'listener is a required param of add() and addOnce() and should be a Function.',
+				testAddNull : 'listener is a required param of add() and should be a Function.',
+				testAddOnceNull : 'listener is a required param of addOnce() and should be a Function.',
 				testAddSameListenerMixed1 : 'You cannot add() then addOnce() the same listener without removing the relationship first.',
 				testAddSameListenerMixed2 : 'You cannot addOnce() then add() the same listener without removing the relationship first.',
 				testRemoveNull : 'listener is a required param of remove() and should be a Function.',
-				testDispose1 : true,
+				testBindingDispose : 'b1.dispose is not a function', 
+                testDispose1 : true,
 				testDispose2 : true,
 				testDispose3 : true,
 				testDispose4 : true
@@ -909,6 +910,31 @@ YUI().use('node', 'console', 'test', function (Y){
 			Y.Assert.areSame(0, s.getNumListeners());
 			s.dispatch();
 		},
+
+		testBindingDetachTwice : function(){
+			var s = this.signal;
+			var b1 = s.add(function(){
+				Y.Assert.fail();
+			});
+			Y.Assert.areSame(1, s.getNumListeners());
+			b1.detach();
+			b1.detach();
+			Y.Assert.areSame(0, s.getNumListeners());
+			s.dispatch();
+		},
+
+		testBindingIsBound : function(){
+			var s = this.signal;
+			var b1 = s.add(function(){
+				Y.Assert.fail();
+			});
+			Y.Assert.areSame(1, s.getNumListeners());
+			Y.Assert.areSame(true, b1.isBound());
+			b1.detach();
+			Y.Assert.areSame(false, b1.isBound());
+			Y.Assert.areSame(0, s.getNumListeners());
+			s.dispatch();
+		},
 		
 		testBindingGetListener : function(){
 			var s = this.signal;
@@ -957,13 +983,42 @@ YUI().use('node', 'console', 'test', function (Y){
 			var s = this.signal;
 			var b1 = s.add(function(){}, {});
 			Y.Assert.areSame(1, s.getNumListeners());
-			b1.dispose();
+			b1.dispose(); //will throw error since dispose doesn't exist anymore
 			Y.Assert.areSame(0, s.getNumListeners());
 			Y.Assert.isUndefined(b1.listener);
 			Y.Assert.isUndefined(b1.getListener());
 			Y.Assert.isUndefined(b1.context);
 		},
 		
+        testBindingCurry : function(){
+            var s = this.signal;
+            var _a, _b, _c;
+            var b1 = s.add(function(a, b, c){
+                _a = a;
+                _b = b;
+                _c = c;
+            });
+            b1.params = ['foo', 'bar'];
+            s.dispatch(123);
+            Y.Assert.areSame('foo', _a, 'curried param 1');
+            Y.Assert.areSame('bar', _b, 'curried param 2');
+            Y.Assert.areSame(123, _c, 'dispatched param');
+        },
+
+        testBindingCurry2 : function(){
+            var s = this.signal;
+            var _a, _b, _c;
+            var b1 = s.add(function(a, b, c){
+                _a = a;
+                _b = b;
+                _c = c;
+            });
+            b1.params = ['foo', 'bar'];
+            s.dispatch();
+            Y.Assert.areSame('foo', _a, 'curried param 1');
+            Y.Assert.areSame('bar', _b, 'curried param 2');
+            Y.Assert.isUndefined(_c, 'dispatched param');
+        },
 		
 		//------------------------ Remove ----------------------------------//
 		

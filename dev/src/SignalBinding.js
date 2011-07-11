@@ -62,6 +62,12 @@
          * @type boolean
          */
         active : true,
+        
+        /**
+         * Default parameters passed to listener during `Signal.dispatch` and `SignalBinding.execute`. (curried parameters)
+         * @type Array|null
+         */
+        params : null,
 
         /**
          * Call listener passing arbitrary parameters.
@@ -70,23 +76,31 @@
          * @return {*} Value returned by the listener.
          */
         execute : function (paramsArr) {
-            var r;
+            var handlerReturn, params;
             if (this.active && !!this._listener) {
-                r = this._listener.apply(this.context, paramsArr);
+                params = this.params? this.params.concat(paramsArr) : paramsArr;
+                handlerReturn = this._listener.apply(this.context, params);
                 if (this._isOnce) {
                     this.detach();
                 }
             }
-            return r;
+            return handlerReturn;
         },
 
         /**
          * Detach binding from signal.
          * - alias to: mySignal.remove(myBinding.getListener());
-         * @return {Function} Handler function bound to the signal.
+         * @return {Function|null} Handler function bound to the signal or `null` if binding was previously detached.
          */
         detach : function () {
-            return this._signal.remove(this._listener);
+            return this.isBound()? this._signal.remove(this._listener) : null;
+        },
+
+        /**
+         * @return {Boolean} `true` if binding is still bound to the signal and have a listener.
+         */
+        isBound : function () {
+            return (!!this._signal && !!this._listener);
         },
 
         /**
@@ -94,15 +108,6 @@
          */
         getListener : function () {
             return this._listener;
-        },
-
-        /**
-         * Remove binding from signal and destroy any reference to external Objects (destroy SignalBinding object).
-         * <p><strong>IMPORTANT:</strong> calling methods on the binding instance after calling dispose will throw errors.</p>
-         */
-        dispose : function () {
-            this.detach();
-            this._destroy();
         },
 
         /**
@@ -126,7 +131,7 @@
          * @return {string} String representation of the object.
          */
         toString : function () {
-            return '[SignalBinding isOnce: ' + this._isOnce + ', active: ' + this.active + ']';
+            return '[SignalBinding isOnce: ' + this._isOnce +', isBound: '+ this.isBound() +', active: ' + this.active + ']';
         }
 
     };
