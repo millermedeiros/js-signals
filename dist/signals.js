@@ -1,15 +1,16 @@
 /*jslint onevar:true, undef:true, newcap:true, regexp:true, bitwise:true, maxerr:50, indent:4, white:false, nomen:false, plusplus:false */
-/*global window:false, global:false*/
+/*global define:false, require:false, exports:false, module:false*/
 
 /*!!
  * JS Signals <http://millermedeiros.github.com/js-signals/>
  * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  * @author Miller Medeiros <http://millermedeiros.com/>
  * @version 0.6.3
- * @build 187 (07/11/2011 10:14 AM)
+ * @build 189 (2011/09/02 07:06 PM)
  */
-(function(global){
-	
+(function(def){
+def(function(){
+
     /**
      * @namespace Signals Namespace - Custom event/messaging system based on AS3 Signals
      * @name signals
@@ -362,6 +363,24 @@
 
 
 
-	global.signals = signals;
-	
-}(window || this));
+    return signals;
+});
+}(
+    // wrapper to run code everywhere
+    // based on http://bit.ly/c7U4h5
+    typeof require === 'undefined'?
+        //Browser (regular script tag)
+        function(factory){
+            this.signals = factory();
+        } :
+        ((typeof exports === 'undefined')?
+            //AMD
+            function(factory){
+                define('signals', [], factory);
+            } :
+            //CommonJS
+            function(factory){
+                module.exports = factory();
+            }
+        )
+));
