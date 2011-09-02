@@ -1,6 +1,12 @@
 # JS-Signals Changelog #
 
 
+## Next ##
+
+ - changed the way the code is wrapped to have a single distribution file for
+   all the environments. (issue #33)
+
+
 ## v0.6.3 (2011/07/11) ##
 
 ### Fixes ###
