@@ -139,7 +139,7 @@
 		<echo message="Build Complete." />
 	</target>
 	
-	<target name="all" depends="build, generateDocs">
+	<target name="deploy" depends="build, generateDocs">
 		<echo message="Build Complete." />
 	</target>
 	

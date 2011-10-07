@@ -62,4 +62,9 @@ This project uses [Apache Ant](http://ant.apache.org/) for the build process. If
 
 This will delete all JS files inside the `dist` folder, merge/update/compress source files, validate generated code using [JSLint](http://www.jslint.com/) and copy the output to the `dist` folder.
 
+There is also another ant task that runs the build task and generate
+documentation (used before each deploy):
+
+    ant deploy
+
 **IMPORTANT:** `dist` folder always contain the latest version, regular users should **not** need to run build task.

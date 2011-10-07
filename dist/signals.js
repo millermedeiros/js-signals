@@ -6,10 +6,9 @@
  * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  * @author Miller Medeiros <http://millermedeiros.com/>
  * @version 0.6.3
- * @build 189 (2011/09/02 07:06 PM)
+ * @build 190 (2011/10/07 08:36 PM)
  */
-(function(def){
-def(function(){
+(function(global){
 
     /**
      * @namespace Signals Namespace - Custom event/messaging system based on AS3 Signals
@@ -363,24 +362,14 @@ def(function(){
 
 
 
-    return signals;
-});
-}(
-    // wrapper to run code everywhere
-    // based on http://bit.ly/c7U4h5
-    typeof require === 'undefined'?
-        //Browser (regular script tag)
-        function(factory){
-            this.signals = factory();
-        } :
-        ((typeof exports === 'undefined')?
-            //AMD
-            function(factory){
-                define('signals', [], factory);
-            } :
-            //CommonJS
-            function(factory){
-                module.exports = factory();
-            }
-        )
-));
+    //exports to multiple environments
+    if(typeof define === 'function' && define.amd){ //AMD
+        define('signals', [], signals);
+    } else if (typeof module !== 'undefined' && module.exports){ //node
+        module.exports = signals;
+    } else { //browser
+        //use string because of Google closure compiler ADVANCED_MODE
+        global['signals'] = signals;
+    }
+
+}(this));

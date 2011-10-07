@@ -2,8 +2,7 @@
 /*global define:false, require:false, exports:false, module:false*/
 
 //::LICENSE:://
-(function(def){
-def(function(){
+(function(global){
 
 //::SIGNALS_JS:://
 
@@ -11,24 +10,14 @@ def(function(){
 
 //::SIGNAL_JS:://
 
-    return signals;
-});
-}(
-    // wrapper to run code everywhere
-    // based on http://bit.ly/c7U4h5
-    typeof require === 'undefined'?
-        //Browser (regular script tag)
-        function(factory){
-            this.signals = factory();
-        } :
-        ((typeof exports === 'undefined')?
-            //AMD
-            function(factory){
-                define('signals', [], factory);
-            } :
-            //CommonJS
-            function(factory){
-                module.exports = factory();
-            }
-        )
-));
+    //exports to multiple environments
+    if(typeof define === 'function' && define.amd){ //AMD
+        define('signals', [], signals);
+    } else if (typeof module !== 'undefined' && module.exports){ //node
+        module.exports = signals;
+    } else { //browser
+        //use string because of Google closure compiler ADVANCED_MODE
+        global['signals'] = signals;
+    }
+
+}(this));
