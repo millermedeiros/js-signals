@@ -101,40 +101,6 @@
 		<echo message="Documentation generated" />
 	</target>
 	
-	<target name="-purgeCoverage">
-		<delete dir="${coverage.dir}" />
-		<mkdir dir="${coverage.dir}"/>
-		<mkdir dir="${coverage-report.dir}"/>
-	</target>
-	
-	<target name="instrument" depends="-purgeCoverage">
-		<echo message="Instrumenting ${dist.name}..."/>
-		
-		<exec executable="java">
-			<arg line="-jar"/>
-			<arg path="${yuitest-coverage.jar}"/>
-			<arg value="-o"/>
-		    <arg path="${coverage.dir}/${dist.inst.name}"/>
-			<arg path="${dist.dir}/${dist.name}"/>
-		</exec>
-		
-		<echo message="${dist.name} instrumented."/>
-	</target>
-	
-	<target name="coverageReport">
-		<echo message="Gerating test coverage report..."/>
-		
-		<exec executable="java">
-			<arg line="-jar"/>  
-			<arg path="${yuitest-coverage-report.jar}"/>
-			<arg value="-o" />
-		    <arg path="${coverage-report.dir}"/>
-		    <arg path="${coverage.json}"/>
-		</exec>
-		
-		<echo message="Test coverage report generated."/>
-	</target>
-	
 	<target name="build" depends="compile, lint, minify">
 		<echo message="Build Complete." />
 	</target>
