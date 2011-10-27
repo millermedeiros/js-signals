@@ -6,7 +6,11 @@
  * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  * @author Miller Medeiros <http://millermedeiros.com/>
  * @version 0.6.3
+<<<<<<< HEAD
  * @build 190 (2011/10/07 08:36 PM)
+=======
+ * @build 215 (2011/10/27 12:28 PM)
+>>>>>>> iss29-2
  */
 (function(global){
 
@@ -163,11 +167,11 @@
     };
 
 
-/*global signals:true, SignalBinding:false*/
+/*global signals:false, SignalBinding:false*/
 
     // Signal --------------------------------------------------------
     //================================================================
-    
+
     function validateListener(listener, fnName) {
         if (typeof listener !== 'function') {
             throw new Error( 'listener is a required param of {fn}() and should be a Function.'.replace('{fn}', fnName) );
@@ -186,9 +190,18 @@
          * @private
          */
         this._bindings = [];
+        this._prevParams = null;
     };
 
     signals.Signal.prototype = {
+
+        /**
+         * If Signal should keep record of previously dispatched parameters and
+         * automatically execute listener during add/addOnce if Signal was
+         * already dispatched before.
+         * @type boolean
+         */
+        memorize : false,
 
         /**
          * @type boolean
@@ -224,6 +237,10 @@
             } else {
                 binding = new SignalBinding(this, listener, isOnce, scope, priority);
                 this._addBinding(binding);
+            }
+
+            if(this.memorize && this._prevParams){
+                binding.execute(this._prevParams);
             }
 
             return binding;
@@ -335,6 +352,10 @@
                 bindings = this._bindings.slice(), //clone array in case add/remove items during dispatch
                 n = this._bindings.length;
 
+            if(this.memorize){
+                this._prevParams = paramsArr;
+            }
+
             this._shouldPropagate = true; //in case `halt` was called before dispatch or during the previous dispatch.
 
             //execute all callbacks until end of the list or until a callback returns `false` or stops propagation
@@ -349,6 +370,7 @@
         dispose : function () {
             this.removeAll();
             delete this._bindings;
+            delete this._prevParams;
         },
 
         /**
