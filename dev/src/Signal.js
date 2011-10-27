@@ -226,7 +226,7 @@
          * @return {string} String representation of the object.
          */
         toString : function () {
-            return '[Signal active: '+ this.active +' numListeners: '+ this.getNumListeners() +']';
+            return '[Signal active:'+ this.active +' numListeners:'+ this.getNumListeners() +']';
         }
 
     };
