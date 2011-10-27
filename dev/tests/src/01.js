@@ -101,6 +101,18 @@ YUI().use('node', 'console', 'test', function (Y){
             s.add(); //should throw error
             Y.Assert.areSame(0, s.getNumListeners());
         },
+
+        //--------------------------- Add / Has ---------------------------------//
+
+        testHasListener : function(){
+            var s = this.signal;
+            
+            var l = function(){};
+            
+            s.add(l);
+            
+            Y.Assert.areSame(true, s.has(l));
+        },
         
         //--------------------------- Add Once ---------------------------------//
         

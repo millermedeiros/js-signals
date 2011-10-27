@@ -6,7 +6,7 @@
  * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  * @author Miller Medeiros <http://millermedeiros.com/>
  * @version 0.6.3
- * @build 218 (2011/10/27 12:45 PM)
+ * @build 219 (2011/10/27 01:04 PM)
  */
 (function(global){
 
@@ -266,6 +266,15 @@
                 }
             }
             return -1;
+        },
+
+        /**
+         * Check if listener was attached to Signal.
+         * @param {Function} listener
+         * @return {boolean} if Signal has the specified listener.
+         */
+        has : function (listener) {
+            return this._indexOfListener(listener) !== -1;
         },
 
         /**

@@ -8,6 +8,7 @@
  - Added:
    - `Signal.memorize`. (issue #29)
    - `Signal.reset()`. (issue #29)
+   - `Signal.has()`. (issue #35)
 
 ### Other ###
 

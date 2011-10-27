@@ -104,6 +104,15 @@
         },
 
         /**
+         * Check if listener was attached to Signal.
+         * @param {Function} listener
+         * @return {boolean} if Signal has the specified listener.
+         */
+        has : function (listener) {
+            return this._indexOfListener(listener) !== -1;
+        },
+
+        /**
          * Add a listener to the signal.
          * @param {Function} listener	Signal handler function.
          * @param {Object} [scope]	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
