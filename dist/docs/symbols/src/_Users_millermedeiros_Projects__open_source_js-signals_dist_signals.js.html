@@ -6,18 +6,18 @@
 	.REGX {color: #339;}
 	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
 	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/*jslint onevar:true, undef:true, newcap:true, regexp:true, bitwise:true, maxerr:50, indent:4, white:false, nomen:false, plusplus:false */</span><span class="WHIT">
-<span class='line'>  2</span> </span><span class="COMM">/*global window:false, global:false*/</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">/*global define:false, require:false, exports:false, module:false*/</span><span class="WHIT">
 <span class='line'>  3</span> 
 <span class='line'>  4</span> </span><span class="COMM">/*!!
 <span class='line'>  5</span>  * JS Signals &lt;http://millermedeiros.github.com/js-signals/>
 <span class='line'>  6</span>  * Released under the MIT license &lt;http://www.opensource.org/licenses/mit-license.php>
 <span class='line'>  7</span>  * @author Miller Medeiros &lt;http://millermedeiros.com/>
 <span class='line'>  8</span>  * @version 0.6.3
-<span class='line'>  9</span>  * @build 215 (2011/10/27 12:28 PM)
+<span class='line'>  9</span>  * @build 218 (2011/10/27 12:45 PM)
 <span class='line'> 10</span>  */</span><span class="WHIT">
 <span class='line'> 11</span> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">global</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 12</span> </span><span class="WHIT">	
-<span class='line'> 13</span>     </span><span class="COMM">/**
+<span class='line'> 12</span> 
+<span class='line'> 13</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'> 14</span>      * @namespace Signals Namespace - Custom event/messaging system based on AS3 Signals
 <span class='line'> 15</span>      * @name signals
 <span class='line'> 16</span>      */</span><span class="WHIT">
@@ -200,7 +200,7 @@
 <span class='line'>193</span> 
 <span class='line'>194</span> </span><span class="WHIT">        </span><span class="COMM">/**
 <span class='line'>195</span>          * If Signal should keep record of previously dispatched parameters and
-<span class='line'>196</span>          * automatically execute listener during add/addOnce if Signal was
+<span class='line'>196</span>          * automatically execute listener during `add()`/`addOnce()` if Signal was
 <span class='line'>197</span>          * already dispatched before.
 <span class='line'>198</span>          * @type boolean
 <span class='line'>199</span>          */</span><span class="WHIT">
@@ -367,27 +367,44 @@
 <span class='line'>360</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>361</span> 
 <span class='line'>362</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>363</span>          * Remove all bindings from signal and destroy any reference to external objects (destroy Signal object).
-<span class='line'>364</span>          * &lt;p>&lt;strong>IMPORTANT:&lt;/strong> calling any method on the signal instance after calling dispose will throw errors.&lt;/p>
-<span class='line'>365</span>          */</span><span class="WHIT">
-<span class='line'>366</span> </span><span class="WHIT">        </span><span class="NAME">dispose</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>367</span> </span><span class="WHIT">            </span><span class="NAME">this.removeAll</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>368</span> </span><span class="WHIT">            </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">this._bindings</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>369</span> </span><span class="WHIT">            </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">this._prevParams</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>370</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>371</span> 
-<span class='line'>372</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>373</span>          * @return {string} String representation of the object.
+<span class='line'>363</span>          * Reset previous dispatched parameters, so `add()`/`addOnce()` won't
+<span class='line'>364</span>          * execute listener automatically even if Signal was previously
+<span class='line'>365</span>          * dispatched.
+<span class='line'>366</span>          */</span><span class="WHIT">
+<span class='line'>367</span> </span><span class="WHIT">        </span><span class="NAME">reset</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>368</span> </span><span class="WHIT">            </span><span class="NAME">this._prevParams</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>369</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>370</span> 
+<span class='line'>371</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>372</span>          * Remove all bindings from signal and destroy any reference to external objects (destroy Signal object).
+<span class='line'>373</span>          * &lt;p>&lt;strong>IMPORTANT:&lt;/strong> calling any method on the signal instance after calling dispose will throw errors.&lt;/p>
 <span class='line'>374</span>          */</span><span class="WHIT">
-<span class='line'>375</span> </span><span class="WHIT">        </span><span class="NAME">toString</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>376</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">'[Signal active: '</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.active</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="STRN">' numListeners: '</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.getNumListeners</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="STRN">']'</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>377</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>378</span> 
-<span class='line'>379</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>375</span> </span><span class="WHIT">        </span><span class="NAME">dispose</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>376</span> </span><span class="WHIT">            </span><span class="NAME">this.removeAll</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>377</span> </span><span class="WHIT">            </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">this._bindings</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>378</span> </span><span class="WHIT">            </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">this._prevParams</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>379</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>380</span> 
-<span class='line'>381</span> 
-<span class='line'>382</span> 
-<span class='line'>383</span> </span><span class="WHIT">	</span><span class="NAME">global.signals</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">signals</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>384</span> </span><span class="WHIT">	
-<span class='line'>385</span> </span><span class="PUNC">}</span><span class="PUNC">(</span><span class="NAME">window</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>386</span> </span></pre></body></html>
+<span class='line'>381</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>382</span>          * @return {string} String representation of the object.
+<span class='line'>383</span>          */</span><span class="WHIT">
+<span class='line'>384</span> </span><span class="WHIT">        </span><span class="NAME">toString</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>385</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">'[Signal active: '</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.active</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="STRN">' numListeners: '</span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.getNumListeners</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="STRN">']'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>386</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>387</span> 
+<span class='line'>388</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>389</span> 
+<span class='line'>390</span> 
+<span class='line'>391</span> 
+<span class='line'>392</span> </span><span class="WHIT">    </span><span class="COMM">//exports to multiple environments</span><span class="WHIT">
+<span class='line'>393</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">define</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'function'</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">define.amd</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="COMM">//AMD</span><span class="WHIT">
+<span class='line'>394</span> </span><span class="WHIT">        </span><span class="NAME">define</span><span class="PUNC">(</span><span class="STRN">'signals'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">signals</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>395</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">module</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="STRN">'undefined'</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">module.exports</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="COMM">//node</span><span class="WHIT">
+<span class='line'>396</span> </span><span class="WHIT">        </span><span class="NAME">module.exports</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">signals</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>397</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="COMM">//browser</span><span class="WHIT">
+<span class='line'>398</span> </span><span class="WHIT">        </span><span class="COMM">//use string because of Google closure compiler ADVANCED_MODE</span><span class="WHIT">
+<span class='line'>399</span> </span><span class="WHIT">        </span><span class="NAME">global</span><span class="PUNC">[</span><span class="STRN">'signals'</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">signals</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>400</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>401</span> 
+<span class='line'>402</span> </span><span class="PUNC">}</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>403</span> </span></pre></body></html>

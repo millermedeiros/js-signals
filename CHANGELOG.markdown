@@ -3,9 +3,17 @@
 
 ## Next ##
 
+### API changes ###
+
+ - Added:
+   - `Signal.memorize`. (issue #29)
+   - `Signal.reset()`. (issue #29)
+
+### Other ###
+
  - changed the way the code is wrapped to have a single distribution file for
    all the environments. (issue #33)
- - added `Signal.memorize`. (issue #29)
+
 
 
 ## v0.6.3 (2011/07/11) ##

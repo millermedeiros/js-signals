@@ -6,11 +6,7 @@
  * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  * @author Miller Medeiros <http://millermedeiros.com/>
  * @version 0.6.3
-<<<<<<< HEAD
- * @build 190 (2011/10/07 08:36 PM)
-=======
- * @build 215 (2011/10/27 12:28 PM)
->>>>>>> iss29-2
+ * @build 218 (2011/10/27 12:45 PM)
  */
 (function(global){
 
@@ -197,7 +193,7 @@
 
         /**
          * If Signal should keep record of previously dispatched parameters and
-         * automatically execute listener during add/addOnce if Signal was
+         * automatically execute listener during `add()`/`addOnce()` if Signal was
          * already dispatched before.
          * @type boolean
          */
@@ -361,6 +357,15 @@
             //execute all callbacks until end of the list or until a callback returns `false` or stops propagation
             //reverse loop since listeners with higher priority will be added at the end of the list
             do { n--; } while (bindings[n] && this._shouldPropagate && bindings[n].execute(paramsArr) !== false);
+        },
+
+        /**
+         * Reset previous dispatched parameters, so `add()`/`addOnce()` won't
+         * execute listener automatically even if Signal was previously
+         * dispatched.
+         */
+        reset : function(){
+            this._prevParams = null;
         },
 
         /**

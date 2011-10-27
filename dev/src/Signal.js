@@ -28,7 +28,7 @@
 
         /**
          * If Signal should keep record of previously dispatched parameters and
-         * automatically execute listener during add/addOnce if Signal was
+         * automatically execute listener during `add()`/`addOnce()` if Signal was
          * already dispatched before.
          * @type boolean
          */
@@ -192,6 +192,15 @@
             //execute all callbacks until end of the list or until a callback returns `false` or stops propagation
             //reverse loop since listeners with higher priority will be added at the end of the list
             do { n--; } while (bindings[n] && this._shouldPropagate && bindings[n].execute(paramsArr) !== false);
+        },
+
+        /**
+         * Reset previous dispatched parameters, so `add()`/`addOnce()` won't
+         * execute listener automatically even if Signal was previously
+         * dispatched.
+         */
+        reset : function(){
+            this._prevParams = null;
         },
 
         /**

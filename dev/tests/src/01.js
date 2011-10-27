@@ -1241,6 +1241,40 @@ YUI().use('node', 'console', 'test', function (Y){
            Y.Assert.areSame(3, count);
         },
 
+        testMemorizeReset : function(){
+           var s = new signals.Signal();
+           s.memorize = true;
+           var count = 0;
+
+           var ts1 = +(new Date());
+
+           s.addOnce(function(a, b){
+               count++;
+               Y.Assert.areSame('foo', a);
+               Y.Assert.areSame(ts1, b);
+           });
+
+           s.dispatch('foo', ts1);
+
+           s.addOnce(function(a, b){
+               count++;
+               Y.Assert.areSame('foo', a);
+               Y.Assert.areSame(ts1, b);
+           });
+
+           var ts2 = +(new Date());
+
+           s.dispatch('bar', ts2);
+           s.reset();
+
+           s.addOnce(function(a, b){
+               count++;
+               Y.Assert.fail('a: '+ a +' - b: '+ b);
+           });
+
+           Y.Assert.areSame(2, count);
+        },
+
         testMemorizeDispose : function(){
             var s = new signals.Signal();
             s.memorize = true;
