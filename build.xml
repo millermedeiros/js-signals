@@ -1,114 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="js-signals" default="" basedir=".">
-	
-	<!-- properties -->
-	
+
+    <!-- properties -->
+
     <property file="dev/build/build.properties" />
-	
-	<!-- custom tasks -->
-	
-	
-	<!-- targets -->
-	
-	<target name="-purgeJsDeploy">
-		<delete>
-			<fileset dir="${dist.dir}" includes="${dist.name} ${dist.min.name}" />
-		</delete>
-	</target>
-	
-	<target name="compile" depends="-purgeJsDeploy">
-		<echo message="Building ${dist.name}..." />
-		
-		<buildnumber file="${build.dir}/build.number"/>
-		
-		<tstamp>
+
+
+    <!-- custom tasks -->
+
+    <taskdef name="jscomp" classname="com.google.javascript.jscomp.ant.CompileTask" classpath="${closure_compiler.jar}"/>
+
+
+    <!-- targets -->
+
+    <target name="-purgeJsDeploy">
+        <delete>
+            <fileset dir="${dist.dir}" includes="${dist.name} ${dist.min.name}" />
+        </delete>
+    </target>
+
+    <target name="compile" depends="-purgeJsDeploy">
+        <echo message="Building ${dist.name}..." />
+
+        <buildnumber file="${build.dir}/build.number"/>
+
+        <tstamp>
             <format property="build.date" pattern="yyyy/MM/dd hh:mm aa" unit="hour"/>
-		</tstamp>
-		
-		<loadfile property="license.txt" srcFile="${src.dir}/license.txt"/>
-		<loadfile property="signals.js" srcFile="${src.dir}/signals.js"/>
-		<loadfile property="SignalBinding.js" srcFile="${src.dir}/SignalBinding.js"/>
-		<loadfile property="Signal.js" srcFile="${src.dir}/Signal.js"/>
-		<loadfile property="CompoundSignal.js" srcFile="${src.dir}/CompoundSignal.js"/>
-		
-		<copy file="${src.dir}/wrapper.js" tofile="${dist.dir}/${dist.name}" />
-		
-		<replace>
-			<fileset dir="${dist.dir}" includes="${dist.name}" />
-			<replacefilter token="//::LICENSE:://" value="${license.txt}" />
-			<replacefilter token="//::SIGNALS_JS:://" value="${signals.js}" />
-			<replacefilter token="//::SIGNAL_BINDING_JS:://" value="${SignalBinding.js}" />
-			<replacefilter token="//::SIGNAL_JS:://" value="${Signal.js}" />
-			<replacefilter token="//::COMPOUND_SIGNAL_JS:://" value="${CompoundSignal.js}" />
-			<!-- version number, build number/date should come after other replaces -->
-			<replacefilter token="::VERSION_NUMBER::" value="${version.number}" />
-			<replacefilter token="::BUILD_NUMBER::" value="${build.number}" />
-			<replacefilter token="::BUILD_DATE::" value="${build.date}" />
-		</replace>
-		
-		<echo message="${dist.name} built." />
-	</target> 
-	
-	<target name="lint">
-		<echo message="JSLinting ${dist.name}..."/>
-		
-		<apply executable="java">
-			<filelist dir="${dist.dir}">
-				<file name="${dist.name}"/>
-			</filelist>
-			<arg line="-jar"/>  
-			<arg path="${jslint.jar}"/>
-		</apply>
-		
-		<echo message="JSLinted ${dist.name}."/>
-	</target>
-	
-	<target name="minify">
-		<echo message="Building ${dist.min.name}..." />
-		
-		<apply executable="java" parallel="false" verbose="true" dest="${dist.dir}">
-		    <fileset dir="${dist.dir}">
-		        <include name="${dist.name}" />
-		    </fileset>
-		    <arg line="-jar" />
-		    <arg path="${yuicompressor.jar}" />
-		    <arg value="--charset" />
-		    <arg value="UTF8" />
-		    <arg value="-v" />
-		    <arg value="-o" />
-		    <targetfile />
-		    <mapper type="glob" from="${dist.name}" to="${dist.min.name}" />
-		</apply>
-		
-		<echo message="${dist.min.name} built." />
-	</target>
-	
-	<target name="-purgeDocs">
-		<delete dir="${docs.dir}" />
-		<mkdir dir="${docs.dir}"/>
-	</target>
-	
-	<target name="generateDocs" depends="-purgeDocs">
-		<echo message="Generating documentation" />
- 		<apply executable="java" parallel="false" verbose="true">
-			<fileset dir="${dist.dir}">
-				<include name="${dist.name}" />
-			</fileset>
-			<arg line="-jar" />
-			<arg path="${jsdoc-toolkit.dir}/jsrun.jar" />
-			<arg value="${jsdoc-toolkit.dir}/app/run.js" />
-			<arg value="-t=${jsdoc-toolkit.dir}/templates/jsdoc-simple" />
-			<arg value="-d=${docs.dir}" />
-		</apply>
-		<echo message="Documentation generated" />
-	</target>
-	
-	<target name="build" depends="compile, lint, minify">
-		<echo message="Build Complete." />
-	</target>
-	
-	<target name="deploy" depends="build, generateDocs">
-		<echo message="Build Complete." />
-	</target>
-	
+        </tstamp>
+
+        <loadfile property="license.txt" srcFile="${src.dir}/license.txt"/>
+        <loadfile property="signals.js" srcFile="${src.dir}/signals.js"/>
+        <loadfile property="SignalBinding.js" srcFile="${src.dir}/SignalBinding.js"/>
+        <loadfile property="Signal.js" srcFile="${src.dir}/Signal.js"/>
+        <loadfile property="CompoundSignal.js" srcFile="${src.dir}/CompoundSignal.js"/>
+
+        <copy file="${src.dir}/wrapper.js" tofile="${dist.dir}/${dist.name}" />
+
+        <replace>
+            <fileset dir="${dist.dir}" includes="${dist.name}" />
+            <replacefilter token="//::LICENSE:://" value="${license.txt}" />
+            <replacefilter token="//::SIGNALS_JS:://" value="${signals.js}" />
+            <replacefilter token="//::SIGNAL_BINDING_JS:://" value="${SignalBinding.js}" />
+            <replacefilter token="//::SIGNAL_JS:://" value="${Signal.js}" />
+            <replacefilter token="//::COMPOUND_SIGNAL_JS:://" value="${CompoundSignal.js}" />
+            <!-- version number, build number/date should come after other replaces -->
+            <replacefilter token="::VERSION_NUMBER::" value="${version.number}" />
+            <replacefilter token="::BUILD_NUMBER::" value="${build.number}" />
+            <replacefilter token="::BUILD_DATE::" value="${build.date}" />
+        </replace>
+
+        <echo message="${dist.name} built." />
+    </target>
+
+    <target name="lint">
+        <echo message="JSLinting ${dist.name}..."/>
+
+        <apply executable="java">
+            <filelist dir="${dist.dir}">
+                <file name="${dist.name}"/>
+            </filelist>
+            <arg line="-jar"/>
+            <arg path="${jslint.jar}"/>
+        </apply>
+
+        <echo message="JSLinted ${dist.name}."/>
+    </target>
+
+    <target name="minify">
+        <echo message="Building ${dist.min.name}..." />
+
+        <jscomp compilationLevel="simple" debug="false" output="${dist.dir}/${dist.min.name}">
+            <externs dir="${build.dir}">
+                <file name="externs.js"/>
+            </externs>
+            <sources dir="${dist.dir}">
+                <file name="${dist.name}"/>
+            </sources>
+        </jscomp>
+
+        <echo message="${dist.min.name} built." />
+    </target>
+
+    <target name="-purgeDocs">
+        <delete dir="${docs.dir}" />
+        <mkdir dir="${docs.dir}"/>
+    </target>
+
+    <target name="generateDocs" depends="-purgeDocs">
+        <echo message="Generating documentation" />
+        <apply executable="java" parallel="false" verbose="true">
+            <fileset dir="${dist.dir}">
+                <include name="${dist.name}" />
+            </fileset>
+            <arg line="-jar" />
+            <arg path="${jsdoc-toolkit.dir}/jsrun.jar" />
+            <arg value="${jsdoc-toolkit.dir}/app/run.js" />
+            <arg value="-t=${jsdoc-toolkit.dir}/templates/jsdoc-simple" />
+            <arg value="-d=${docs.dir}" />
+        </apply>
+        <echo message="Documentation generated" />
+    </target>
+
+    <target name="build" depends="compile, lint, minify">
+        <echo message="Build Complete." />
+    </target>
+
+    <target name="deploy" depends="build, generateDocs">
+        <echo message="Build Complete." />
+    </target>
+
 </project>
