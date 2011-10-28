@@ -190,7 +190,7 @@
 
             var paramsArr = Array.prototype.slice.call(arguments),
                 bindings = this._bindings.slice(), //clone array in case add/remove items during dispatch
-                n = this._bindings.length;
+                n = bindings.length;
 
             if(this.memorize){
                 this._prevParams = paramsArr;
@@ -204,11 +204,10 @@
         },
 
         /**
-         * Reset previous dispatched parameters, so `add()`/`addOnce()` won't
-         * execute listener automatically even if Signal was previously
-         * dispatched.
+         * Forget memorized arguments.
+         * @see signals.Signal.memorize
          */
-        reset : function(){
+        forget : function(){
             this._prevParams = null;
         },
 

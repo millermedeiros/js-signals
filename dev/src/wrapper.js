@@ -10,6 +10,8 @@
 
 //::SIGNAL_JS:://
 
+//::COMPOUND_SIGNAL_JS:://
+
     //exports to multiple environments
     if(typeof define === 'function' && define.amd){ //AMD
         define('signals', [], signals);
