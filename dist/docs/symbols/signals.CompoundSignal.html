@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - signals.SignalBinding</title>
+		<title>JsDoc Reference - signals.CompoundSignal</title>
 
         <link rel="stylesheet" href="../static/default.css" type="text/css" media="screen" charset="utf-8" />
 	</head>
@@ -56,7 +56,7 @@
              </h3>
              <ul>
                 <li  class="fixedFont">
-                  <a href="../symbols/signals.SignalBinding.html">SignalBinding</a>
+                  <a href="../symbols/signals.CompoundSignal.html">CompoundSignal</a>
                 </li>
              </ul>
            
@@ -69,15 +69,15 @@
              <ul>
                
                  <li class="fixedFont">
-                   <a href="../symbols/signals.SignalBinding.html#active">active</a>
+                   <a href="../symbols/signals.CompoundSignal.html#memorize">memorize</a>
                  </li>
                
                  <li class="fixedFont">
-                   <a href="../symbols/signals.SignalBinding.html#context">context</a>
+                   <a href="../symbols/signals.CompoundSignal.html#override">override</a>
                  </li>
                
                  <li class="fixedFont">
-                   <a href="../symbols/signals.SignalBinding.html#params">params</a>
+                   <a href="../symbols/signals.CompoundSignal.html#unique">unique</a>
                  </li>
                
              </ul>
@@ -91,27 +91,15 @@
              <ul>
                
                    <li class="fixedFont">
-                        <a href="../symbols/signals.SignalBinding.html#detach">detach</a>
+                        <a href="../symbols/signals.CompoundSignal.html#dispatch">dispatch</a>
                     </li>
                
                    <li class="fixedFont">
-                        <a href="../symbols/signals.SignalBinding.html#execute">execute</a>
+                        <a href="../symbols/signals.CompoundSignal.html#isResolved">isResolved</a>
                     </li>
                
                    <li class="fixedFont">
-                        <a href="../symbols/signals.SignalBinding.html#getListener">getListener</a>
-                    </li>
-               
-                   <li class="fixedFont">
-                        <a href="../symbols/signals.SignalBinding.html#isBound">isBound</a>
-                    </li>
-               
-                   <li class="fixedFont">
-                        <a href="../symbols/signals.SignalBinding.html#isOnce">isOnce</a>
-                    </li>
-               
-                   <li class="fixedFont">
-                        <a href="../symbols/signals.SignalBinding.html#toString">toString</a>
+                        <a href="../symbols/signals.CompoundSignal.html#reset">reset</a>
                     </li>
                
              </ul>
@@ -127,12 +115,29 @@
 		<div id="content">
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
-				Class signals.SignalBinding
+				Class signals.CompoundSignal
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
 				
+				<br />Extends
+					<a href="../symbols/signals.Signal.html">signals.Signal</a>.<br />
+
+                    
+                        <dl class="inheritsList">
+                        <dt>Fields borrowed from class <a href="../symbols/signals.Signal.html">signals.Signal</a>: </dt><dd><a href="../symbols/signals.Signal.html#active">active</a></dd>
+                        </dl>
+                    
+
+                    
+                        <dl class="inheritsList">
+                        <dt>Methods borrowed from class <a href="../symbols/signals.Signal.html">signals.Signal</a>: </dt><dd><a href="../symbols/signals.Signal.html#add">add</a>, <a href="../symbols/signals.Signal.html#addOnce">addOnce</a>, <a href="../symbols/signals.Signal.html#dispose">dispose</a>, <a href="../symbols/signals.Signal.html#forget">forget</a>, <a href="../symbols/signals.Signal.html#getNumListeners">getNumListeners</a>, <a href="../symbols/signals.Signal.html#halt">halt</a>, <a href="../symbols/signals.Signal.html#has">has</a>, <a href="../symbols/signals.Signal.html#remove">remove</a>, <a href="../symbols/signals.Signal.html#removeAll">removeAll</a>, <a href="../symbols/signals.Signal.html#toString">toString</a></dd>
+                        </dl>
+                    
+
+                    
+
 				
 			
 				
@@ -150,14 +155,19 @@
 				</div>
 				
 				<div class="fixedFont">
-						<b>signals.SignalBinding</b>(signal, listener, isOnce, listenerContext, priority)
+						<b>signals.CompoundSignal</b>(signals)
 				</div>
 				
 				<div class="description">
-					<p>Object that represents a binding between a Signal and a listener function.
-<br />- <strong>This is an internal constructor and shouldn't be called by regular users.</strong>
-<br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.</p>
-					<br /><i>Author: </i>Miller Medeiros.
+					<p>CompoundSignal works like a group of signals which should be
+dispatched automatically after all the signals contained by the
+group are dispatched. Arguments are passed to listeners as Arrays on
+the same order as the signals were passed on the constructor.
+<br><br>
+If you are familiar with Promise/Deferred think of it as Promise
+which will be resolved after all the signals on the group are
+dispatched.</p>
+					
 				</div>
 				
 				
@@ -168,34 +178,10 @@
 						<dt class="heading">Parameters:</dt>
 						
 							<dt>
-								<span class="light fixedFont">{<a href="../symbols/signals.Signal.html">signals.Signal</a>}</span>  <b>signal</b>
+								<span class="light fixedFont">{...signal.Signal}</span>  <b>signals</b>
 								
 							</dt>
-								<dd>Reference to Signal object that listener is currently bound to.</dd>
-						
-							<dt>
-								<span class="light fixedFont">{Function}</span>  <b>listener</b>
-								
-							</dt>
-								<dd>Handler function bound to the signal.</dd>
-						
-							<dt>
-								<span class="light fixedFont">{boolean}</span>  <b>isOnce</b>
-								
-							</dt>
-								<dd>If binding should be executed just once.</dd>
-						
-							<dt>
-								<span class="light fixedFont">{Object}</span>  <b>listenerContext</b>
-								<i>Optional</i>
-							</dt>
-								<dd>Context on which listener will be executed (object that should represent the `this` variable inside listener function).</dd>
-						
-							<dt>
-								<span class="light fixedFont">{Number}</span>  <b>priority</b>
-								<i>Optional</i>
-							</dt>
-								<dd>The priority level of the event listener. (default = 0).</dd>
+								<dd>Signals that should be grouped.</dd>
 						
 						</dl>
 					
@@ -217,17 +203,20 @@
 				</div>
 				
                   <div class="member">
-					<a name="active"> </a>
+					<a name="memorize"> </a>
 					<div class="fixedFont">
                       <div class="modifiers">
                       </div>
 					
 					<span class="light">{boolean}</span>
-					<b>active</b>
+					<b>memorize</b>
 					
 					</div>
 					<div class="description">
-						<p>If binding is active and should be executed.</p>
+						<p>If <code>true</code> it will store a reference to previously dispatched
+arguments and will automatically execute callbacks during
+<code>add()</code>/<code>addOnce()</code> (similar to a "Promise"). Default value
+is <code>true</code>.</p>
 						
 						
 					</div>
@@ -241,17 +230,18 @@
                   </div>
 				
                   <div class="member">
-					<a name="context"> </a>
+					<a name="override"> </a>
 					<div class="fixedFont">
                       <div class="modifiers">
                       </div>
 					
-					<span class="light">{Object|undefined|null}</span>
-					<b>context</b>
+					<span class="light">{boolean}</span>
+					<b>override</b>
 					
 					</div>
 					<div class="description">
-						<p>Context on which listener will be executed (object that should represent the <code>this</code> variable inside listener function).</p>
+						<p>Sets if multiple dispatches of same signal should override
+previously registered parameters. Default value is <code>false</code>.</p>
 						
 						
 					</div>
@@ -265,17 +255,20 @@
                   </div>
 				
                   <div class="member">
-					<a name="params"> </a>
+					<a name="unique"> </a>
 					<div class="fixedFont">
                       <div class="modifiers">
                       </div>
 					
-					<span class="light">{Array|null}</span>
-					<b>params</b>
+					<span class="light">{boolean}</span>
+					<b>unique</b>
 					
 					</div>
 					<div class="description">
-						<p>Default parameters passed to listener during <code>Signal.dispatch</code> and <code>SignalBinding.execute</code>. (curried parameters)</p>
+						<p>If <code>true</code> CompoundSignal will act like a "Promise", after first
+dispatch, subsequent dispatches will always pass same arguments. It
+will also remove all the listeners automatically after dispatch.
+Default value is <code>true</code>.</p>
 						
 						
 					</div>
@@ -299,166 +292,55 @@
 				</div>
 				
                   <div class="member">
-					<a name="detach"> </a>
+					<a name="dispatch"> </a>
 					<div class="fixedFont">
                       <div class="modifiers">
                       </div>
-					<span class="light">{Function|null}</span>
-					<b>detach</b>()
+					
+					<b>dispatch</b>()
 					
 					</div>
 					<div class="description">
-						<p>Detach binding from signal.
-- alias to: mySignal.remove(myBinding.getListener());</p>
+						<p>Works similar to a regular Signal <code>dispatch()</code> method but if
+CompoundSignal was already "resolved" and it is <code>unique</code>, it will
+always dispatch the same arguments, no mather which parameters are
+passed to the <code>dispatch</code> method.</p>
 						
 						
 					</div>
 					
 					
 					
+						
+						
 						
 						
 						
 						
 						
 							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
+							<dt class="heading">See:</dt>
 							
-								<dd><span class="light fixedFont">{Function|null}</span> Handler function bound to the signal or `null` if binding was previously detached.</dd>
+								<dd>signals.Signal.dispatch</dd>
+							
+								<dd>signals.CompoundSignal.unique</dd>
 							
 							</dl>
-						
-						
 						
 
                   </div>
 				
                   <div class="member">
-					<a name="execute"> </a>
-					<div class="fixedFont">
-                      <div class="modifiers">
-                      </div>
-					<span class="light">{*}</span>
-					<b>execute</b>(paramsArr)
-					
-					</div>
-					<div class="description">
-						<p>Call listener passing arbitrary parameters.</p>
-
-<p>If binding was added using `Signal.addOnce()` it will be automatically removed from signal dispatch queue, this method is used internally for the signal dispatch.</p>
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{Array}</span> <b>paramsArr</b>
-									<i>Optional</i>
-								</dt>
-								<dd>Array of parameters that should be passed to the listener</dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{*}</span> Value returned by the listener.</dd>
-							
-							</dl>
-						
-						
-						
-
-                  </div>
-				
-                  <div class="member">
-					<a name="getListener"> </a>
-					<div class="fixedFont">
-                      <div class="modifiers">
-                      </div>
-					<span class="light">{Function}</span>
-					<b>getListener</b>()
-					
-					</div>
-					<div class="description">
-						
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{Function}</span> Handler function bound to the signal.</dd>
-							
-							</dl>
-						
-						
-						
-
-                  </div>
-				
-                  <div class="member">
-					<a name="isBound"> </a>
-					<div class="fixedFont">
-                      <div class="modifiers">
-                      </div>
-					<span class="light">{Boolean}</span>
-					<b>isBound</b>()
-					
-					</div>
-					<div class="description">
-						
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{Boolean}</span> `true` if binding is still bound to the signal and have a listener.</dd>
-							
-							</dl>
-						
-						
-						
-
-                  </div>
-				
-                  <div class="member">
-					<a name="isOnce"> </a>
+					<a name="isResolved"> </a>
 					<div class="fixedFont">
                       <div class="modifiers">
                       </div>
 					<span class="light">{boolean}</span>
-					<b>isOnce</b>()
+					<b>isResolved</b>()
 					
 					</div>
 					<div class="description">
-						
+						<p>Check if CompoundSignal did resolved.</p>
 						
 						
 					</div>
@@ -473,7 +355,7 @@
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{boolean}</span> If SignalBinding will only be executed once.</dd>
+								<dd><span class="light fixedFont">{boolean}</span> if CompoundSignal is resolved.</dd>
 							
 							</dl>
 						
@@ -483,16 +365,18 @@
                   </div>
 				
                   <div class="member">
-					<a name="toString"> </a>
+					<a name="reset"> </a>
 					<div class="fixedFont">
                       <div class="modifiers">
                       </div>
-					<span class="light">{string}</span>
-					<b>toString</b>()
+					
+					<b>reset</b>()
 					
 					</div>
 					<div class="description">
-						
+						<p>Restore CompoundSignal to it's original state. Will consider as if
+no signals was dispatched yet and will mark CompoundSignal as
+unresolved.</p>
 						
 						
 					</div>
@@ -503,13 +387,6 @@
 						
 						
 						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{string}</span> String representation of the object.</dd>
-							
-							</dl>
 						
 						
 						
