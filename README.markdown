@@ -12,6 +12,7 @@ For a more in-depth introduction read the [JS-Signals Project Page](http://mille
  * [Wiki](http://github.com/millermedeiros/js-signals/wiki/)
  * [Documentation](http://millermedeiros.github.com/js-signals/docs)
  * [Changelog](http://github.com/millermedeiros/js-signals/blob/master/CHANGELOG.markdown)
+ * [CompoundSignal - special Signal kind](https://github.com/millermedeiros/CompoundSignal)
 
 
 ## License ##
@@ -22,7 +23,7 @@ For a more in-depth introduction read the [JS-Signals Project Page](http://mille
 ## Distribution Files ##
 
 You can use the same distribution file for all the evironments, browser script
-tag, AMD, CommonJS (since v0.6.3+).
+tag, AMD, CommonJS (since v0.7.0).
 
 Files inside `dist` folder:
 
@@ -33,6 +34,18 @@ Files inside `dist` folder:
 You can install JS-Signals on Node.js using [NPM](http://npmjs.org/)
 
     npm install signals
+
+
+## CompoundSignal
+
+Note that there is an advanced Signal type called `CompoundSignal` that is
+compatible with js-signals v0.7.0+. It's useful for cases where you may need to
+execute an action after multiple Signals are dispatched. It was split into its'
+own repository since this feature isn't always needed and that way it can be
+easily distributed trough npm.
+
+[CompoundSignal repository](https://github.com/millermedeiros/CompoundSignal)
+
 
 
 ## Repository Structure ##

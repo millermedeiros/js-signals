@@ -1,7 +1,7 @@
 # JS-Signals Changelog #
 
 
-## Next ##
+## v0.7.0 (2011/11/02) ##
 
 ### API changes ###
 
