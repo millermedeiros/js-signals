@@ -14,7 +14,7 @@
     },
     "main" : "dist/signals.js",
     "bugs" : {
-        "web" : "https://github.com/millermedeiros/js-signals/issues"
+        "url" : "https://github.com/millermedeiros/js-signals/issues"
     },
     "directories" : {
         "doc" : "./dist/docs"
