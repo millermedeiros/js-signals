@@ -6,7 +6,6 @@
 ### API changes ###
 
  - Added:
-   - `CompoundSignal`. (issue #34)
    - `Signal.memorize`. (issue #29)
    - `Signal.forget()`. (issue #29)
    - `Signal.has()`. (issue #35)
