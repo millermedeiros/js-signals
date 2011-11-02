@@ -1,4 +1,3 @@
-
     // SignalBinding -------------------------------------------------
     //================================================================
 
@@ -62,7 +61,7 @@
          * @type boolean
          */
         active : true,
-        
+
         /**
          * Default parameters passed to listener during `Signal.dispatch` and `SignalBinding.execute`. (curried parameters)
          * @type Array|null
@@ -131,7 +130,7 @@
          * @return {string} String representation of the object.
          */
         toString : function () {
-            return '[SignalBinding isOnce: ' + this._isOnce +', isBound: '+ this.isBound() +', active: ' + this.active + ']';
+            return '[SignalBinding isOnce:' + this._isOnce +', isBound:'+ this.isBound() +', active:' + this.active + ']';
         }
 
     };

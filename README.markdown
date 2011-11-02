@@ -12,6 +12,7 @@ For a more in-depth introduction read the [JS-Signals Project Page](http://mille
  * [Wiki](http://github.com/millermedeiros/js-signals/wiki/)
  * [Documentation](http://millermedeiros.github.com/js-signals/docs)
  * [Changelog](http://github.com/millermedeiros/js-signals/blob/master/CHANGELOG.markdown)
+ * [CompoundSignal - special Signal kind](https://github.com/millermedeiros/CompoundSignal)
 
 
 ## License ##
@@ -21,17 +22,30 @@ For a more in-depth introduction read the [JS-Signals Project Page](http://mille
 
 ## Distribution Files ##
 
-Files inside `dist` folder.
+You can use the same distribution file for all the evironments, browser script
+tag, AMD, CommonJS (since v0.7.0).
+
+Files inside `dist` folder:
 
  * docs/index.html : Documentation.
  * signals.js : Uncompressed source code with comments.
- * signals.amd.js : Uncompressed source code wrapped as an [asynchronous module](http://wiki.commonjs.org/wiki/Modules/AsynchronousDefinition) to be used together with [RequireJS](http://requirejs.org/).
- * signals.cjs.js : Uncompressed source code wrapped as an [CommonJS module](http://wiki.commonjs.org/wiki/Modules/1.1) to be used on [nodejs](http://nodejs.org/) or any other environment that supports CommonJS modules.
  * signals.min.js : Compressed code.
 
 You can install JS-Signals on Node.js using [NPM](http://npmjs.org/)
 
     npm install signals
+
+
+## CompoundSignal
+
+Note that there is an advanced Signal type called `CompoundSignal` that is
+compatible with js-signals v0.7.0+. It's useful for cases where you may need to
+execute an action after multiple Signals are dispatched. It was split into its'
+own repository since this feature isn't always needed and that way it can be
+easily distributed trough npm.
+
+[CompoundSignal repository](https://github.com/millermedeiros/CompoundSignal)
+
 
 
 ## Repository Structure ##
@@ -60,5 +74,10 @@ This project uses [Apache Ant](http://ant.apache.org/) for the build process. If
     ant build
 
 This will delete all JS files inside the `dist` folder, merge/update/compress source files, validate generated code using [JSLint](http://www.jslint.com/) and copy the output to the `dist` folder.
+
+There is also another ant task that runs the build task and generate
+documentation (used before each deploy):
+
+    ant deploy
 
 **IMPORTANT:** `dist` folder always contain the latest version, regular users should **not** need to run build task.

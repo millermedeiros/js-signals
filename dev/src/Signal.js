@@ -1,8 +1,8 @@
-/*global signals:true, SignalBinding:false*/
+/*global signals:false, SignalBinding:false*/
 
     // Signal --------------------------------------------------------
     //================================================================
-    
+
     function validateListener(listener, fnName) {
         if (typeof listener !== 'function') {
             throw new Error( 'listener is a required param of {fn}() and should be a Function.'.replace('{fn}', fnName) );
@@ -21,9 +21,18 @@
          * @private
          */
         this._bindings = [];
+        this._prevParams = null;
     };
 
     signals.Signal.prototype = {
+
+        /**
+         * If Signal should keep record of previously dispatched parameters and
+         * automatically execute listener during `add()`/`addOnce()` if Signal was
+         * already dispatched before.
+         * @type boolean
+         */
+        memorize : false,
 
         /**
          * @type boolean
@@ -61,6 +70,10 @@
                 this._addBinding(binding);
             }
 
+            if(this.memorize && this._prevParams){
+                binding.execute(this._prevParams);
+            }
+
             return binding;
         },
 
@@ -88,6 +101,15 @@
                 }
             }
             return -1;
+        },
+
+        /**
+         * Check if listener was attached to Signal.
+         * @param {Function} listener
+         * @return {boolean} if Signal has the specified listener.
+         */
+        has : function (listener) {
+            return this._indexOfListener(listener) !== -1;
         },
 
         /**
@@ -168,7 +190,11 @@
 
             var paramsArr = Array.prototype.slice.call(arguments),
                 bindings = this._bindings.slice(), //clone array in case add/remove items during dispatch
-                n = this._bindings.length;
+                n = bindings.length;
+
+            if(this.memorize){
+                this._prevParams = paramsArr;
+            }
 
             this._shouldPropagate = true; //in case `halt` was called before dispatch or during the previous dispatch.
 
@@ -178,20 +204,28 @@
         },
 
         /**
+         * Forget memorized arguments.
+         * @see signals.Signal.memorize
+         */
+        forget : function(){
+            this._prevParams = null;
+        },
+
+        /**
          * Remove all bindings from signal and destroy any reference to external objects (destroy Signal object).
          * <p><strong>IMPORTANT:</strong> calling any method on the signal instance after calling dispose will throw errors.</p>
          */
         dispose : function () {
             this.removeAll();
             delete this._bindings;
+            delete this._prevParams;
         },
 
         /**
          * @return {string} String representation of the object.
          */
         toString : function () {
-            return '[Signal active: '+ this.active +' numListeners: '+ this.getNumListeners() +']';
+            return '[Signal active:'+ this.active +' numListeners:'+ this.getNumListeners() +']';
         }
 
     };
-

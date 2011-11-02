@@ -1,15 +1,15 @@
 /*jslint onevar:true, undef:true, newcap:true, regexp:true, bitwise:true, maxerr:50, indent:4, white:false, nomen:false, plusplus:false */
-/*global window:false, global:false*/
+/*global define:false, require:false, exports:false, module:false*/
 
-/*!!
+/** @license
  * JS Signals <http://millermedeiros.github.com/js-signals/>
- * Released under the MIT license <http://www.opensource.org/licenses/mit-license.php>
- * @author Miller Medeiros <http://millermedeiros.com/>
- * @version 0.6.3
- * @build 187 (07/11/2011 10:14 AM)
+ * Released under the MIT license
+ * Author: Miller Medeiros
+ * Version: 0.7.0 - Build: 241 (2011/11/02 02:02 AM)
  */
+
 (function(global){
-	
+
     /**
      * @namespace Signals Namespace - Custom event/messaging system based on AS3 Signals
      * @name signals
@@ -20,9 +20,8 @@
          * @type String
          * @const
          */
-        VERSION : '0.6.3'
+        VERSION : '0.7.0'
     };
-
 
 
     // SignalBinding -------------------------------------------------
@@ -88,7 +87,7 @@
          * @type boolean
          */
         active : true,
-        
+
         /**
          * Default parameters passed to listener during `Signal.dispatch` and `SignalBinding.execute`. (curried parameters)
          * @type Array|null
@@ -157,17 +156,17 @@
          * @return {string} String representation of the object.
          */
         toString : function () {
-            return '[SignalBinding isOnce: ' + this._isOnce +', isBound: '+ this.isBound() +', active: ' + this.active + ']';
+            return '[SignalBinding isOnce:' + this._isOnce +', isBound:'+ this.isBound() +', active:' + this.active + ']';
         }
 
     };
 
 
-/*global signals:true, SignalBinding:false*/
+/*global signals:false, SignalBinding:false*/
 
     // Signal --------------------------------------------------------
     //================================================================
-    
+
     function validateListener(listener, fnName) {
         if (typeof listener !== 'function') {
             throw new Error( 'listener is a required param of {fn}() and should be a Function.'.replace('{fn}', fnName) );
@@ -186,9 +185,18 @@
          * @private
          */
         this._bindings = [];
+        this._prevParams = null;
     };
 
     signals.Signal.prototype = {
+
+        /**
+         * If Signal should keep record of previously dispatched parameters and
+         * automatically execute listener during `add()`/`addOnce()` if Signal was
+         * already dispatched before.
+         * @type boolean
+         */
+        memorize : false,
 
         /**
          * @type boolean
@@ -226,6 +234,10 @@
                 this._addBinding(binding);
             }
 
+            if(this.memorize && this._prevParams){
+                binding.execute(this._prevParams);
+            }
+
             return binding;
         },
 
@@ -253,6 +265,15 @@
                 }
             }
             return -1;
+        },
+
+        /**
+         * Check if listener was attached to Signal.
+         * @param {Function} listener
+         * @return {boolean} if Signal has the specified listener.
+         */
+        has : function (listener) {
+            return this._indexOfListener(listener) !== -1;
         },
 
         /**
@@ -333,7 +354,11 @@
 
             var paramsArr = Array.prototype.slice.call(arguments),
                 bindings = this._bindings.slice(), //clone array in case add/remove items during dispatch
-                n = this._bindings.length;
+                n = bindings.length;
+
+            if(this.memorize){
+                this._prevParams = paramsArr;
+            }
 
             this._shouldPropagate = true; //in case `halt` was called before dispatch or during the previous dispatch.
 
@@ -343,25 +368,41 @@
         },
 
         /**
+         * Forget memorized arguments.
+         * @see signals.Signal.memorize
+         */
+        forget : function(){
+            this._prevParams = null;
+        },
+
+        /**
          * Remove all bindings from signal and destroy any reference to external objects (destroy Signal object).
          * <p><strong>IMPORTANT:</strong> calling any method on the signal instance after calling dispose will throw errors.</p>
          */
         dispose : function () {
             this.removeAll();
             delete this._bindings;
+            delete this._prevParams;
         },
 
         /**
          * @return {string} String representation of the object.
          */
         toString : function () {
-            return '[Signal active: '+ this.active +' numListeners: '+ this.getNumListeners() +']';
+            return '[Signal active:'+ this.active +' numListeners:'+ this.getNumListeners() +']';
         }
 
     };
 
 
+    //exports to multiple environments
+    if(typeof define === 'function' && define.amd){ //AMD
+        define('signals', [], signals);
+    } else if (typeof module !== 'undefined' && module.exports){ //node
+        module.exports = signals;
+    } else { //browser
+        //use string because of Google closure compiler ADVANCED_MODE
+        global['signals'] = signals;
+    }
 
-	global.signals = signals;
-	
-}(window || this));
+}(this));
