@@ -1,25 +1,28 @@
 {
-	"name" : "signals",
-	"description" : "Custom Event/Messaging System",
-	"keywords" : ["js-signals", "signals", "pub/sub", "event", "publish", "subscribe", "observer"],
-	"homepage" : "http://millermedeiros.github.com/js-signals/",
-	"version" : "0.7.0",
-	"author" : "Miller Medeiros (http://blog.millermedeiros.com/)",
-	"repository" : {
-		"type" : "git",
-		"url" : "https://github.com/millermedeiros/js-signals.git"
-	},
-	"main" : "dist/signals.js",
-	"bugs" : {
-		"web" : "https://github.com/millermedeiros/js-signals/issues"
-	},
-	"directories" : {
-		"doc" : "./dist/docs"
-	},
-	"licenses" : [
-		{
-			"type" : "MIT",
-			"url" : "http://www.opensource.org/licenses/mit-license.php"
-		}
-	]
+    "name" : "signals",
+    "description" : "Custom Event/Messaging System",
+    "keywords" : ["js-signals", "signals", "pub/sub", "event", "publish", "subscribe", "observer"],
+    "homepage" : "http://millermedeiros.github.com/js-signals/",
+    "version" : "0.7.0",
+    "author" : {
+        "name" : "Miller Medeiros",
+        "url" : "http://blog.millermedeiros.com/"
+    },
+    "repository" : {
+        "type" : "git",
+        "url" : "https://github.com/millermedeiros/js-signals.git"
+    },
+    "main" : "dist/signals.js",
+    "bugs" : {
+        "web" : "https://github.com/millermedeiros/js-signals/issues"
+    },
+    "directories" : {
+        "doc" : "./dist/docs"
+    },
+    "licenses" : [
+        {
+            "type" : "MIT",
+            "url" : "http://www.opensource.org/licenses/mit-license.php"
+        }
+    ]
 }
