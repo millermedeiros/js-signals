@@ -1,102 +1,76 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<title>millermedeiros/js-signals @ GitHub</title>
-		<style type="text/css">
-			html,body,div{margin:0; padding:0}
-			body{background-color:#f5f5f5; font-family:Helvetica,Arial,sans-serif; color:#555}
-			#wrapper{width:700px; margin:0 auto; padding:3em 1em 4em}
-			h1,h2,h3,h4,h5,strong,dt{color:#111}
-			h1{font-size:3.8em; margin:0}
-			h2{font-size:1.2em; font-style:italic;color:#333; font-weight:normal; font-family:"Times New Roman",times,serif; margin:0 0 1.5em}
-			h3{font-size:1.8em; border-bottom:2px solid #e2e2e2; margin:2em 0 1em}
-			a{color:#000}
-			a:hover{color:#ccc; background-color:#111; text-decoration:none}
-			p{line-height:1.5em}
-			#content{font-size:.9em}
-			#intro{font-size:1.2em; margin-top:3em}
-			.download{float:right}
-			.download a{background-color:#ddd}
-			.download a:hover{background-color:#111}
-			.colHolder{overflow:hidden}
-			.colHolder_2 .col{width:50%}
-			.col{float:left}
-			li{margin:.5em 0}
-			ul{padding-left:2em}
-			dl{margin:0.5em 0}
-			dd{margin:0.3em 1em}
-			small{color:#888}
-			small a{color:#888}
-			pre{background:#eee; color:#000; border:1px solid #ccc; padding:15px}
-		</style>
-		<script type="text/javascript">
-			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-1247729-18']);
-			_gaq.push(['_trackPageview']);
-			(function() {
-				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-			})();
-		</script>
-	</head>
-	<body>
-		<div id="wrapper">
-			<a href="http://github.com/millermedeiros/js-signals">
-			<img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-			<div class="download">
-				<a href="http://github.com/millermedeiros/js-signals/zipball/master">
-				<img border="0" width="90" src="http://github.com/images/modules/download/zip.png" /></a>
-				<a href="http://github.com/millermedeiros/js-signals/tarball/master">
-				<img border="0" width="90" src="http://github.com/images/modules/download/tar.png" /></a>
-			</div>
-			<h1>js-signals</h1>
-			<h2>Custom Event/Messaging system for JavaScript</h2>
-			<div id="content">
-				<div id="intro">
-					<p>
-						A Signal is similar to an <em>Event Emitter/Dispatcher</em> or a <em>Pub/Sub</em> system, the main difference is that each event type has it's own controller and doesn't rely on strings to broadcast/subscribe to events. 
-						To know more about the differences and advantages/disadvantages of each approach  
-						<a href="https://github.com/millermedeiros/js-signals/wiki/Comparison-between-different-Observer-Pattern-implementations">check the Wiki page</a>.
-					</p>
-					<p>
-						This implementation is <strong>heavily inspired</strong> by <a href="https://github.com/robertpenner/as3-signals">Robert Penner's AS3-Signals</a> but <strong>it is NOT a direct port</strong>, it has a different set of features
-						<small>(some extras and some missing)</small> and some methods were renamed to avoid confusions and/or for brevity. It also borrows some ideas from <a href="https://github.com/joa/as3-signals">Joa Ebert AS3-Signals fork</a>.
-					</p>
-					<p>
-						The intention of this library is to be a <em>"small brick"</em> that can be used together with other libraries and frameworks, helping people to <strong>develop evented applications <em>easily</em></strong>!
-					</p>
-				</div>
-				<h3>Advantages</h3>
-				<ul>
-					<li>
-						Doesn't rely on strings for subscribing/publishing to a event type:
-						<ul>
-							<li>Trying to dispatch or listen to an event type that doesn't exist throws errors instead of failing silently which helps to identify errors early.</li>
-							<li>Code completion friendly.</li>
-						</ul>
-					</li>
-					<li>Arbitrary number of parameters to event handlers.</li>
-					<li>Easy control of the event broadcaster and subscriber, avoiding that the wrong objects reacts to the event.</li>
-					<li>
-						Convenience methods that usually aren't present on other implementations of the <em>observer pattern</em> like:
-						<ul>
-							<li>Enable/disable event dispatching per event type.</li>
-							<li>Remove all event listeners attached to a specific event type.</li>
-							<li>Option to automatically remove listener after first execution.</li>
-							<li>Option to bind an execution context to the event handler, avoiding scope issues.</li>
-							<li>Remove/detach anonymous listener.</li>
-							<li>Etc...</li>
-						</ul>
-					</li>
-					<li>Favor composition over inheritance.</li>
-					<li>Easy to identify which <em>event types</em> the object dispatch.</li>
-				</ul>
-				<p><small>Check <a href="https://github.com/millermedeiros/js-signals/wiki/Comparison-between-different-Observer-Pattern-implementations">Comparison between different Obeserver Pattern implementations</a> for more details.</small></p>
-				<h3>Basic Example</h3>
-<pre>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>millermedeiros/js-signals @ GitHub</title>
+        <link rel="stylesheet" href="assets/style.css" type="text/css" />
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-1247729-18']);
+            _gaq.push(['_trackPageview']);
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+    </head>
+    <body>
+        <div id="wrapper">
+            <a href="http://github.com/millermedeiros/js-signals">
+            <img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+            <div class="download">
+                <a href="http://github.com/millermedeiros/js-signals/zipball/master">
+                <img border="0" width="90" src="http://github.com/images/modules/download/zip.png" /></a>
+                <a href="http://github.com/millermedeiros/js-signals/tarball/master">
+                <img border="0" width="90" src="http://github.com/images/modules/download/tar.png" /></a>
+            </div>
+            <h1>js-signals</h1>
+            <h2>Custom Event/Messaging system for JavaScript</h2>
+            <div id="content">
+                <div id="intro">
+                    <p>
+                        A Signal is similar to an <em>Event Emitter/Dispatcher</em> or a <em>Pub/Sub</em> system, the main difference is that each event type has it's own controller and doesn't rely on strings to broadcast/subscribe to events. 
+                        To know more about the differences and advantages/disadvantages of each approach  
+                        <a href="https://github.com/millermedeiros/js-signals/wiki/Comparison-between-different-Observer-Pattern-implementations">check the Wiki page</a>.
+                    </p>
+                    <p>
+                        This implementation is <strong>heavily inspired</strong> by <a href="https://github.com/robertpenner/as3-signals">Robert Penner's AS3-Signals</a> but <strong>it is NOT a direct port</strong>, it has a different set of features
+                        <small>(some extras and some missing)</small> and some methods were renamed to avoid confusions and/or for brevity. It also borrows some ideas from <a href="https://github.com/joa/as3-signals">Joa Ebert AS3-Signals fork</a>.
+                    </p>
+                    <p>
+                        The intention of this library is to be a <em>"small brick"</em> that can be used together with other libraries and frameworks, helping people to <strong>develop evented applications <em>easily</em></strong>!
+                    </p>
+                </div>
+                <h3>Advantages</h3>
+                <ul>
+                    <li>
+                        Doesn't rely on strings for subscribing/publishing to a event type:
+                        <ul>
+                            <li>Trying to dispatch or listen to an event type that doesn't exist throws errors instead of failing silently which helps to identify errors early.</li>
+                            <li>Code completion friendly.</li>
+                        </ul>
+                    </li>
+                    <li>Arbitrary number of parameters to event handlers.</li>
+                    <li>Easy control of the event broadcaster and subscriber, avoiding that the wrong objects reacts to the event.</li>
+                    <li>
+                        Convenience methods that usually aren't present on other implementations of the <em>observer pattern</em> like:
+                        <ul>
+                            <li>Enable/disable event dispatching per event type.</li>
+                            <li>Remove all event listeners attached to a specific event type.</li>
+                            <li>Option to automatically remove listener after first execution.</li>
+                            <li>Option to bind an execution context to the event handler, avoiding scope issues.</li>
+                            <li>Remove/detach anonymous listener.</li>
+                            <li>Etc...</li>
+                        </ul>
+                    </li>
+                    <li>Favor composition over inheritance.</li>
+                    <li>Easy to identify which <em>event types</em> the object dispatch.</li>
+                </ul>
+                <p><small>Check <a href="https://github.com/millermedeiros/js-signals/wiki/Comparison-between-different-Observer-Pattern-implementations">Comparison between different Obeserver Pattern implementations</a> for more details.</small></p>
+                <h3>Basic Example</h3>
+<pre class="brush:js; gutter:false; toolbar:false">
 //custom object that dispatch a `started` signal
 var myObject = {
   started : new signals.Signal()
@@ -108,24 +82,24 @@ myObject.started.add(onStarted); //add listener
 myObject.started.dispatch('foo', 'bar'); //dispatch signal passing custom parameters
 myObject.started.remove(onStarted); //remove a single listener
 </pre>
-				<p>For more examples <a href="https://github.com/millermedeiros/js-signals/wiki/Examples">check the examples page</a> on the wiki.</p>
-				<h3>Naming convention</h3>
-				<p>
+                <p>For more examples <a href="https://github.com/millermedeiros/js-signals/wiki/Examples">check the examples page</a> on the wiki.</p>
+                <h3>Naming convention</h3>
+                <p>
                 It is recommended to always name a signal on the past tense. This convention was based on the <a href="https://github.com/robertpenner/as3-signals/wiki">AS3-Signals recommendation</a>, the reasoning behind it is to avoid confusions with regular properties and to keep consistency. Try combining multiple words if the event you are trying to describe doesn't have a past tense form or if you have naming collisions.
-				</p>
-				<div class="colHolder colHolder_2">
-					<div class="col first">
-						<dl>
-							<dt>Good Names:</dt>
-								<dd>canceled</dd>
-								<dd>clicked</dd>
+                </p>
+                <div class="colHolder colHolder_2">
+                    <div class="col first">
+                        <dl>
+                            <dt>Good Names:</dt>
+                                <dd>canceled</dd>
+                                <dd>clicked</dd>
                                 <dd>ended</dd>
                                 <dd>startedAnimation</dd>
-						</dl>
-					</div>
-					<div class="col last">
-						<dl>
-							<dt>"Bad" Names:</dt>
+                        </dl>
+                    </div>
+                    <div class="col last">
+                        <dl>
+                            <dt>"Bad" Names:</dt>
                                 <dd>cancel <small>(action names should be used for methods)</small></dd>
                                 <dd>onClick <small>(reminds a DOM1 event handler, you may think the property is a function)</small></dd>
                                 <dd>ending <small>(action is still happening,
@@ -135,58 +109,66 @@ myObject.started.remove(onStarted); //remove a single listener
                                     represent an event, could be
                                     used to store any kind of value like
                                     a timestamp of when animation started, number representing the second when animation should start, a cue point, etc...)</small></dd>
-						</dl>
-					</div>
-				</div>
-				<h3>References</h3>
-				<ul>
-					<li>
-						<a href="docs/index.html">Documentation</a>
-					</li>
-					<li>
-						<a href="http://github.com/millermedeiros/js-signals/wiki/">Wiki</a>
-					</li>
-					<li>
-						<a href="http://github.com/millermedeiros/js-signals/wiki/Examples">Usage Examples</a>
-					</li>
-					<li>
-						<a href="https://github.com/millermedeiros/js-signals/blob/master/CHANGELOG.markdown">Change log</a>
-					</li>
-				</ul>
-				<h3>More Info</h3>
-				<p>
-					The focus of this library is for custom events, there are no plans to add <em>native DOM events</em> support <small>(AS3-signals has a NativeSignal class that emulates native flash events)</small> 
-					specially since most of the JavaScript frameworks already have some kind of facade on top of the native events and also because of the differences between browsers. 
-					This feature should be implemented as a plugin or as a separate project.
-				</p>
-				<p>
-					Contributors and ideas are welcome!
-				</p>
-				<h3>License</h3>
-				<p>
-					<a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>
-				</p>
-				<h3>Author</h3>
-				<p>
-					<a href="http://blog.millermedeiros.com/">Miller Medeiros</a>
-				</p>
-				<h3>Bugs / Feature Request</h3>
-				<p>
-					Use github <a href="https://github.com/millermedeiros/js-signals/issues">issue tracker</a> to submit bugs and feature requests.
-				</p>
-				<h3>Download</h3>
-				<p>
-					You can download this project in either
-					<a href="http://github.com/millermedeiros/js-signals/zipball/master">zip</a> or
-					<a href="http://github.com/millermedeiros/js-signals/tarball/master">tar</a> formats.
-					You can also clone the project with <a href="http://git-scm.com">Git</a> by running:
-				</p>
-				<pre>$ git clone git://github.com/millermedeiros/js-signals</pre>
-				<p>
-					Or install it on <a href="http://nodejs.org/">node</a> using <a href="http://npmjs.org/">npm</a>:
-				</p>
-				<pre>$ npm install signals</pre>
-			</div>
-		</div>
-	</body>
+                        </dl>
+                    </div>
+                </div>
+                <p>
+                    Another option is to place all your signals inside an
+                    object named <code>on</code> following the <a href="http://www.dartlang.org/articles/improving-the-dom/">DART DOM Events API</a>.
+                    That way it will be clear that each member is an event
+                    type, it will avoid cluttering your object and  make
+                    naming easier.
+                </p>
+                <h3>References</h3>
+                <ul>
+                    <li>
+                        <a href="docs/index.html">Documentation</a>
+                    </li>
+                    <li>
+                        <a href="http://github.com/millermedeiros/js-signals/wiki/">Wiki</a>
+                    </li>
+                    <li>
+                        <a href="http://github.com/millermedeiros/js-signals/wiki/Examples">Usage Examples</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/millermedeiros/js-signals/blob/master/CHANGELOG.markdown">Change log</a>
+                    </li>
+                </ul>
+                <h3>More Info</h3>
+                <p>
+                    The focus of this library is for custom events, there are no plans to add <em>native DOM events</em> support <small>(AS3-signals has a NativeSignal class that emulates native flash events)</small> 
+                    specially since most of the JavaScript frameworks already have some kind of facade on top of the native events and also because of the differences between browsers. 
+                    This feature should be implemented as a plugin or as a separate project.
+                </p>
+                <p>
+                    Contributors and ideas are welcome!
+                </p>
+                <h3>License</h3>
+                <p>
+                    <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>
+                </p>
+                <h3>Author</h3>
+                <p>
+                    <a href="http://blog.millermedeiros.com/">Miller Medeiros</a>
+                </p>
+                <h3>Bugs / Feature Request</h3>
+                <p>
+                    Use github <a href="https://github.com/millermedeiros/js-signals/issues">issue tracker</a> to submit bugs and feature requests.
+                </p>
+                <h3>Download</h3>
+                <p>
+                    You can download this project in either
+                    <a href="http://github.com/millermedeiros/js-signals/zipball/master">zip</a> or
+                    <a href="http://github.com/millermedeiros/js-signals/tarball/master">tar</a> formats.
+                    You can also clone the project with <a href="http://git-scm.com">Git</a> by running:
+                </p>
+                <pre>$ git clone git://github.com/millermedeiros/js-signals</pre>
+                <p>
+                    Or install it on <a href="http://nodejs.org/">node</a> using <a href="http://npmjs.org/">npm</a>:
+                </p>
+                <pre>$ npm install signals</pre>
+            </div>
+        </div>
+        <script type="text/javascript" src="assets/script.js"></script>
+    </body>
 </html>
