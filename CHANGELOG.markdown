@@ -1,6 +1,12 @@
 # JS-Signals Changelog #
 
 
+## v0.7.1 (2011/11/29) ##
+
+ - Improve `dispatch()` performance if `Signal` doesn't have any listeners.
+
+
+
 ## v0.7.0 (2011/11/02) ##
 
 ### API changes ###

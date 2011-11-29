@@ -114,9 +114,9 @@
 
         /**
          * Add a listener to the signal.
-         * @param {Function} listener	Signal handler function.
-         * @param {Object} [scope]	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-         * @param {Number} [priority]	The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
+         * @param {Function} listener Signal handler function.
+         * @param {Object} [scope] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+         * @param {Number} [priority] The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
          * @return {SignalBinding} An Object representing the binding between the Signal and listener.
          */
         add : function (listener, scope, priority) {
@@ -126,9 +126,9 @@
 
         /**
          * Add listener to the signal that should be removed after first execution (will be executed only once).
-         * @param {Function} listener	Signal handler function.
-         * @param {Object} [scope]	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-         * @param {Number} [priority]	The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
+         * @param {Function} listener Signal handler function.
+         * @param {Object} [scope] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+         * @param {Number} [priority] The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
          * @return {SignalBinding} An Object representing the binding between the Signal and listener.
          */
         addOnce : function (listener, scope, priority) {
@@ -138,7 +138,7 @@
 
         /**
          * Remove a single listener from the dispatch queue.
-         * @param {Function} listener	Handler function that should be removed.
+         * @param {Function} listener Handler function that should be removed.
          * @return {Function} Listener handler function.
          */
         remove : function (listener) {
@@ -181,7 +181,7 @@
 
         /**
          * Dispatch/Broadcast Signal to all listeners added to the queue.
-         * @param {...*} [params]	Parameters that should be passed to each handler.
+         * @param {...*} [params] Parameters that should be passed to each handler.
          */
         dispatch : function (params) {
             if (! this.active) {
@@ -189,13 +189,19 @@
             }
 
             var paramsArr = Array.prototype.slice.call(arguments),
-                bindings = this._bindings.slice(), //clone array in case add/remove items during dispatch
-                n = bindings.length;
+                n = this._bindings.length,
+                bindings;
 
-            if(this.memorize){
+            if (this.memorize) {
                 this._prevParams = paramsArr;
             }
 
+            if (! n) {
+                //should come after memorize
+                return;
+            }
+
+            bindings = this._bindings.slice(); //clone array in case add/remove items during dispatch
             this._shouldPropagate = true; //in case `halt` was called before dispatch or during the previous dispatch.
 
             //execute all callbacks until end of the list or until a callback returns `false` or stops propagation
