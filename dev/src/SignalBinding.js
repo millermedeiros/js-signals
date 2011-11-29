@@ -9,11 +9,11 @@
      * @constructor
      * @internal
      * @name signals.SignalBinding
-     * @param {signals.Signal} signal	Reference to Signal object that listener is currently bound to.
-     * @param {Function} listener	Handler function bound to the signal.
-     * @param {boolean} isOnce	If binding should be executed just once.
-     * @param {Object} [listenerContext]	Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-     * @param {Number} [priority]	The priority level of the event listener. (default = 0).
+     * @param {signals.Signal} signal Reference to Signal object that listener is currently bound to.
+     * @param {Function} listener Handler function bound to the signal.
+     * @param {boolean} isOnce If binding should be executed just once.
+     * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+     * @param {Number} [priority] The priority level of the event listener. (default = 0).
      */
     function SignalBinding(signal, listener, isOnce, listenerContext, priority) {
 
@@ -71,7 +71,7 @@
         /**
          * Call listener passing arbitrary parameters.
          * <p>If binding was added using `Signal.addOnce()` it will be automatically removed from signal dispatch queue, this method is used internally for the signal dispatch.</p>
-         * @param {Array} [paramsArr]	Array of parameters that should be passed to the listener
+         * @param {Array} [paramsArr] Array of parameters that should be passed to the listener
          * @return {*} Value returned by the listener.
          */
         execute : function (paramsArr) {
