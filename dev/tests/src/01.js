@@ -95,6 +95,17 @@ YUI().use('node', 'console', 'test', function (Y){
             Y.Assert.areSame(1, s.getNumListeners());
         },
 
+        testAddDoubleSameListenerDiffContext : function(){
+            var s = this.signal;
+
+            var l = function(){};
+
+            s.add(l);
+            s.add(l, {});
+
+            Y.Assert.areSame(2, s.getNumListeners());
+        },
+
         testAddNull : function(){
             var s = this.signal;
 

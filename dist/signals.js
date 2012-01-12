@@ -5,7 +5,7 @@
  * JS Signals <http://millermedeiros.github.com/js-signals/>
  * Released under the MIT license
  * Author: Miller Medeiros
- * Version: 0.7.1 - Build: 244 (2011/11/29 12:33 PM)
+ * Version: 0.7.2 - Build: 248 (2012/01/12 10:39 PM)
  */
 
 (function(global){
@@ -20,7 +20,7 @@
          * @type String
          * @const
          */
-        VERSION : '0.7.1'
+        VERSION : '0.7.2'
     };
 
 
@@ -214,23 +214,23 @@
         /**
          * @param {Function} listener
          * @param {boolean} isOnce
-         * @param {Object} [scope]
+         * @param {Object} [listenerContext]
          * @param {Number} [priority]
          * @return {SignalBinding}
          * @private
          */
-        _registerListener : function (listener, isOnce, scope, priority) {
+        _registerListener : function (listener, isOnce, listenerContext, priority) {
 
             var prevIndex = this._indexOfListener(listener),
                 binding;
 
-            if (prevIndex !== -1) { //avoid creating a new Binding for same listener if already added to list
+            if (prevIndex !== -1 && this._bindings[prevIndex].context === listenerContext) {
                 binding = this._bindings[prevIndex];
                 if (binding.isOnce() !== isOnce) {
                     throw new Error('You cannot add'+ (isOnce? '' : 'Once') +'() then add'+ (!isOnce? '' : 'Once') +'() the same listener without removing the relationship first.');
                 }
             } else {
-                binding = new SignalBinding(this, listener, isOnce, scope, priority);
+                binding = new SignalBinding(this, listener, isOnce, listenerContext, priority);
                 this._addBinding(binding);
             }
 
@@ -279,25 +279,25 @@
         /**
          * Add a listener to the signal.
          * @param {Function} listener Signal handler function.
-         * @param {Object} [scope] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+         * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
          * @param {Number} [priority] The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
          * @return {SignalBinding} An Object representing the binding between the Signal and listener.
          */
-        add : function (listener, scope, priority) {
+        add : function (listener, listenerContext, priority) {
             validateListener(listener, 'add');
-            return this._registerListener(listener, false, scope, priority);
+            return this._registerListener(listener, false, listenerContext, priority);
         },
 
         /**
          * Add listener to the signal that should be removed after first execution (will be executed only once).
          * @param {Function} listener Signal handler function.
-         * @param {Object} [scope] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+         * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
          * @param {Number} [priority] The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
          * @return {SignalBinding} An Object representing the binding between the Signal and listener.
          */
-        addOnce : function (listener, scope, priority) {
+        addOnce : function (listener, listenerContext, priority) {
             validateListener(listener, 'addOnce');
-            return this._registerListener(listener, true, scope, priority);
+            return this._registerListener(listener, true, listenerContext, priority);
         },
 
         /**
