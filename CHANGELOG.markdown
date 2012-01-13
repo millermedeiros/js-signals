@@ -1,6 +1,15 @@
 # JS-Signals Changelog #
 
 
+## v0.7.2 (2012/01/12) ##
+
+### Fixes ###
+
+ - allow `add()` and `addOnce()` same method multiple times if passing
+   different context. (#39)
+
+
+
 ## v0.7.1 (2011/11/29) ##
 
  - Improve `dispatch()` performance if `Signal` doesn't have any listeners.
@@ -12,14 +21,14 @@
 ### API changes ###
 
  - Added:
-   - `Signal.memorize`. (issue #29)
-   - `Signal.forget()`. (issue #29)
-   - `Signal.has()`. (issue #35)
+   - `Signal.memorize`. (#29)
+   - `Signal.forget()`. (#29)
+   - `Signal.has()`. (#35)
 
 ### Other ###
 
  - changed the way the code is wrapped to have a single distribution file for
-   all the environments. (issue #33)
+   all the environments. (#33)
 
 
 
@@ -27,16 +36,16 @@
 
 ### Fixes ###
 
- - improved `SignalBinding.detach()` behavior. (issue #25)
+ - improved `SignalBinding.detach()` behavior. (#25)
 
 ### API changes ###
 
  - Added:
-   - `SignalBinding.prototype.isBound()` (issue #25)
-   - `SignalBinding.params` (issue #28)
+   - `SignalBinding.prototype.isBound()` (#25)
+   - `SignalBinding.params` (#28)
 
  - Removed:
-   - `SignalBinding.prototype.dispose()` (issue #27)
+   - `SignalBinding.prototype.dispose()` (#27)
 
 ### Other ###
 
@@ -49,18 +58,18 @@
 ### Fixes ###
 
  - removing a listener during dispatch was causing an error since listener was
-   undefined. (issue #24 - thanks @paullewis)
+   undefined. (#24 - thanks @paullewis)
 
 ### Other ###
 
  - minor code cleaning.
- - renamed distribution files to "signals.js" (issue #22)
+ - renamed distribution files to "signals.js" (#22)
 
 
 
 ## v0.6.1 (2011/05/03) ##
 
- - added NPM package.json and CommmonJS wrapper for NPM distribution. (issue #21 - thanks @tomyan)
+ - added NPM package.json and CommmonJS wrapper for NPM distribution. (#21 - thanks @tomyan)
 
 
 
@@ -115,14 +124,14 @@
 
 ### API changes ###
 
- - made `SignalBinding` constructor private. (issue #15)
+ - made `SignalBinding` constructor private. (#15)
  - changed params order on `SignalBinding` constructor.
- - removed `signals.isDef()`. (issue #14)
+ - removed `signals.isDef()`. (#14)
 
 ### Other ###
 
- - added JSLint to the build process. (issue #12)
- - validated source code using JSLint. (issue #13)
+ - added JSLint to the build process. (#12)
+ - validated source code using JSLint. (#13)
  - improved docs.
 
 
@@ -132,21 +141,21 @@
 ### API changes ###
 
  - Added:
-   - `SignalBinding.prototype.getListener()` (issue #3)
-   - `Signal.prototype.dispose()` (issue #6)
+   - `SignalBinding.prototype.getListener()` (#3)
+   - `Signal.prototype.dispose()` (#6)
    - `signals.VERSION`
    - `signals.isDef()`
 
  - Removed:
-   - `SignalBinding.listener` (issue #3)
+   - `SignalBinding.listener` (#3)
 
  - Renamed:
-   - `SignalBinding.listenerScope` -> `SignalBinding.context` (issue #4)
+   - `SignalBinding.listenerScope` -> `SignalBinding.context` (#4)
 
 ### Fixes ###
 
- - Removed unnecessary function names (issue #5)
- - Improved `remove()`, `removeAll()` to dispose binding (issue #10)
+ - Removed unnecessary function names (#5)
+ - Improved `remove()`, `removeAll()` to dispose binding (#10)
 
 ### Test Changes ###
 
