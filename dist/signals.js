@@ -5,7 +5,7 @@
  * JS Signals <http://millermedeiros.github.com/js-signals/>
  * Released under the MIT license
  * Author: Miller Medeiros
- * Version: 0.7.2 - Build: 248 (2012/01/12 10:39 PM)
+ * Version: 0.7.3 - Build: 251 (2012/02/02 10:20 AM)
  */
 
 (function(global){
@@ -20,7 +20,7 @@
          * @type String
          * @const
          */
-        VERSION : '0.7.2'
+        VERSION : '0.7.3'
     };
 
 
@@ -118,7 +118,7 @@
          * @return {Function|null} Handler function bound to the signal or `null` if binding was previously detached.
          */
         detach : function () {
-            return this.isBound()? this._signal.remove(this._listener) : null;
+            return this.isBound()? this._signal.remove(this._listener, this.context) : null;
         },
 
         /**
@@ -221,10 +221,10 @@
          */
         _registerListener : function (listener, isOnce, listenerContext, priority) {
 
-            var prevIndex = this._indexOfListener(listener),
+            var prevIndex = this._indexOfListener(listener, listenerContext),
                 binding;
 
-            if (prevIndex !== -1 && this._bindings[prevIndex].context === listenerContext) {
+            if (prevIndex !== -1) {
                 binding = this._bindings[prevIndex];
                 if (binding.isOnce() !== isOnce) {
                     throw new Error('You cannot add'+ (isOnce? '' : 'Once') +'() then add'+ (!isOnce? '' : 'Once') +'() the same listener without removing the relationship first.');
@@ -257,10 +257,12 @@
          * @return {number}
          * @private
          */
-        _indexOfListener : function (listener) {
-            var n = this._bindings.length;
+        _indexOfListener : function (listener, context) {
+            var n = this._bindings.length,
+                cur;
             while (n--) {
-                if (this._bindings[n]._listener === listener) {
+                cur = this._bindings[n];
+                if (cur._listener === listener && cur.context === context) {
                     return n;
                 }
             }
@@ -270,10 +272,11 @@
         /**
          * Check if listener was attached to Signal.
          * @param {Function} listener
+         * @param {Object} [context]
          * @return {boolean} if Signal has the specified listener.
          */
-        has : function (listener) {
-            return this._indexOfListener(listener) !== -1;
+        has : function (listener, context) {
+            return this._indexOfListener(listener, context) !== -1;
         },
 
         /**
@@ -303,12 +306,13 @@
         /**
          * Remove a single listener from the dispatch queue.
          * @param {Function} listener Handler function that should be removed.
+         * @param {Object} [context] Execution context (since you can add the same handler multiple times if executing in a different context).
          * @return {Function} Listener handler function.
          */
-        remove : function (listener) {
+        remove : function (listener, context) {
             validateListener(listener, 'remove');
 
-            var i = this._indexOfListener(listener);
+            var i = this._indexOfListener(listener, context);
             if (i !== -1) {
                 this._bindings[i]._destroy(); //no reason to a SignalBinding exist if it isn't attached to a signal
                 this._bindings.splice(i, 1);
