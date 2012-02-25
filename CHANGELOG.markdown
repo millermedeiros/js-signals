@@ -1,6 +1,14 @@
 # JS-Signals Changelog #
 
 
+## v0.7.4 (2012/02/24) ##
+
+### Fixes ###
+
+ - changed UMD to use unnamed define.(#41)
+
+
+
 ## v0.7.3 (2012/02/02) ##
 
 ### Fixes ###

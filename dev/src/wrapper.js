@@ -12,7 +12,7 @@
 
     //exports to multiple environments
     if(typeof define === 'function' && define.amd){ //AMD
-        define('signals', [], signals);
+        define(signals);
     } else if (typeof module !== 'undefined' && module.exports){ //node
         module.exports = signals;
     } else { //browser
