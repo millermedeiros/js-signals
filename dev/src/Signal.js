@@ -16,11 +16,7 @@
      * @constructor
      */
     signals.Signal = function () {
-        /**
-         * @type Array.<SignalBinding>
-         * @private
-         */
-        this._bindings = [];
+        this._bindings = new signals.LinkedList();
         this._prevParams = null;
     };
 
@@ -57,17 +53,15 @@
          */
         _registerListener : function (listener, isOnce, listenerContext, priority) {
 
-            var prevIndex = this._indexOfListener(listener, listenerContext),
-                binding;
+            var binding = this._getBinding(listener, listenerContext);
 
-            if (prevIndex !== -1) {
-                binding = this._bindings[prevIndex];
+            if (binding) {
                 if (binding.isOnce() !== isOnce) {
                     throw new Error('You cannot add'+ (isOnce? '' : 'Once') +'() then add'+ (!isOnce? '' : 'Once') +'() the same listener without removing the relationship first.');
                 }
             } else {
                 binding = new SignalBinding(this, listener, isOnce, listenerContext, priority);
-                this._addBinding(binding);
+                this._bindings.insert(binding, this._sortedBindingInsert);
             }
 
             if(this.memorize && this._prevParams){
@@ -77,32 +71,8 @@
             return binding;
         },
 
-        /**
-         * @param {SignalBinding} binding
-         * @private
-         */
-        _addBinding : function (binding) {
-            //simplified insertion sort
-            var n = this._bindings.length;
-            do { --n; } while (this._bindings[n] && binding._priority <= this._bindings[n]._priority);
-            this._bindings.splice(n + 1, 0, binding);
-        },
-
-        /**
-         * @param {Function} listener
-         * @return {number}
-         * @private
-         */
-        _indexOfListener : function (listener, context) {
-            var n = this._bindings.length,
-                cur;
-            while (n--) {
-                cur = this._bindings[n];
-                if (cur._listener === listener && cur.context === context) {
-                    return n;
-                }
-            }
-            return -1;
+        _sortedBindingInsert : function(cur, compare){
+            return cur._priority < compare._priority;
         },
 
         /**
@@ -112,7 +82,19 @@
          * @return {boolean} if Signal has the specified listener.
          */
         has : function (listener, context) {
-            return this._indexOfListener(listener, context) !== -1;
+            return !!this._getBinding(listener, context);
+        },
+
+        _getBinding : function (listener, context) {
+            var cur;
+            this._bindings.rewind();
+            while (this._bindings.hasNext()) {
+                cur = this._bindings.next();
+                if (cur._listener === listener && cur.context === context) {
+                    return cur;
+                }
+            }
+            return null;
         },
 
         /**
@@ -148,10 +130,10 @@
         remove : function (listener, context) {
             validateListener(listener, 'remove');
 
-            var i = this._indexOfListener(listener, context);
-            if (i !== -1) {
-                this._bindings[i]._destroy(); //no reason to a SignalBinding exist if it isn't attached to a signal
-                this._bindings.splice(i, 1);
+            var binding = this._getBinding(listener, context);
+            if (binding) {
+                this._bindings.remove(binding);
+                binding._destroy(); //no reason to a SignalBinding exist if it isn't attached to a signal
             }
             return listener;
         },
@@ -160,18 +142,18 @@
          * Remove all listeners from the Signal.
          */
         removeAll : function () {
-            var n = this._bindings.length;
-            while (n--) {
-                this._bindings[n]._destroy();
+            this._bindings.rewind();
+            while (this._bindings.hasNext()) {
+                this._bindings.next()._destroy();
             }
-            this._bindings.length = 0;
+            this._bindings.removeAll();
         },
 
         /**
          * @return {number} Number of listeners attached to the Signal.
          */
         getNumListeners : function () {
-            return this._bindings.length;
+            return this._bindings.size();
         },
 
         /**
@@ -192,25 +174,21 @@
                 return;
             }
 
-            var paramsArr = Array.prototype.slice.call(arguments),
-                n = this._bindings.length,
-                bindings;
+            var paramsArr = Array.prototype.slice.call(arguments);
 
             if (this.memorize) {
                 this._prevParams = paramsArr;
             }
 
-            if (! n) {
-                //should come after memorize
-                return;
-            }
-
-            bindings = this._bindings.slice(); //clone array in case add/remove items during dispatch
             this._shouldPropagate = true; //in case `halt` was called before dispatch or during the previous dispatch.
 
             //execute all callbacks until end of the list or until a callback returns `false` or stops propagation
-            //reverse loop since listeners with higher priority will be added at the end of the list
-            do { n--; } while (bindings[n] && this._shouldPropagate && bindings[n].execute(paramsArr) !== false);
+            this._bindings.rewind();
+            while(this._bindings.hasNext() && this._shouldPropagate){
+                if(this._bindings.next().execute(paramsArr) === false) {
+                    break;
+                }
+            }
         },
 
         /**

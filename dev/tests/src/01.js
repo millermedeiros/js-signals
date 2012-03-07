@@ -1363,7 +1363,7 @@ YUI().use('node', 'console', 'test', function (Y){
             s.dispatch('foo', 123);
             Y.Assert.areSame('foo', s._prevParams[0]);
             Y.Assert.areSame(123, s._prevParams[1]);
-            Y.Assert.areSame(0, s._bindings.length);
+            Y.Assert.areSame(0, s.getNumListeners());
             s.dispose();
             Y.Assert.areSame(undefined, s._prevParams);
             Y.Assert.areSame(undefined, s._bindings);
