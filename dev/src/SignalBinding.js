@@ -92,7 +92,7 @@
          * @return {Function|null} Handler function bound to the signal or `null` if binding was previously detached.
          */
         detach : function () {
-            return this.isBound()? this._signal.remove(this._listener) : null;
+            return this.isBound()? this._signal.remove(this._listener, this.context) : null;
         },
 
         /**

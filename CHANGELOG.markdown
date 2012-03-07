@@ -1,6 +1,22 @@
 # JS-Signals Changelog #
 
 
+## v0.7.4 (2012/02/24) ##
+
+### Fixes ###
+
+ - changed UMD to use unnamed define.(#41)
+
+
+
+## v0.7.3 (2012/02/02) ##
+
+### Fixes ###
+
+ - `remove()` and `has()` now accepts the `context` as second argument. (#40)
+
+
+
 ## v0.7.2 (2012/01/12) ##
 
 ### Fixes ###

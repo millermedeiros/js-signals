@@ -1228,6 +1228,65 @@ YUI().use('node', 'console', 'test', function (Y){
             s.dispatch();
         },
 
+        testRemoveDiffContext : function(){
+            var s = this.signal;
+
+            var l1 = function(){Y.Assert.fail();};
+            var obj = {};
+
+            var b1 = s.add(l1);
+            var b2 = s.add(l1, obj);
+            Y.Assert.areSame(2, s.getNumListeners());
+
+            Y.Assert.isUndefined(b1.context);
+            Y.Assert.areSame(l1, b1.getListener());
+            Y.Assert.areSame(obj, b2.context);
+            Y.Assert.areSame(l1, b2.getListener());
+
+            s.remove(l1, obj);
+
+            Y.Assert.isUndefined(b2.context);
+            Y.Assert.isUndefined(b2.getListener());
+
+            Y.Assert.isUndefined(b1.context);
+            Y.Assert.areSame(l1, b1.getListener());
+
+            Y.Assert.areSame(1, s.getNumListeners());
+            s.remove(l1);
+            Y.Assert.areSame(0, s.getNumListeners());
+            s.dispatch();
+        },
+
+        testRemoveDiffContext2 : function(){
+            var s = this.signal;
+
+            var l1 = function(){Y.Assert.fail();};
+            var obj = {};
+
+            var b1 = s.add(l1);
+            var b2 = s.add(l1, obj);
+            Y.Assert.areSame(2, s.getNumListeners());
+
+            Y.Assert.isUndefined(b1.context);
+            Y.Assert.areSame(l1, b1.getListener());
+            Y.Assert.areSame(obj, b2.context);
+            Y.Assert.areSame(l1, b2.getListener());
+
+            s.remove(l1);
+
+            Y.Assert.isUndefined(b1.context);
+            Y.Assert.isUndefined(b1.getListener());
+
+            Y.Assert.areSame(obj, b2.context);
+            Y.Assert.areSame(l1, b2.getListener());
+
+            Y.Assert.areSame(1, s.getNumListeners());
+            s.remove(l1, obj);
+            Y.Assert.areSame(0, s.getNumListeners());
+            s.dispatch();
+        },
+
+
         //----------------- Memorize ----------------------------//
 
         testMemorize : function(){
