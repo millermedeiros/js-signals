@@ -1,28 +1,14 @@
 /*jslint onevar:true, undef:true, newcap:true, regexp:true, bitwise:true, maxerr:50, indent:4, white:false, nomen:false, plusplus:false */
-/*global define:false, require:false, exports:false, module:false*/
+/*global define:false, require:false, exports:false, module:false, signals:false */
 
 /** @license
  * JS Signals <http://millermedeiros.github.com/js-signals/>
  * Released under the MIT license
  * Author: Miller Medeiros
- * Version: 0.7.4 - Build: 252 (2012/02/24 10:30 PM)
+ * Version: 0.8.0 - Build: 264 (2012/07/31 10:58 AM)
  */
 
 (function(global){
-
-    /**
-     * @namespace Signals Namespace - Custom event/messaging system based on AS3 Signals
-     * @name signals
-     */
-    var signals = /** @lends signals */{
-        /**
-         * Signals Version Number
-         * @type String
-         * @const
-         */
-        VERSION : '0.7.4'
-    };
-
 
     // SignalBinding -------------------------------------------------
     //================================================================
@@ -34,8 +20,8 @@
      * @author Miller Medeiros
      * @constructor
      * @internal
-     * @name signals.SignalBinding
-     * @param {signals.Signal} signal Reference to Signal object that listener is currently bound to.
+     * @name SignalBinding
+     * @param {Signal} signal Reference to Signal object that listener is currently bound to.
      * @param {Function} listener Handler function bound to the signal.
      * @param {boolean} isOnce If binding should be executed just once.
      * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
@@ -59,7 +45,7 @@
 
         /**
          * Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-         * @memberOf signals.SignalBinding.prototype
+         * @memberOf SignalBinding.prototype
          * @name context
          * @type Object|undefined|null
          */
@@ -67,7 +53,7 @@
 
         /**
          * Reference to Signal object that listener is currently bound to.
-         * @type signals.Signal
+         * @type Signal
          * @private
          */
         this._signal = signal;
@@ -80,7 +66,7 @@
         this._priority = priority || 0;
     }
 
-    SignalBinding.prototype = /** @lends signals.SignalBinding.prototype */ {
+    SignalBinding.prototype = {
 
         /**
          * If binding is active and should be executed.
@@ -162,7 +148,7 @@
     };
 
 
-/*global signals:false, SignalBinding:false*/
+/*global SignalBinding:false*/
 
     // Signal --------------------------------------------------------
     //================================================================
@@ -176,19 +162,27 @@
     /**
      * Custom event broadcaster
      * <br />- inspired by Robert Penner's AS3 Signals.
+     * @name Signal
      * @author Miller Medeiros
      * @constructor
      */
-    signals.Signal = function () {
+    function Signal() {
         /**
          * @type Array.<SignalBinding>
          * @private
          */
         this._bindings = [];
         this._prevParams = null;
-    };
+    }
 
-    signals.Signal.prototype = {
+    Signal.prototype = {
+
+        /**
+         * Signals Version Number
+         * @type String
+         * @const
+         */
+        VERSION : '0.8.0',
 
         /**
          * If Signal should keep record of previously dispatched parameters and
@@ -341,7 +335,7 @@
         /**
          * Stop propagation of the event, blocking the dispatch to next listeners on the queue.
          * <p><strong>IMPORTANT:</strong> should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.</p>
-         * @see signals.Signal.prototype.disable
+         * @see Signal.prototype.disable
          */
         halt : function () {
             this._shouldPropagate = false;
@@ -379,7 +373,7 @@
 
         /**
          * Forget memorized arguments.
-         * @see signals.Signal.memorize
+         * @see Signal.memorize
          */
         forget : function(){
             this._prevParams = null;
@@ -405,6 +399,25 @@
     };
 
 
+    // Namespace -----------------------------------------------------
+    //================================================================
+
+    /**
+     * Signals namespace
+     * @namespace
+     * @name signals
+     */
+    var signals = Signal;
+
+    /**
+     * Custom event broadcaster
+     * @see Signal
+     */
+    // alias for backwards compatibility (see #gh-44)
+    signals.Signal = Signal;
+
+
+
     //exports to multiple environments
     if(typeof define === 'function' && define.amd){ //AMD
         define(signals);
@@ -412,6 +425,7 @@
         module.exports = signals;
     } else { //browser
         //use string because of Google closure compiler ADVANCED_MODE
+        /*jslint sub:true */
         global['signals'] = signals;
     }
 

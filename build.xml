@@ -29,7 +29,6 @@
         </tstamp>
 
         <loadfile property="license.txt" srcFile="${src.dir}/license.txt"/>
-        <loadfile property="signals.js" srcFile="${src.dir}/signals.js"/>
         <loadfile property="SignalBinding.js" srcFile="${src.dir}/SignalBinding.js"/>
         <loadfile property="Signal.js" srcFile="${src.dir}/Signal.js"/>
 
@@ -38,7 +37,6 @@
         <replace>
             <fileset dir="${dist.dir}" includes="${dist.name}" />
             <replacefilter token="//::LICENSE:://" value="${license.txt}" />
-            <replacefilter token="//::SIGNALS_JS:://" value="${signals.js}" />
             <replacefilter token="//::SIGNAL_BINDING_JS:://" value="${SignalBinding.js}" />
             <replacefilter token="//::SIGNAL_JS:://" value="${Signal.js}" />
             <!-- version number, build number/date should come after other replaces -->

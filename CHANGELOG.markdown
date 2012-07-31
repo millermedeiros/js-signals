@@ -1,6 +1,13 @@
 # JS-Signals Changelog #
 
 
+## v0.8.0 (2012/07/31) ##
+
+ - expose Signal constructor for brevity instead of namespace while still
+   keeping an alias for backwards compatibility. (#44)
+
+
+
 ## v0.7.4 (2012/02/24) ##
 
 ### Fixes ###

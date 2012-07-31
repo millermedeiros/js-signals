@@ -8,8 +8,8 @@
      * @author Miller Medeiros
      * @constructor
      * @internal
-     * @name signals.SignalBinding
-     * @param {signals.Signal} signal Reference to Signal object that listener is currently bound to.
+     * @name SignalBinding
+     * @param {Signal} signal Reference to Signal object that listener is currently bound to.
      * @param {Function} listener Handler function bound to the signal.
      * @param {boolean} isOnce If binding should be executed just once.
      * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
@@ -33,7 +33,7 @@
 
         /**
          * Context on which listener will be executed (object that should represent the `this` variable inside listener function).
-         * @memberOf signals.SignalBinding.prototype
+         * @memberOf SignalBinding.prototype
          * @name context
          * @type Object|undefined|null
          */
@@ -41,7 +41,7 @@
 
         /**
          * Reference to Signal object that listener is currently bound to.
-         * @type signals.Signal
+         * @type Signal
          * @private
          */
         this._signal = signal;
@@ -54,7 +54,7 @@
         this._priority = priority || 0;
     }
 
-    SignalBinding.prototype = /** @lends signals.SignalBinding.prototype */ {
+    SignalBinding.prototype = {
 
         /**
          * If binding is active and should be executed.

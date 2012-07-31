@@ -65,6 +65,10 @@ YUI().use('node', 'console', 'test', function (Y){
             Y.Assert.areSame(0, s.getNumListeners());
         },
 
+        testAlias : function(){
+            Y.Assert.areSame( signals, signals.Signal );
+        },
+
         //-------------------------- Add ---------------------------------------//
 
         testAddSingle : function(){

@@ -1,4 +1,4 @@
-/*global signals:false, SignalBinding:false*/
+/*global SignalBinding:false*/
 
     // Signal --------------------------------------------------------
     //================================================================
@@ -12,19 +12,27 @@
     /**
      * Custom event broadcaster
      * <br />- inspired by Robert Penner's AS3 Signals.
+     * @name Signal
      * @author Miller Medeiros
      * @constructor
      */
-    signals.Signal = function () {
+    function Signal() {
         /**
          * @type Array.<SignalBinding>
          * @private
          */
         this._bindings = [];
         this._prevParams = null;
-    };
+    }
 
-    signals.Signal.prototype = {
+    Signal.prototype = {
+
+        /**
+         * Signals Version Number
+         * @type String
+         * @const
+         */
+        VERSION : '::VERSION_NUMBER::',
 
         /**
          * If Signal should keep record of previously dispatched parameters and
@@ -177,7 +185,7 @@
         /**
          * Stop propagation of the event, blocking the dispatch to next listeners on the queue.
          * <p><strong>IMPORTANT:</strong> should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.</p>
-         * @see signals.Signal.prototype.disable
+         * @see Signal.prototype.disable
          */
         halt : function () {
             this._shouldPropagate = false;
@@ -215,7 +223,7 @@
 
         /**
          * Forget memorized arguments.
-         * @see signals.Signal.memorize
+         * @see Signal.memorize
          */
         forget : function(){
             this._prevParams = null;
@@ -239,3 +247,22 @@
         }
 
     };
+
+
+    // Namespace -----------------------------------------------------
+    //================================================================
+
+    /**
+     * Signals namespace
+     * @namespace
+     * @name signals
+     */
+    var signals = Signal;
+
+    /**
+     * Custom event broadcaster
+     * @see Signal
+     */
+    // alias for backwards compatibility (see #gh-44)
+    signals.Signal = Signal;
+
