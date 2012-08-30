@@ -12,7 +12,7 @@
 <span class='line'>  5</span>  * JS Signals &lt;http://millermedeiros.github.com/js-signals/>
 <span class='line'>  6</span>  * Released under the MIT license
 <span class='line'>  7</span>  * Author: Miller Medeiros
-<span class='line'>  8</span>  * Version: 0.8.0 - Build: 264 (2012/07/31 10:58 AM)
+<span class='line'>  8</span>  * Version: 0.8.1 - Build: 266 (2012/07/31 03:33 PM)
 <span class='line'>  9</span>  */</span><span class="WHIT">
 <span class='line'> 10</span> 
 <span class='line'> 11</span> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">global</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
@@ -189,7 +189,7 @@
 <span class='line'>182</span>          * @type String
 <span class='line'>183</span>          * @const
 <span class='line'>184</span>          */</span><span class="WHIT">
-<span class='line'>185</span> </span><span class="WHIT">        </span><span class="NAME">VERSION</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'0.8.0'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">        </span><span class="NAME">VERSION</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'0.8.1'</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>186</span> 
 <span class='line'>187</span> </span><span class="WHIT">        </span><span class="COMM">/**
 <span class='line'>188</span>          * If Signal should keep record of previously dispatched parameters and
@@ -427,7 +427,7 @@
 <span class='line'>420</span> 
 <span class='line'>421</span> </span><span class="WHIT">    </span><span class="COMM">//exports to multiple environments</span><span class="WHIT">
 <span class='line'>422</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">define</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'function'</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">define.amd</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="COMM">//AMD</span><span class="WHIT">
-<span class='line'>423</span> </span><span class="WHIT">        </span><span class="NAME">define</span><span class="PUNC">(</span><span class="NAME">signals</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>423</span> </span><span class="WHIT">        </span><span class="NAME">define</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">signals</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>424</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">module</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="STRN">'undefined'</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">module.exports</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="COMM">//node</span><span class="WHIT">
 <span class='line'>425</span> </span><span class="WHIT">        </span><span class="NAME">module.exports</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">signals</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>426</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="COMM">//browser</span><span class="WHIT">

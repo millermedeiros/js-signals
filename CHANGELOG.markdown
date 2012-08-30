@@ -1,6 +1,12 @@
 # JS-Signals Changelog #
 
 
+## v0.8.1 (2012/07/31) ##
+
+ - fix AMD `define()` bug introduced on v0.8.0 (#46)
+
+
+
 ## v0.8.0 (2012/07/31) ##
 
  - expose Signal constructor for brevity instead of namespace while still

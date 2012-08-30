@@ -3,7 +3,7 @@
     "description" : "Custom Event/Messaging System",
     "keywords" : ["js-signals", "signals", "pub/sub", "event", "publish", "subscribe", "observer"],
     "homepage" : "http://millermedeiros.github.com/js-signals/",
-    "version" : "0.8.0",
+    "version" : "0.8.1",
     "author" : {
         "name" : "Miller Medeiros",
         "url" : "http://blog.millermedeiros.com/"

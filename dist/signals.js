@@ -5,7 +5,7 @@
  * JS Signals <http://millermedeiros.github.com/js-signals/>
  * Released under the MIT license
  * Author: Miller Medeiros
- * Version: 0.8.0 - Build: 264 (2012/07/31 10:58 AM)
+ * Version: 0.8.1 - Build: 266 (2012/07/31 03:33 PM)
  */
 
 (function(global){
@@ -182,7 +182,7 @@
          * @type String
          * @const
          */
-        VERSION : '0.8.0',
+        VERSION : '0.8.1',
 
         /**
          * If Signal should keep record of previously dispatched parameters and
@@ -420,7 +420,7 @@
 
     //exports to multiple environments
     if(typeof define === 'function' && define.amd){ //AMD
-        define(signals);
+        define(function () { return signals; });
     } else if (typeof module !== 'undefined' && module.exports){ //node
         module.exports = signals;
     } else { //browser
