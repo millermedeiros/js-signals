@@ -1,4 +1,4 @@
-/*global YUI:false, signals:false */
+/*global YUI:false, signals:false, window:false */
 /*jshint onevar:false, asi:true */
 YUI().use('node', 'console', 'test', function (Y){
 
@@ -616,6 +616,19 @@ YUI().use('node', 'console', 'test', function (Y){
             Y.Assert.areSame(1, n);
         },
 
+        testDispatchInvalidContext : function(){
+            var s = this.signal;
+
+            var n = 0;
+            var l1 = function(){n++};
+
+            s.add(l1);
+            s.dispatch.call(window); // test #47
+
+            Y.Assert.areSame(1, n);
+        },
+
+
         //--------------------- Dispatch with params ------------------------//
 
         testDispatchSingleListenerParams : function(){
@@ -758,6 +771,18 @@ YUI().use('node', 'console', 'test', function (Y){
             s.dispatch(10,20,5);
 
             Y.Assert.areSame(35, scope.n);
+        },
+
+        testDispatchInvalidContextWithParams : function(){
+            var s = this.signal;
+
+            var n = 0;
+            var l1 = function(a, b){n += a + b;};
+
+            s.add(l1);
+            s.dispatch.call(window, 1, 3); // test #47
+
+            Y.Assert.areSame(4, n);
         },
 
         //-------------------- Stop Propagation -----------------------------//
