@@ -1,6 +1,12 @@
 # JS-Signals Changelog #
 
 
+## NEXT ##
+
+ - auto bind `Signal.dispatch()` context. (#47)
+
+
+
 ## v0.8.1 (2012/07/31) ##
 
  - fix AMD `define()` bug introduced on v0.8.0 (#46)

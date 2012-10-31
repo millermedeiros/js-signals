@@ -23,6 +23,12 @@
          */
         this._bindings = [];
         this._prevParams = null;
+
+        // enforce dispatch to aways work on same context (#47)
+        var self = this;
+        this.dispatch = function(){
+            Signal.prototype.dispatch.apply(self, arguments);
+        };
     }
 
     Signal.prototype = {
