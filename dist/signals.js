@@ -5,7 +5,7 @@
  * JS Signals <http://millermedeiros.github.com/js-signals/>
  * Released under the MIT license
  * Author: Miller Medeiros
- * Version: 0.8.1 - Build: 266 (2012/07/31 03:33 PM)
+ * Version: 0.9.0 - Build: 267 (2012/10/31 12:25 PM)
  */
 
 (function(global){
@@ -115,10 +115,24 @@
         },
 
         /**
+         * @return {boolean} If SignalBinding will only be executed once.
+         */
+        isOnce : function () {
+            return this._isOnce;
+        },
+
+        /**
          * @return {Function} Handler function bound to the signal.
          */
         getListener : function () {
             return this._listener;
+        },
+
+        /**
+         * @return {Signal} Signal that listener is currently bound to.
+         */
+        getSignal : function () {
+            return this._signal;
         },
 
         /**
@@ -129,13 +143,6 @@
             delete this._signal;
             delete this._listener;
             delete this.context;
-        },
-
-        /**
-         * @return {boolean} If SignalBinding will only be executed once.
-         */
-        isOnce : function () {
-            return this._isOnce;
         },
 
         /**
@@ -173,6 +180,12 @@
          */
         this._bindings = [];
         this._prevParams = null;
+
+        // enforce dispatch to aways work on same context (#47)
+        var self = this;
+        this.dispatch = function(){
+            Signal.prototype.dispatch.apply(self, arguments);
+        };
     }
 
     Signal.prototype = {
@@ -182,7 +195,7 @@
          * @type String
          * @const
          */
-        VERSION : '0.8.1',
+        VERSION : '0.9.0',
 
         /**
          * If Signal should keep record of previously dispatched parameters and

@@ -1,7 +1,7 @@
 # JS-Signals Changelog #
 
 
-## NEXT ##
+## v0.9.0 (2012/10/31) ##
 
  - auto bind `Signal.dispatch()` context. (#47)
  - add `SignalBinding.getSignal()`. (#48)
