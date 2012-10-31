@@ -1,4 +1,4 @@
-/*global YUI:false, signals:false */
+/*global YUI:false, signals:false, window:false */
 /*jshint onevar:false, asi:true */
 YUI().use('node', 'console', 'test', function (Y){
 
@@ -616,6 +616,19 @@ YUI().use('node', 'console', 'test', function (Y){
             Y.Assert.areSame(1, n);
         },
 
+        testDispatchInvalidContext : function(){
+            var s = this.signal;
+
+            var n = 0;
+            var l1 = function(){n++};
+
+            s.add(l1);
+            s.dispatch.call(window); // test #47
+
+            Y.Assert.areSame(1, n);
+        },
+
+
         //--------------------- Dispatch with params ------------------------//
 
         testDispatchSingleListenerParams : function(){
@@ -758,6 +771,18 @@ YUI().use('node', 'console', 'test', function (Y){
             s.dispatch(10,20,5);
 
             Y.Assert.areSame(35, scope.n);
+        },
+
+        testDispatchInvalidContextWithParams : function(){
+            var s = this.signal;
+
+            var n = 0;
+            var l1 = function(a, b){n += a + b;};
+
+            s.add(l1);
+            s.dispatch.call(window, 1, 3); // test #47
+
+            Y.Assert.areSame(4, n);
         },
 
         //-------------------- Stop Propagation -----------------------------//
@@ -1031,8 +1056,8 @@ YUI().use('node', 'console', 'test', function (Y){
             Y.Assert.areSame('bar', _b, 'curried param 2');
             Y.Assert.areSame(123, _c, 'dispatched param');
         },
-
         testBindingCurry2 : function(){
+
             var s = this.signal;
             var _a, _b, _c;
             var b1 = s.add(function(a, b, c){
@@ -1045,6 +1070,15 @@ YUI().use('node', 'console', 'test', function (Y){
             Y.Assert.areSame('foo', _a, 'curried param 1');
             Y.Assert.areSame('bar', _b, 'curried param 2');
             Y.Assert.isUndefined(_c, 'dispatched param');
+        },
+
+        testBindingGetSignal : function(){
+            var s = this.signal;
+            var _a;
+            var b1 = s.add(function(a){
+                _a = a;
+            });
+            Y.Assert.areSame(s, b1.getSignal(), 'return Signal instance');
         },
 
         //------------------------ Remove ----------------------------------//
