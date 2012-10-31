@@ -103,10 +103,24 @@
         },
 
         /**
+         * @return {boolean} If SignalBinding will only be executed once.
+         */
+        isOnce : function () {
+            return this._isOnce;
+        },
+
+        /**
          * @return {Function} Handler function bound to the signal.
          */
         getListener : function () {
             return this._listener;
+        },
+
+        /**
+         * @return {Signal} Signal that listener is currently bound to.
+         */
+        getSignal : function () {
+            return this._signal;
         },
 
         /**
@@ -117,13 +131,6 @@
             delete this._signal;
             delete this._listener;
             delete this.context;
-        },
-
-        /**
-         * @return {boolean} If SignalBinding will only be executed once.
-         */
-        isOnce : function () {
-            return this._isOnce;
         },
 
         /**

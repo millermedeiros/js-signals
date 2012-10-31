@@ -4,6 +4,7 @@
 ## NEXT ##
 
  - auto bind `Signal.dispatch()` context. (#47)
+ - add `SignalBinding.getSignal()`. (#48)
 
 
 

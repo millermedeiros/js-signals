@@ -1056,8 +1056,8 @@ YUI().use('node', 'console', 'test', function (Y){
             Y.Assert.areSame('bar', _b, 'curried param 2');
             Y.Assert.areSame(123, _c, 'dispatched param');
         },
-
         testBindingCurry2 : function(){
+
             var s = this.signal;
             var _a, _b, _c;
             var b1 = s.add(function(a, b, c){
@@ -1070,6 +1070,15 @@ YUI().use('node', 'console', 'test', function (Y){
             Y.Assert.areSame('foo', _a, 'curried param 1');
             Y.Assert.areSame('bar', _b, 'curried param 2');
             Y.Assert.isUndefined(_c, 'dispatched param');
+        },
+
+        testBindingGetSignal : function(){
+            var s = this.signal;
+            var _a;
+            var b1 = s.add(function(a){
+                _a = a;
+            });
+            Y.Assert.areSame(s, b1.getSignal(), 'return Signal instance');
         },
 
         //------------------------ Remove ----------------------------------//
