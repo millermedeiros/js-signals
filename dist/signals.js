@@ -5,7 +5,7 @@
  * JS Signals <http://millermedeiros.github.com/js-signals/>
  * Released under the MIT license
  * Author: Miller Medeiros
- * Version: 0.9.0 - Build: 267 (2012/10/31 12:25 PM)
+ * Version: 1.0.0 - Build: 268 (2012/11/29 05:48 PM)
  */
 
 (function(global){
@@ -195,7 +195,7 @@
          * @type String
          * @const
          */
-        VERSION : '0.9.0',
+        VERSION : '1.0.0',
 
         /**
          * If Signal should keep record of previously dispatched parameters and

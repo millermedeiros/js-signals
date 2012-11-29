@@ -1,6 +1,12 @@
 # JS-Signals Changelog #
 
 
+## v1.0.0 (2012/11/29) ##
+
+ - bump version! API is stable for a long time. (#52)
+
+
+
 ## v0.9.0 (2012/10/31) ##
 
  - auto bind `Signal.dispatch()` context. (#47)
