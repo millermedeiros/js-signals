@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>DIST | js-signals unit test</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="lib/jasmine/jasmine.css">
+        <script src="lib/jasmine/jasmine.js"></script>
+        <script src="lib/jasmine/jasmine.async.js"></script>
+        <script src="lib/jasmine/jasmine-html.js"></script>
+
+        <!-- src -->
+        <script src="../../dist/signals.js"></script>
+
+        <script>
+            // poor man's node adapter
+            // makes it easier to share tests between node.js and browser
+            function require(id){
+                return window[id];
+            }
+        </script>
+
+        <!-- specs -->
+        <script src="spec/add.spec.js"></script>
+        <script src="spec/dispatch.spec.js"></script>
+        <script src="spec/binding.spec.js"></script>
+        <script src="spec/remove.spec.js"></script>
+        <script src="spec/memorize.spec.js"></script>
+        <script src="spec/dispose.spec.js"></script>
+        <script src="spec/misc.spec.js"></script>
+
+    </head>
+    <body>
+        <script type="text/javascript" charset="utf-8">
+            //run specs and add reporter
+            var reporter = new jasmine.HtmlReporter(),
+                env = jasmine.getEnv();
+            env.specFilter = function(spec){
+                return reporter.specFilter(spec)
+            };
+            env.addReporter(reporter);
+            env.execute();
+        </script>
+    </body>
+</html>

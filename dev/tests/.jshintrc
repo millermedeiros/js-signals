@@ -1,0 +1,13 @@
+{
+    "onevar" : false,
+    "predef" : [
+        "require",
+        "describe",
+        "it",
+        "beforeEach",
+        "afterEach",
+        "expect"
+    ],
+    "undef" : true,
+    "asi" : true
+}

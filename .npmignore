@@ -1,2 +1,4 @@
 dev/
+node_modules/
 build.xml
+updateDocs.sh

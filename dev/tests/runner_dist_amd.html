@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>AMD | js-signals unit test</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="lib/jasmine/jasmine.css">
+        <script src="lib/jasmine/jasmine.js"></script>
+        <script src="lib/jasmine/jasmine.async.js"></script>
+        <script src="lib/jasmine/jasmine-html.js"></script>
+        <script src="lib/require.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript" charset="utf-8">
+            requirejs.config({
+                paths : {
+                    signals : '../../dist/signals'
+                }
+            });
+            require(['signals'], function(){
+                // no need to check the returned value since specs do a sync
+                // `require()` call, that will be enough to check if UMD
+                // wrapper is working as expected.
+                // easier to do a nested require since specs aren't wrapped
+                // into define calls.
+                require(
+                    [
+                        "spec/add.spec",
+                        "spec/dispatch.spec",
+                        "spec/binding.spec",
+                        "spec/remove.spec",
+                        "spec/memorize.spec",
+                        "spec/dispose.spec",
+                        "spec/misc.spec"
+                    ],
+                    function(){
+                        //run specs and add reporter
+                        var reporter = new jasmine.HtmlReporter(),
+                            env = jasmine.getEnv();
+                        env.specFilter = function(spec){
+                            return reporter.specFilter(spec)
+                        };
+                        env.addReporter(reporter);
+                        env.execute();
+                    }
+                );
+            });
+        </script>
+    </body>
+</html>
