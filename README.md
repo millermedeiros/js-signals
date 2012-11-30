@@ -11,8 +11,10 @@ For a more in-depth introduction read the [JS-Signals Project Page](http://mille
  * [Project Page](http://millermedeiros.github.com/js-signals/)
  * [Wiki](http://github.com/millermedeiros/js-signals/wiki/)
  * [Documentation](http://millermedeiros.github.com/js-signals/docs)
- * [Changelog](http://github.com/millermedeiros/js-signals/blob/master/CHANGELOG.markdown)
+ * [Changelog](http://github.com/millermedeiros/js-signals/blob/master/CHANGELOG.md)
  * [CompoundSignal - special Signal kind](https://github.com/millermedeiros/CompoundSignal)
+ * [jasmine-signals](https://github.com/AdamNowotny/jasmine-signals)
+   (Jasmine assertions to simplify signals testing)
 
 
 ## License ##
