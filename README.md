@@ -1,4 +1,3 @@
-
 # JS-Signals #
 
 Custom event/messaging system for JavaScript inspired by [AS3-Signals](https://github.com/robertpenner/as3-signals).
@@ -54,12 +53,11 @@ easily distributed trough npm.
 
 ### Folder Structure ###
 
-    dev       ->  development files
-    |- build       ->  files used on the build process
-    |- src         ->  source files
-    |- tests       ->  unit tests
-    dist      ->  distribution files
-    |- docs        ->  documentation
+    |-build       ->  files used on the build process
+    |-src         ->  source files
+    |-tests       ->  unit tests
+    `-dist        ->  distribution files
+      `-docs        ->  documentation
 
 ### Branches ###
 
@@ -83,3 +81,15 @@ documentation (used before each deploy):
     ant deploy
 
 **IMPORTANT:** `dist` folder always contain the latest version, regular users should **not** need to run build task.
+
+
+## Running Tests ##
+
+The specs work on the browser and on node.js, during development you can use
+the `spec/runner_dev.html` file to avoid doing a build every time you make
+changes to the source files. On node.js you need to run `ant compile` after
+each source file change otherwise `npm test` will execute the files from last
+build - not adding it as a `pretest` script since the build adds information
+about the build date and build number and that would pollute the commit
+history.
+

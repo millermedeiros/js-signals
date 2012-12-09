@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>DIST | js-signals unit test</title>
+        <title>MIN | js-signals unit test</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="lib/jasmine/jasmine.css">
         <script src="lib/jasmine/jasmine.js"></script>
@@ -10,15 +10,7 @@
         <script src="lib/jasmine/jasmine-html.js"></script>
 
         <!-- src -->
-        <script src="../../dist/signals.js"></script>
-
-        <script>
-            // poor man's node adapter
-            // makes it easier to share tests between node.js and browser
-            function require(id){
-                return window[id];
-            }
-        </script>
+        <script src="../dist/signals.min.js"></script>
 
         <!-- specs -->
         <script src="spec/add.spec.js"></script>

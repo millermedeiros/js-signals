@@ -3,7 +3,7 @@
 
     <!-- properties -->
 
-    <property file="dev/build/build.properties" />
+    <property file="build/build.properties" />
 
 
     <!-- custom tasks -->

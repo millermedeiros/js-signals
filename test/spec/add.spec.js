@@ -1,4 +1,4 @@
-var signals = require('signals');
+var signals = signals || require('../../dist/signals');
 
 describe('Add / Add Once', function () {
 

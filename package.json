@@ -20,7 +20,7 @@
         "jasmine-node" : "~1.0.26"
     },
     "scripts" : {
-        "test" : "node node_modules/.bin/jasmine-node dev/tests/spec"
+        "test" : "node node_modules/.bin/jasmine-node test/spec"
     },
     "directories" : {
         "doc" : "./dist/docs"

@@ -12,15 +12,16 @@
     </head>
     <body>
         <script type="text/javascript" charset="utf-8">
-            requirejs.config({
-                paths : {
-                    signals : '../../dist/signals'
+            // we use a relative require to make sure signals isn't being
+            // registered as a named module
+            requirejs(['../dist/signals'], function(signals){
+                if (window.signals) {
+                  throw new Error('AMD module should not expose globals');
                 }
-            });
-            require(['signals'], function(){
-                // no need to check the returned value since specs do a sync
-                // `require()` call, that will be enough to check if UMD
-                // wrapper is working as expected.
+
+                // expose global since specs expect a global var.
+                window.signals = signals;
+
                 // easier to do a nested require since specs aren't wrapped
                 // into define calls.
                 require(
@@ -45,6 +46,7 @@
                     }
                 );
             });
+
         </script>
     </body>
 </html>
