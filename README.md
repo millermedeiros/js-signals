@@ -1,5 +1,7 @@
 # JS-Signals #
 
+[![Build Status](https://secure.travis-ci.org/millermedeiros/js-signals.png)](https://travis-ci.org/millermedeiros/js-signals)
+
 Custom event/messaging system for JavaScript inspired by [AS3-Signals](https://github.com/robertpenner/as3-signals).
 
 For a more in-depth introduction read the [JS-Signals Project Page](http://millermedeiros.github.com/js-signals/) and visit the links below.
