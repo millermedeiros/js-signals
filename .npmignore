@@ -1,4 +1,8 @@
+.*
+build/
 dev/
 node_modules/
+src/
+test/
 build.xml
 updateDocs.sh
