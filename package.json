@@ -12,7 +12,7 @@
   ],
   "homepage": "http://millermedeiros.github.com/js-signals/",
   "version": "1.0.0",
-  "build": "277",
+  "build": "272",
   "author": {
     "name": "Miller Medeiros",
     "url": "http://blog.millermedeiros.com/"
@@ -42,7 +42,7 @@
   "directories": {
     "doc": "./dist/docs"
   },
-  "licenses": [
+  "license": [
     {
       "type": "MIT",
       "url": "http://www.opensource.org/licenses/mit-license.php"
