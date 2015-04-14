@@ -1,9 +1,11 @@
 module.exports = function (grunt) {
     var props = grunt.file.readJSON('build/build.properties.json');
-    var version = grunt.file.readJSON('package.json').version;
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        buildnumber: {
+		    package : {}
+		},
         copy: {
             main: {
                 src: props.dir.src + '/wrapper.js', 
@@ -29,72 +31,54 @@ module.exports = function (grunt) {
                         pattern: '//::SIGNAL_JS:://',
                         replacement: grunt.file.read(props.dir.src + '/Signal.js')
                     },
+                    // version number, build number/date should come after other replaces
+                    {
+                        pattern: '\'::VERSION_NUMBER::\'',
+                        replacement: '\'<%= pkg.version %>\''
+                    },
                     {
                         pattern: '::BUILD_NUMBER::',
-                        replacement: 273
+                        replacement: '<%= pkg.build %>'
                     },
                     {
                         pattern: '::BUILD_DATE::',
-                        replacement: grunt.template.today("yyyy/MM/dd hh:mm")
-                    },
-                    {
-                        pattern: '\'::VERSION_NUMBER::\'',
-                        replacement: '\'' + version + '\''
+                        replacement: grunt.template.today("yyyy/MM/dd hh:mm TT")
                     }]
                 }
             }
         },
-
-        uglify: {
-            main: {
-                files: {
-                    'dist/signals.min.js' : [ props.dir.dist + '/' + props.names.dist ]
-                }
-            }
-        },
-
         'closure-compiler': {
             frontend: {
                 js: props.dir.dist + '/' + props.names.dist,
                 jsOutputFile: props.dir.dist + '/' + props.names.dist_min,
                 options: {
-                    compilation_level: 'ADVANCED_OPTIMIZATIONS',
+                    compilation_level: 'SIMPLE',
                     externs: [
                       'externs.js'
                     ]
                 }
             }
         },
-
         jshint: {
-            files: [props.dir.dist + '/' + props.names.dist]
-        },
-
-        webpack: {
-            dist: {
-                entry: ['./src/Signal.js', './src/SignalBinding.js'],
-                output: {
-                    path: props.dir.dist,
-                    filename: props.names.dist,
-                }
-            }
+            files: [ props.dir.dist + '/' + props.names.dist ]
         },
         jsdoc : {
             dist : {
-                src: [props.dir.dist + '/' + props.names.dist],
+                src: [ props.dir.src + '/Signal*.js' ],
                 options: {
-                    destination: 'docs'
+                    destination: "<%= pkg.directories.doc %>",
+                    template : "node_modules/grunt-jsdoc/node_modules/ink-docstrap/template",
+           			configure : "node_modules/grunt-jsdoc/node_modules/ink-docstrap/template/jsdoc.conf.json"
                 }
             }
         }
     });
     
+    grunt.loadNpmTasks('grunt-build-number');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-string-replace');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-closure-compiler');
-    grunt.loadNpmTasks('grunt-webpack');
     grunt.loadNpmTasks('grunt-jsdoc');
 
     grunt.registerTask('build', ['compile', 'jsdoc', 'closure-compiler']);
@@ -108,9 +92,9 @@ module.exports = function (grunt) {
         grunt.log.writeln('Build complete.', props.names.dist);
     });
 
-    grunt.registerTask('compile', 'Compile task', function(){
+    grunt.registerTask('compile', function(){
         grunt.log.writeln('Building %s..', props.names.dist);
-        grunt.task.run(['copy:main', 'string-replace:main', 'compile-done']);
+        grunt.task.run(['buildnumber', 'copy:main', 'string-replace:main', 'compile-done']);
     } );
     
 };

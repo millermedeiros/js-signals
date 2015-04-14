@@ -2,6 +2,6 @@
  node_js:
    - "0.8"
  script:
-   - "ant build"
+   - "grunt build"
    - "npm test"
 
