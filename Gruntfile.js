@@ -8,7 +8,7 @@ module.exports = function (grunt) {
 		},
 		clean: {
 		  dist: [props.dir.dist + '/*'],
-		  "closure-compiler": [props.dir.dist + '/' + props.names.dist_min + ".report.txt"]
+		  'closure-compiler': [props.dir.dist + '/' + props.names.dist_min + '.report.txt']
 		},
         copy: {
             main: {
@@ -37,8 +37,8 @@ module.exports = function (grunt) {
                     },
                     // version number, build number/date should come after other replaces
                     {
-                        pattern: '\'::VERSION_NUMBER::\'',
-                        replacement: '\'<%= pkg.version %>\''
+                        pattern: new RegExp('::VERSION_NUMBER::', 'gi'), // Replace all ocurrencies
+                        replacement: '<%= pkg.version %>'
                     },
                     {
                         pattern: '::BUILD_NUMBER::',

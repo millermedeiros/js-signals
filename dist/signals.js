@@ -5,7 +5,7 @@
  * JS Signals <http://millermedeiros.github.com/js-signals/>
  * Released under the MIT license
  * Author: Miller Medeiros
- * Version: ::VERSION_NUMBER:: - Build: 291 (2015/18/14 01:04 PM)
+ * Version: 1.0.0 - Build: 276 (2015/08/14 02:04 PM)
  */
 
 (function(global){
