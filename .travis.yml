@@ -4,4 +4,3 @@
  script:
    - "grunt build"
    - "npm test"
-
