@@ -2,5 +2,6 @@
  node_js:
    - "0.12"
  script:
+   - "npm install -g grunt-cli"
    - "grunt build"
    - "npm test"
