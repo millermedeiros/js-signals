@@ -1,11 +1,11 @@
-/*jslint onevar:true, undef:true, newcap:true, regexp:true, bitwise:true, maxerr:50, indent:4, white:false, nomen:false, plusplus:false */
+/*jslint onevar:true, undef:true, newcap:true, regexp:true, bitwise:true, maxerr:50, indent:4, white:false, nomen:false, plusplus:true */
 /*global define:false, require:false, exports:false, module:false, signals:false */
 
 /** @license
  * JS Signals <http://millermedeiros.github.com/js-signals/>
  * Released under the MIT license
  * Author: Miller Medeiros
- * Version: ::VERSION_NUMBER:: - Build: 272 (2015/30/14 11:04 AM)
+ * Version: ::VERSION_NUMBER:: - Build: 291 (2015/18/14 01:04 PM)
  */
 
 (function(global){

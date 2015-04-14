@@ -6,6 +6,10 @@ module.exports = function (grunt) {
         buildnumber: {
 		    package : {}
 		},
+		clean: {
+		  dist: [props.dir.dist + '/*'],
+		  "closure-compiler": [props.dir.dist + '/' + props.names.dist_min + ".report.txt"]
+		},
         copy: {
             main: {
                 src: props.dir.src + '/wrapper.js', 
@@ -49,10 +53,11 @@ module.exports = function (grunt) {
         },
         'closure-compiler': {
             frontend: {
+            	closurePath: 'build/closure-compiler',
                 js: props.dir.dist + '/' + props.names.dist,
                 jsOutputFile: props.dir.dist + '/' + props.names.dist_min,
                 options: {
-                    compilation_level: 'SIMPLE',
+                    compilation_level: 'SIMPLE_OPTIMIZATIONS',
                     externs: [
                       'externs.js'
                     ]
@@ -75,17 +80,15 @@ module.exports = function (grunt) {
     });
     
     grunt.loadNpmTasks('grunt-build-number');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-string-replace');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-closure-compiler');
     grunt.loadNpmTasks('grunt-jsdoc');
 
-    grunt.registerTask('build', ['compile', 'jsdoc', 'closure-compiler']);
-
     grunt.registerTask('compile-done', function(){
         grunt.log.writeln('%s built.', props.names.dist);
-        grunt.log.writeln('Build complete.', props.names.dist);
     });
 
     grunt.registerTask('build-done', function(){
@@ -94,7 +97,14 @@ module.exports = function (grunt) {
 
     grunt.registerTask('compile', function(){
         grunt.log.writeln('Building %s..', props.names.dist);
-        grunt.task.run(['buildnumber', 'copy:main', 'string-replace:main', 'compile-done']);
-    } );
+        grunt.task.run(['buildnumber', 'clean:dist', 'copy:main', 'string-replace:main', 'compile-done']);
+    });
+
+    grunt.registerTask('minify', function(){
+        grunt.task.run(['closure-compiler', 'clean:closure-compiler']);
+    });
+
+    grunt.registerTask('build', ['compile', 'jshint', 'minify', 'build-done']);
+    grunt.registerTask('deploy', ['build', 'jsdoc']);
     
 };
