@@ -1,7 +1,6 @@
 {
     "onevar" : true, 
     "undef" : true, 
-    "newcap" : true, 
     "regexp" : true, 
     "bitwise" : true, 
     "maxerr" : 50, 

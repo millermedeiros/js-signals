@@ -1,0 +1,14 @@
+{
+	"dir" : {
+	    "src": "src",
+	    "build": "build",
+	    "dist": "dist",
+	    "docs": "dist/docs"
+	},
+
+	"names" : {
+	    "product": "signals",
+	    "dist": "signals.js",
+	    "dist_min": "signals.min.js"
+	}
+}
