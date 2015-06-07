@@ -4,12 +4,12 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         buildnumber: {
-		    package : {}
-		},
-		clean: {
-		  dist: [props.dir.dist + '/*'],
-		  'closure-compiler': [props.dir.dist + '/' + props.names.dist_min + '.report.txt']
-		},
+            package : {}
+        },
+        clean: {
+          dist: [props.dir.dist + '/*'],
+          'closure-compiler': [props.dir.dist + '/' + props.names.dist_min + '.report.txt']
+        },
         copy: {
             main: {
                 src: props.dir.src + '/wrapper.js', 
@@ -46,14 +46,14 @@ module.exports = function (grunt) {
                     },
                     {
                         pattern: '::BUILD_DATE::',
-                        replacement: grunt.template.today("yyyy/MM/dd hh:mm TT")
+                        replacement: grunt.template.today("yyyy/mm/dd hh:MM TT")
                     }]
                 }
             }
         },
         'closure-compiler': {
             frontend: {
-            	closurePath: 'build/closure-compiler',
+                closurePath: 'build/closure-compiler',
                 js: props.dir.dist + '/' + props.names.dist,
                 jsOutputFile: props.dir.dist + '/' + props.names.dist_min,
                 options: {
@@ -73,7 +73,7 @@ module.exports = function (grunt) {
                 options: {
                     destination: "<%= pkg.directories.doc %>",
                     template : "node_modules/grunt-jsdoc/node_modules/ink-docstrap/template",
-           			configure : "node_modules/grunt-jsdoc/node_modules/ink-docstrap/template/jsdoc.conf.json"
+                    configure : "node_modules/grunt-jsdoc/node_modules/ink-docstrap/template/jsdoc.conf.json"
                 }
             }
         }
@@ -87,6 +87,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-closure-compiler');
     grunt.loadNpmTasks('grunt-jsdoc');
 
+    grunt.registerTask('update-pkg', function(){
+        grunt.config.set('pkg', grunt.file.readJSON('package.json'));
+    });
+
     grunt.registerTask('compile-done', function(){
         grunt.log.writeln('%s built.', props.names.dist);
     });
@@ -97,7 +101,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('compile', function(){
         grunt.log.writeln('Building %s..', props.names.dist);
-        grunt.task.run(['buildnumber', 'clean:dist', 'copy:main', 'string-replace:main', 'compile-done']);
+        grunt.task.run(['buildnumber', 'update-pkg', 'clean:dist', 'copy:main', 'string-replace:main', 'compile-done']);
     });
 
     grunt.registerTask('minify', function(){
