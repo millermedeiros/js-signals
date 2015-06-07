@@ -1,7 +1,7 @@
  language: node_js
  node_js:
-   - "0.8"
+   - "0.12"
  script:
-   - "ant build"
+   - "npm install -g grunt-cli"
+   - "grunt build"
    - "npm test"
-

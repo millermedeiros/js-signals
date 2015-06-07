@@ -1,34 +1,51 @@
 {
-    "name" : "signals",
-    "description" : "Custom Event/Messaging System",
-    "keywords" : ["js-signals", "signals", "pub/sub", "event", "publish", "subscribe", "observer"],
-    "homepage" : "http://millermedeiros.github.com/js-signals/",
-    "version" : "1.0.0",
-    "author" : {
-        "name" : "Miller Medeiros",
-        "url" : "http://blog.millermedeiros.com/"
-    },
-    "repository" : {
-        "type" : "git",
-        "url" : "https://github.com/millermedeiros/js-signals.git"
-    },
-    "main" : "dist/signals.js",
-    "bugs" : {
-        "url" : "https://github.com/millermedeiros/js-signals/issues"
-    },
-    "devDependencies" : {
-        "jasmine-node" : "~1.0"
-    },
-    "scripts" : {
-        "test" : "jasmine-node test/spec"
-    },
-    "directories" : {
-        "doc" : "./dist/docs"
-    },
-    "licenses" : [
-        {
-            "type" : "MIT",
-            "url" : "http://www.opensource.org/licenses/mit-license.php"
-        }
-    ]
+  "name": "signals",
+  "description": "Custom Event/Messaging System",
+  "keywords": [
+    "js-signals",
+    "signals",
+    "pub/sub",
+    "event",
+    "publish",
+    "subscribe",
+    "observer"
+  ],
+  "homepage": "http://millermedeiros.github.com/js-signals/",
+  "version": "1.0.0",
+  "build": "272",
+  "author": {
+    "name": "Miller Medeiros",
+    "url": "http://blog.millermedeiros.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/millermedeiros/js-signals.git"
+  },
+  "main": "dist/signals.js",
+  "bugs": {
+    "url": "https://github.com/millermedeiros/js-signals/issues"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-build-number": "^1.0.0",
+    "grunt-closure-compiler": "0.0.21",
+    "grunt-contrib-clean": "0.6.0",
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-jshint": "0.11.1",
+    "grunt-jsdoc": "^0.5.8",
+    "grunt-string-replace": "^1.0.0",
+    "jasmine-node": "^1.12.0"
+  },
+  "scripts": {
+    "test": "jasmine-node test/spec"
+  },
+  "directories": {
+    "doc": "./dist/docs"
+  },
+  "license": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    }
+  ]
 }

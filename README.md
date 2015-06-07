@@ -71,19 +71,18 @@ easily distributed trough npm.
 
 ## Building your own ##
 
-This project uses [Apache Ant](http://ant.apache.org/) for the build process. If for some reason you need to build a custom version of JS-Signals install Ant and run:
+This project now uses [Grunt](http://gruntjs.com/) for build process. If you need to build a custom version of JS-Signals install Grunt and run:
 
-    ant build
+    grunt build
 
-This will delete all JS files inside the `dist` folder, merge/update/compress source files, validate generated code using [JSLint](http://www.jslint.com/) and copy the output to the `dist` folder.
+This will delete all JS files inside the `dist` folder, merge/update/compress source files, validate generated code using [JSHint](http://gruntjs.com/) and copy the output to the `dist` folder.
 
-There is also another ant task that runs the build task and generate
-documentation (used before each deploy):
+There is also a task to generate documentation based on [JSDoc3](http://usejsdoc.org/)
+(used before each deploy):
 
-    ant deploy
+    grunt deploy
 
 **IMPORTANT:** `dist` folder always contain the latest version, regular users should **not** need to run build task.
-
 
 ## Running Tests ##
 
