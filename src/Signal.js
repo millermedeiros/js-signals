@@ -206,6 +206,11 @@
                 return;
             }
             
+            /**
+             * When copying the arguments variable using Array.prototype.slice.call V8 disables optimization for the calling method.
+             * We avoid this issue here by coping arguments to a pre-allocated array.
+             * see https://code.google.com/p/v8/issues/detail?id=3037
+             */
             var len = arguments.length, paramsArr = new Array(len);
             for (var i=0; i < len; ++i) {
                 paramsArr[i] = arguments[i];
