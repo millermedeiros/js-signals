@@ -205,9 +205,13 @@
             if (! this.active) {
                 return;
             }
+            
+            var len = arguments.length, paramsArr = new Array(len);
+            for (var i=0; i < len; ++i) {
+                paramsArr[i] = arguments[i];
+            }
 
-            var paramsArr = Array.prototype.slice.call(arguments),
-                n = this._bindings.length,
+            var n = this._bindings.length,
                 bindings;
 
             if (this.memorize) {
