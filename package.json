@@ -17,7 +17,7 @@
         "url" : "https://github.com/millermedeiros/js-signals/issues"
     },
     "devDependencies" : {
-        "jasmine-node" : "~1.0"
+        "jasmine-node": "~3.0"
     },
     "scripts" : {
         "test" : "jasmine-node test/spec"
