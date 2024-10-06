@@ -4,14 +4,14 @@
 
 Custom event/messaging system for JavaScript inspired by [AS3-Signals](https://github.com/robertpenner/as3-signals).
 
-For a more in-depth introduction read the [JS-Signals Project Page](http://millermedeiros.github.com/js-signals/) and visit the links below.
+For a more in-depth introduction read the [JS-Signals Project Page](http://millermedeiros.github.io/js-signals/) and visit the links below.
 
 
 ## Links ##
 
- * [Project Page](http://millermedeiros.github.com/js-signals/)
+ * [Project Page](http://millermedeiros.github.io/js-signals/)
  * [Wiki](http://github.com/millermedeiros/js-signals/wiki/)
- * [Documentation](http://millermedeiros.github.com/js-signals/docs)
+ * [Documentation](http://millermedeiros.github.io/js-signals/docs)
  * [Changelog](http://github.com/millermedeiros/js-signals/blob/master/CHANGELOG.md)
  * [CompoundSignal - special Signal kind](https://github.com/millermedeiros/CompoundSignal)
  * [jasmine-signals](https://github.com/AdamNowotny/jasmine-signals)
